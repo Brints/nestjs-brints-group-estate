@@ -3,8 +3,11 @@ import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { initializeDataSource } from './database/data-source';
 
 async function bootstrap() {
+  await initializeDataSource();
+
   const logger = new Logger();
   const app = await NestFactory.create(AppModule);
 
