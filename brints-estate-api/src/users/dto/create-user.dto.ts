@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -16,25 +17,29 @@ export class CreateUserDto {
   @IsUrl()
   readonly image_url: string;
 
-  @IsString()
+  @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   @MinLength(3)
-  @MaxLength(50)
+  @MaxLength(255)
   readonly first_name: string;
 
-  @IsString()
+  @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   @MinLength(3)
-  @MaxLength(50)
+  @MaxLength(255)
   readonly last_name: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
-  @MaxLength(70)
+  @MaxLength(255)
   readonly email: string;
 
-  @IsString()
+  @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   @IsStrongPassword()
   @MinLength(8)
   @Matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/, {
@@ -42,16 +47,19 @@ export class CreateUserDto {
   })
   readonly password: string;
 
-  @IsString()
+  @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   @MaxLength(15)
   readonly phone_number: string;
 
-  @IsString()
+  @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   readonly gender: string;
 
-  @IsString()
+  @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   readonly role: string;
 }
