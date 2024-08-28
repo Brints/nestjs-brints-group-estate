@@ -1,4 +1,5 @@
 import { User } from 'src/users/entities/user.entity';
+import { UserAuth } from 'src/users/entities/userAuth.entity';
 import { DataSource } from 'typeorm';
 
 const AppDataSource = new DataSource({
@@ -9,7 +10,7 @@ const AppDataSource = new DataSource({
   password: 'postgres',
   database: 'brints-estate-backend',
   synchronize: true,
-  entities: [User],
+  entities: [User, UserAuth],
   //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
 });
 
