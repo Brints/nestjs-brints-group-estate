@@ -7,13 +7,13 @@ export class User extends AbstractBaseEntity {
   @Column({ type: 'varchar', nullable: true })
   image_url: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   first_name: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   last_name: string;
 
-  @Column({ type: 'varchar', length: 70, unique: true })
+  @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
   @Column({ type: 'varchar', length: 16 })
@@ -26,8 +26,14 @@ export class User extends AbstractBaseEntity {
   gender: UserGender;
 
   @Column({ type: 'boolean', default: false })
-  verified: boolean;
+  isVerified: boolean;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
+
+  @Column({ default: false })
+  isTwoFAEnabled: boolean;
+
+  @Column('simple-array', { nullable: true })
+  backup_codes: string[];
 }
