@@ -1,41 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
-  IsOptional,
   IsString,
   IsStrongPassword,
-  IsUrl,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { UserGender, UserRole } from 'src/enums/roles.model';
 
 export class CreateUserDto {
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  @IsUrl()
-  readonly image_url: string;
+  @MinLength(3)
+  @MaxLength(255)
+  first_name: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
   @MaxLength(255)
-  readonly first_name: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(3)
-  @MaxLength(255)
-  readonly last_name: string;
+  last_name: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
   @MaxLength(255)
-  readonly email: string;
+  email: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -45,21 +40,30 @@ export class CreateUserDto {
   @Matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/, {
     message: 'password too weak',
   })
-  readonly password: string;
+  password: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  @Matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/, {
+    message: 'password too weak',
+  })
+  confirm_password: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @MaxLength(15)
-  readonly phone_number: string;
+  phone_number: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  readonly gender: string;
+  @IsEnum(UserGender)
+  gender: UserGender;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  readonly role: string;
+  @IsEnum(UserRole)
+  role: UserRole;
 }

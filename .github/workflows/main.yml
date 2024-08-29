@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - "**"
+  pull_request:
+    branches:
+      - "main"
 
 jobs:
   build:
@@ -20,6 +23,14 @@ jobs:
       - name: Install dependencies
         working-directory: ./brints-estate-api
         run: yarn install
+
+      - name: Lint
+        working-directory: ./brints-estate-api
+        run: yarn lint
+
+      - name: Prettier Format
+        working-directory: ./brints-estate-api
+        run: yarn format
 
       - name: Run tests
         working-directory: ./brints-estate-api
