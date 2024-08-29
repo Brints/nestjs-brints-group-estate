@@ -14,13 +14,13 @@ export class UserAuth extends AbstractBaseEntity {
   @Column()
   otpExpiresIn: Date;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', length: 255 })
   emailVerificationToken: string;
 
   @Column()
   emailVerificationTokenExpiresIn: Date;
 
-  @Column({ type: 'varchar', length: 40, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   passwordResetToken?: string;
 
   @Column({ nullable: true })
@@ -36,7 +36,7 @@ export class UserAuth extends AbstractBaseEntity {
   })
   status: VerificationStatus;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, (user) => user.user_auth)
   @JoinColumn()
-  user_id: User;
+  user: User;
 }
