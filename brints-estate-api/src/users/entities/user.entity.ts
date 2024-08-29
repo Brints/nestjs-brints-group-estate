@@ -1,11 +1,12 @@
 import { AbstractBaseEntity } from 'src/base.entity';
 import { UserGender, UserRole } from 'src/enums/roles.model';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { UserAuth } from './userAuth.entity';
 
 @Entity({ name: 'users' })
 export class User extends AbstractBaseEntity {
   @Column({ type: 'varchar', nullable: true })
-  image_url: string;
+  image_url?: string;
 
   @Column({ type: 'varchar', length: 255 })
   first_name: string;
@@ -36,4 +37,10 @@ export class User extends AbstractBaseEntity {
 
   @Column('simple-array', { nullable: true })
   backup_codes: string[];
+
+  @OneToOne(() => UserAuth, (userAuth) => userAuth.user, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  user_auth: UserAuth;
 }
