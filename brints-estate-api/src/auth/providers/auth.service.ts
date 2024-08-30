@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-// import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
@@ -19,15 +18,6 @@ export class AuthService {
     AppDataSource.getRepository(User);
   private readonly userAuthRepository: Repository<UserAuth> =
     AppDataSource.getRepository(UserAuth);
-
-  // constructor(
-
-  //   @InjectRepository(User)
-  //   private readonly userRepository: Repository<User>,
-
-  //   @InjectRepository(UserAuth)
-  //   private readonly userAuthRepository: Repository<UserAuth>,
-  // ) {}
 
   constructor() {}
 

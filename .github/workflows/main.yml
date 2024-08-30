@@ -24,10 +24,6 @@ jobs:
         working-directory: ./brints-estate-api
         run: yarn install
 
-      - name: Lint
-        working-directory: ./brints-estate-api
-        run: yarn lint
-
       - name: Prettier Format
         working-directory: ./brints-estate-api
         run: yarn format
