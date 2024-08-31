@@ -1,20 +1,32 @@
-import { User } from 'src/users/entities/user.entity';
-import { UserAuth } from 'src/users/entities/userAuth.entity';
 import { DataSource } from 'typeorm';
 
-const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'postgres',
-  database: 'brints-estate-backend',
-  synchronize: true,
-  entities: [User, UserAuth],
-  //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-});
+import { User } from 'src/users/entities/user.entity';
+import { UserAuth } from 'src/users/entities/userAuth.entity';
 
-export async function initializeDataSource() {
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+interface DataSourceConfig {
+  dbHost: string;
+  dbPort: number;
+  dbUser: string;
+  dbPassword: string;
+  dbName: string;
+}
+
+export function createDataSource(config: DataSourceConfig) {
+  return new DataSource({
+    type: 'postgres',
+    host: config.dbHost,
+    port: config.dbPort,
+    username: config.dbUser,
+    password: config.dbPassword,
+    database: config.dbName,
+    synchronize: isDevelopment,
+    entities: [User, UserAuth],
+  });
+}
+
+export async function initializeDataSource(AppDataSource: DataSource) {
   try {
     if (!AppDataSource.isInitialized) {
       await AppDataSource.initialize();
@@ -25,5 +37,3 @@ export async function initializeDataSource() {
     throw error;
   }
 }
-
-export default AppDataSource;
