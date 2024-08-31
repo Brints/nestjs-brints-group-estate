@@ -1,4 +1,4 @@
 {
-  "workbench.iconTheme": "vscode-icons",
+  "workbench.iconTheme": "eq-material-theme-icons-ocean",
   "typescript.validate.enable": true
 }
