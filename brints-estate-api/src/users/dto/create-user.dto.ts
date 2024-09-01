@@ -8,7 +8,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { UserGender, UserRole } from 'src/enums/roles.model';
+import { UserGender } from 'src/enums/roles.model';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -59,9 +59,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEnum(UserGender)
   gender: UserGender;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsEnum(UserRole)
-  role: UserRole;
 }

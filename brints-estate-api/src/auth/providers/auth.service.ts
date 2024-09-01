@@ -11,7 +11,7 @@ import {
   generateVerificationToken,
 } from 'src/utils/generate-token.lib';
 import { VerificationStatus } from 'src/enums/roles.model';
-import { CustomConflictException } from 'src/exceptions/http-exception.filter';
+import { CustomConflictException } from 'src/exceptions/custom.exception';
 
 @Injectable()
 export class AuthService {

@@ -3,15 +3,8 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-
-export class CustomConflictException extends HttpException {
-  constructor(status_code: HttpStatus, message: string) {
-    super(message, status_code);
-  }
-}
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
