@@ -27,14 +27,14 @@ export class AuthService {
     createUserAuthDto: CreateUserAuthDto,
   ) {
     const {
-      // first_name,
-      // last_name,
+      //   // first_name,
+      //   // last_name,
       email,
-      // password,
-      // confirm_password,
-      // gender,
-      // phone_number,
-      // role,
+      //   // password,
+      //   // confirm_password,
+      //   // gender,
+      //   // phone_number,
+      //   // role,
     } = createUserDto;
 
     const userExists = await this.userRepository.findOne({
