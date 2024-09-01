@@ -4,7 +4,6 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
-  IsStrongPassword,
   Matches,
   MaxLength,
   MinLength,
@@ -35,7 +34,6 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  @IsStrongPassword()
   @MinLength(8)
   @Matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/, {
     message: 'password too weak',
