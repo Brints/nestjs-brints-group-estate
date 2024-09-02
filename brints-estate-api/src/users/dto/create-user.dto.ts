@@ -52,7 +52,15 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  @MaxLength(15)
+  @Matches(/^\+[0-9]{1,3}$/, {
+    message: 'Country code must start with a + followed by a number',
+  })
+  country_code: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(50)
   phone_number: string;
 
   @ApiProperty()
