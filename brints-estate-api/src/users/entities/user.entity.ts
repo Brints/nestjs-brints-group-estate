@@ -17,10 +17,10 @@ export class User extends AbstractBaseEntity {
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: 16 })
+  @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ type: 'varchar', length: 15 })
+  @Column({ type: 'varchar', length: 50, unique: true })
   phone_number: string;
 
   @Column({ type: 'enum', enum: UserGender })
