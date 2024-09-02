@@ -1,6 +1,6 @@
 import { AbstractBaseEntity } from 'src/base.entity';
 import { VerificationStatus } from 'src/enums/roles.model';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity({ name: 'user_auth' })
@@ -37,6 +37,5 @@ export class UserAuth extends AbstractBaseEntity {
   status: VerificationStatus;
 
   @OneToOne(() => User, (user) => user.user_auth)
-  @JoinColumn()
   user: User;
 }
