@@ -17,6 +17,16 @@ export class AppConfigService {
       app: {
         port: this.configService.get<number>('APP_PORT') as number,
       },
+      jwt: {
+        secret: this.configService.get<string>('JWT_SECRET') as string,
+        expiresIn: this.configService.get<number>(
+          'JWT_ACCESS_TOKEN_TTL',
+        ) as number,
+        audience: this.configService.get<string>(
+          'JWT_TOKEN_AUDIENCE',
+        ) as string,
+        issuer: this.configService.get<string>('JWT_TOKEN_ISSUER') as string,
+      },
     };
   }
 }
