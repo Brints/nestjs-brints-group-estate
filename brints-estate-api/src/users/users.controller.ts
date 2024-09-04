@@ -1,14 +1,14 @@
-import { Controller } from '@nestjs/common';
-// import { UsersService } from './providers/users.service';
-// import { CreateUserDto } from './dto/create-user.dto';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { UsersService } from './providers/users.service';
 
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
-  // constructor(private readonly usersService: UsersService) {}
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
+  constructor(private readonly usersService: UsersService) {}
+
+  @Get('all')
+  async getUser() {
+    return this.usersService.getAllUsers();
+  }
 }
