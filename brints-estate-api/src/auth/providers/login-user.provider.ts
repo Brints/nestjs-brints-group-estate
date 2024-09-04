@@ -9,7 +9,8 @@ import { HashingProvider } from './hashing.provider';
 import { LoginUserDto } from '../dto/login.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import jwtConfig from '../config/jwt.config';
-import { JwtPayload } from 'src/types/jwt.interface';
+// import { JwtPayload } from 'src/auth/interfaces/jwt.interface';
+import { IActiveUser } from '../interfaces/active-user.interface';
 
 @Injectable()
 export class LoginUserProvider {
@@ -56,11 +57,12 @@ export class LoginUserProvider {
     //   );
     // }
 
-    const payload: JwtPayload = {
+    const payload: IActiveUser = {
       sub: user.id,
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
+      phone_number: user.phone_number,
       role: user.role,
       verified: user.isVerified,
     };
