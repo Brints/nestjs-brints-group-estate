@@ -1,11 +1,4 @@
-GET http://localhost:3000/users/1
+GET http://localhost:3001/users/1
 
-POST http://localhost:3000/users
-Content-Type: application/json
-
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "test@example.com",
-    "age": 27
-}
+GET http://localhost:3001/users/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZjI2N2IxMS02NmYzLTQ3MjAtYjM1MS01ZjlkNDc0OGQ3M2YiLCJmaXJzdF9uYW1lIjoiQW5pZWJpZXQiLCJsYXN0X25hbWUiOiJBZmlhIiwiZW1haWwiOiJhbmllYmlldGFmaWFAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcyNTQzOTQzOSwiZXhwIjoxNzI1NDQzMDM5LCJhdWQiOiJsb2NhbGhvc3Q6MzAwMSIsImlzcyI6ImxvY2FsaG9zdDozMDAxIn0.dmuK28GbSaGyQosL2DnXyEGPXRm26Nd3gnWlpaHddWg
