@@ -49,12 +49,12 @@ export class LoginUserProvider {
       );
     }
 
-    if (!user.isVerified) {
-      throw new CustomException(
-        HttpStatus.BAD_REQUEST,
-        'User account not verified',
-      );
-    }
+    // if (!user.isVerified) {
+    //   throw new CustomException(
+    //     HttpStatus.BAD_REQUEST,
+    //     'User account not verified',
+    //   );
+    // }
 
     const payload: JwtPayload = {
       sub: user.id,

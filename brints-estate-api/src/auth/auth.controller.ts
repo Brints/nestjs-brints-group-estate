@@ -5,6 +5,8 @@ import { AuthService } from './providers/auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
 import { LoginUserDto } from './dto/login.dto';
+import { Auth } from './decorators/auth.decorator';
+import { AuthType } from './enum/auth-type.enum';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -12,6 +14,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @Auth(AuthType.None)
   async registerUser(
     @Body()
     createUserDto: CreateUserDto,
@@ -29,6 +32,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
   async loginUser(@Body() loginUserDto: LoginUserDto) {
     const user = await this.authService.loginUser(loginUserDto);
