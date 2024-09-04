@@ -7,6 +7,7 @@ import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enum/auth-type.enum';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -40,6 +41,18 @@ export class AuthController {
       message: 'Login successful',
       status_code: HttpStatus.OK,
       data: user,
+    };
+  }
+
+  @Post('refresh-tokens')
+  @Auth(AuthType.None)
+  @HttpCode(HttpStatus.OK)
+  async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
+    const tokens = await this.authService.refreshTokens(refreshTokenDto);
+    return {
+      message: 'Token refresh successful',
+      status_code: HttpStatus.OK,
+      data: tokens,
     };
   }
 }
