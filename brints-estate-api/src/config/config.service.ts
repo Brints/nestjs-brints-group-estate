@@ -16,6 +16,7 @@ export class AppConfigService {
       },
       app: {
         port: this.configService.get<number>('APP_PORT') as number,
+        api_version: this.configService.get<string>('API_VERSION') as string,
       },
       jwt: {
         secret: this.configService.get<string>('JWT_SECRET') as string,
