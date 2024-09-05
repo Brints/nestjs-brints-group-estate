@@ -2,6 +2,7 @@ import { AbstractBaseEntity } from 'src/base.entity';
 import { UserGender, UserRole } from 'src/enums/roles.model';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserAuth } from './userAuth.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User extends AbstractBaseEntity {
@@ -18,6 +19,7 @@ export class User extends AbstractBaseEntity {
   email: string;
 
   @Column({ type: 'varchar', length: 255 })
+  @Exclude()
   password: string;
 
   @Column({ type: 'varchar', length: 50, unique: true })
@@ -36,11 +38,17 @@ export class User extends AbstractBaseEntity {
   isTwoFAEnabled: boolean;
 
   @Column('simple-array', { nullable: true })
+  @Exclude()
   backup_codes: string[];
+
+  @Column({ type: 'varchar', nullable: true })
+  @Exclude()
+  google_id?: string;
 
   @OneToOne(() => UserAuth, (userAuth) => userAuth.user, {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
+  @Exclude()
   user_auth: UserAuth;
 }
