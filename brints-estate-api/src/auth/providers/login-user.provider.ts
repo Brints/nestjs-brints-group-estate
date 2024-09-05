@@ -1,16 +1,12 @@
 import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
 
 import { User } from 'src/users/entities/user.entity';
 import { HashingProvider } from './hashing.provider';
 import { LoginUserDto } from '../dto/login.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
-import jwtConfig from '../config/jwt.config';
-// import { JwtPayload } from 'src/auth/interfaces/jwt.interface';
-import { IActiveUser } from '../interfaces/active-user.interface';
+import { GenerateTokensProvider } from './generate-tokens.provider';
 
 @Injectable()
 export class LoginUserProvider {
@@ -21,10 +17,7 @@ export class LoginUserProvider {
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
 
-    private readonly jwtService: JwtService,
-
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    private readonly generateTokensProvider: GenerateTokensProvider,
   ) {}
 
   public async loginUser(
@@ -50,30 +43,13 @@ export class LoginUserProvider {
       );
     }
 
-    // if (!user.isVerified) {
-    //   throw new CustomException(
-    //     HttpStatus.BAD_REQUEST,
-    //     'User account not verified',
-    //   );
-    // }
+    if (!user.isVerified) {
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        'User account not verified',
+      );
+    }
 
-    const payload: IActiveUser = {
-      sub: user.id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      phone_number: user.phone_number,
-      role: user.role,
-      verified: user.isVerified,
-    };
-
-    const access_token = await this.jwtService.signAsync(payload, {
-      secret: this.jwtConfiguration.secret,
-      expiresIn: this.jwtConfiguration.expiresIn,
-      audience: this.jwtConfiguration.audience,
-      issuer: this.jwtConfiguration.issuer,
-    });
-
-    return { access_token };
+    return await this.generateTokensProvider.generateTokens(user);
   }
 }

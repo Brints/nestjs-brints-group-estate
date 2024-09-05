@@ -11,21 +11,25 @@ import { CreateUserProvider } from './providers/create-user.provider';
 import { UserHelper } from '../utils/userHelper.lib';
 import { GenerateTokenHelper } from '../utils/generate-token.lib';
 import { LoginUserProvider } from './providers/login-user.provider';
+import { GenerateTokensProvider } from './providers/generate-tokens.provider';
+import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import jwtConfig from './config/jwt.config';
 
 @Module({
   controllers: [AuthController],
   providers: [
+    {
+      provide: HashingProvider,
+      useClass: BcryptProvider,
+    },
     ConfigService,
     AuthService,
     CreateUserProvider,
     LoginUserProvider,
     UserHelper,
     GenerateTokenHelper,
-    {
-      provide: HashingProvider,
-      useClass: BcryptProvider,
-    },
+    GenerateTokensProvider,
+    RefreshTokensProvider,
   ],
   imports: [
     forwardRef(() => UsersModule),
