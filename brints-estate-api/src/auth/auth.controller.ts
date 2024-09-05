@@ -1,4 +1,12 @@
-import { Controller, Post, Body, HttpStatus, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpStatus,
+  HttpCode,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './providers/auth.service';
@@ -16,19 +24,20 @@ export class AuthController {
 
   @Post('register')
   @Auth(AuthType.None)
+  @UseInterceptors(ClassSerializerInterceptor)
   async registerUser(
     @Body()
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
   ) {
-    const user = await this.authService.createUser(
+    const payload = await this.authService.createUser(
       createUserDto,
       createUserAuthDto,
     );
     return {
       message: 'Registration successful',
       status_code: HttpStatus.CREATED,
-      data: user,
+      payload,
     };
   }
 

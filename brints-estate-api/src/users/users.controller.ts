@@ -1,4 +1,10 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpStatus,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
 import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
@@ -20,12 +26,13 @@ export class UsersController {
   }
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   async getUsers() {
-    const result = await this.usersService.getAll();
+    const payload = await this.usersService.getAll();
     return {
       message: 'All Users',
       status_code: HttpStatus.OK,
-      result,
+      payload,
     };
   }
 }

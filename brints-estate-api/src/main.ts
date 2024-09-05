@@ -21,6 +21,10 @@ async function bootstrap() {
 
   swaggerInitializer(app);
 
+  app.enableCors();
+
+  app.setGlobalPrefix('api');
+
   await app.listen(port);
   logger.log(`Application is running on ${await app.getUrl()}`);
 }

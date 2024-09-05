@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -10,6 +10,7 @@ import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard'
 import jwtConfig from './auth/config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
+import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 
 @Module({
   imports: [
@@ -44,6 +45,10 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
     {
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataResponseInterceptor,
     },
     AccessTokenGuard,
   ],
