@@ -17,4 +17,9 @@ export const environmentValidationSchema = Joi.object({
   JWT_TOKEN_ISSUER: Joi.string().required(),
   JWT_REFRESH_TOKEN_TTL: Joi.string().required(),
   API_VERSION: Joi.string().required(),
+  AWS_PUBLIC_BUCKET_NAME: Joi.string().required(),
+  AWS_REGION: Joi.string().required(),
+  AWS_ACCESS_KEY_ID: Joi.string().required(),
+  AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+  AWS_CLOUDFRONT_URL: Joi.string().required(),
 });
