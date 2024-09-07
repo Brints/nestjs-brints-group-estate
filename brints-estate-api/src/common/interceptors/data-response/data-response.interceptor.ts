@@ -17,7 +17,7 @@ export class DataResponseInterceptor implements NestInterceptor {
         api_version: this.configService.get('API_VERSION'),
         message: data.message,
         status_code: data.status_code,
-        data: data.payload || data.data,
+        data: data.payload || data.data || data.result,
       })),
     );
   }
