@@ -7,7 +7,6 @@ import { AppConfigService } from 'src/config/config.service';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { UploadFile } from '../interface/upload-file.interface';
 import { FileTypes } from '../enums/file-types.enum';
-// import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UploadsService {
@@ -15,8 +14,6 @@ export class UploadsService {
     private readonly uploadToAwsProvider: UploadToAwsProvider,
 
     private readonly appConfigService: AppConfigService,
-
-    // private readonly configService: ConfigService,
 
     @InjectRepository(Upload)
     private readonly uploadsRepository: Repository<Upload>,
