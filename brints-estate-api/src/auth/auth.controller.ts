@@ -6,8 +6,9 @@ import {
   HttpCode,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UploadedFile,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiHeaders, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './providers/auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -16,12 +17,21 @@ import { LoginUserDto } from './dto/login.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiHeaders([
+    { name: 'Content-Type', description: 'multipart/form-data' },
+    { name: 'Authorization', description: 'Bearer Token' },
+  ])
+  @ApiOperation({
+    summary: 'Upload a new image to the server',
+  })
   @Post('register')
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
@@ -29,10 +39,12 @@ export class AuthController {
     @Body()
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
     const payload = await this.authService.createUser(
       createUserDto,
       createUserAuthDto,
+      file,
     );
     return {
       message: 'Registration successful',
