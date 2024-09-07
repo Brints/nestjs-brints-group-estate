@@ -1,16 +1,12 @@
-import path from 'node:path';
+import * as path from 'node:path';
 import { Injectable, RequestTimeoutException } from '@nestjs/common';
-// import { ConfigService } from '@nestjs/config';
 import { S3 } from 'aws-sdk';
 import { v4 as uuid4 } from 'uuid';
 import { AppConfigService } from 'src/config/config.service';
 
 @Injectable()
 export class UploadToAwsProvider {
-  constructor(
-    // private readonly configService: ConfigService,
-    private readonly appConfigService: AppConfigService,
-  ) {}
+  constructor(private readonly appConfigService: AppConfigService) {}
 
   public async fileUpload(file: Express.Multer.File) {
     const s3 = new S3();
@@ -44,6 +40,6 @@ export class UploadToAwsProvider {
     // generate timestamp
     const timestamp = new Date().getTime().toString().trim();
 
-    return `${fileName}-${timestamp}-${uuid4()}.${extension}`;
+    return `${fileName}-${timestamp}-${uuid4()}${extension}`;
   }
 }
