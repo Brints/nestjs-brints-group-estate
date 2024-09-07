@@ -11,6 +11,8 @@ import { UserHelper } from 'src/utils/userHelper.lib';
 import { HashingProvider } from './hashing.provider';
 import { VerificationStatus } from 'src/enums/roles.model';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
+import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
+import { AppConfigService } from 'src/config/config.service';
 
 @Injectable()
 export class CreateUserProvider {
@@ -29,11 +31,16 @@ export class CreateUserProvider {
 
     @Inject(forwardRef(() => GenerateTokenHelper))
     private readonly generateTokenHelper: GenerateTokenHelper,
+
+    private readonly uploadToAwsProvider: UploadToAwsProvider,
+
+    private readonly appConfigService: AppConfigService,
   ) {}
 
   public async createUser(
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
+    file: Express.Multer.File,
   ): Promise<User> {
     const {
       first_name,
@@ -103,8 +110,16 @@ export class CreateUserProvider {
       );
     }
 
+    let file_path;
+
+    if (file) {
+      const image_url = await this.uploadToAwsProvider.fileUpload(file);
+      file_path = `https://${this.appConfigService.getConfig().aws.aws_cloudfront_url}/${image_url}`;
+    }
+
     const user = this.userRepository.create({
       ...CreateUserDto,
+      image_url: file_path,
       first_name: formattedFirstName,
       last_name: formattedLastName,
       email: email.toLowerCase(),
