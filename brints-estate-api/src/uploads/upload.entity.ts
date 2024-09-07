@@ -13,7 +13,6 @@ export class Upload extends AbstractBaseEntity {
   @Column({
     type: 'enum',
     enum: FileTypes,
-    length: 255,
     nullable: false,
     default: FileTypes.IMAGE,
   })
@@ -22,6 +21,6 @@ export class Upload extends AbstractBaseEntity {
   @Column({ type: 'varchar', length: 128, nullable: false })
   file_mime: string;
 
-  @Column({ type: 'numeric', length: 50, nullable: false })
+  @Column({ type: 'numeric', nullable: false })
   file_size: number;
 }
