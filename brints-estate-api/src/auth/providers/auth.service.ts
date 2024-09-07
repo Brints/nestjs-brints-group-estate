@@ -19,8 +19,13 @@ export class AuthService {
   public async createUser(
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
+    file: Express.Multer.File,
   ) {
-    return this.createUserProvider.createUser(createUserDto, createUserAuthDto);
+    return this.createUserProvider.createUser(
+      createUserDto,
+      createUserAuthDto,
+      file,
+    );
   }
 
   public async loginUser(loginUserDto: LoginUserDto) {
