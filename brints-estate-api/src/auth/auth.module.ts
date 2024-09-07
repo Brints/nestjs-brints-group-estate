@@ -14,6 +14,8 @@ import { LoginUserProvider } from './providers/login-user.provider';
 import { GenerateTokensProvider } from './providers/generate-tokens.provider';
 import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import jwtConfig from './config/jwt.config';
+import { AppConfigService } from 'src/config/config.service';
+import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
 
 @Module({
   controllers: [AuthController],
@@ -30,6 +32,8 @@ import jwtConfig from './config/jwt.config';
     GenerateTokenHelper,
     GenerateTokensProvider,
     RefreshTokensProvider,
+    AppConfigService,
+    UploadToAwsProvider,
   ],
   imports: [
     forwardRef(() => UsersModule),
