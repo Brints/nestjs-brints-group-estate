@@ -1,5 +1,5 @@
 import { AbstractBaseEntity } from 'src/base.entity';
-import { UserGender, UserRole } from 'src/enums/roles.model';
+import { AccountStatus, UserGender, UserRole } from 'src/enums/roles.model';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserAuth } from './userAuth.entity';
 import { Exclude } from 'class-transformer';
@@ -31,6 +31,9 @@ export class User extends AbstractBaseEntity {
   @Column({ type: 'boolean', default: false })
   isVerified: boolean;
 
+  @Column({ type: 'varchar', length: 10, default: AccountStatus.INACTIVE })
+  account_status: string;
+
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
@@ -45,7 +48,7 @@ export class User extends AbstractBaseEntity {
   @Exclude()
   google_id?: string;
 
-  @OneToOne(() => UserAuth, (userAuth) => userAuth.user, {
+  @OneToOne(() => UserAuth, (userAuth) => userAuth, {
     onDelete: 'CASCADE',
   })
   @JoinColumn()
