@@ -9,7 +9,7 @@ import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { UserHelper } from 'src/utils/userHelper.lib';
 import { HashingProvider } from './hashing.provider';
-import { VerificationStatus } from 'src/enums/roles.model';
+import { UserRole, VerificationStatus } from 'src/enums/roles.model';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
 import { AppConfigService } from 'src/config/config.service';
@@ -110,23 +110,14 @@ export class CreateUserProvider {
       );
     }
 
-    let file_path;
+    const users = await this.userRepository.find();
+    const user_role = users.length === 0 ? UserRole.SUPER_ADMIN : UserRole.USER;
 
+    let file_path;
     if (file) {
       const image_url = await this.uploadToAwsProvider.fileUpload(file);
       file_path = `https://${this.appConfigService.getConfig().aws.aws_cloudfront_url}/${image_url}`;
     }
-
-    const user = this.userRepository.create({
-      ...CreateUserDto,
-      image_url: file_path,
-      first_name: formattedFirstName,
-      last_name: formattedLastName,
-      email: email.toLowerCase(),
-      phone_number: fullPhoneNumber,
-      password: await this.hashingProvider.hashPassword(password),
-      gender,
-    });
 
     const verificationToken =
       this.generateTokenHelper.generateVerificationToken();
@@ -156,10 +147,20 @@ export class CreateUserProvider {
       isEmailVerified,
       isPhoneNumberVerified,
       status,
-      user,
     });
 
-    user.user_auth = userAuth;
+    const user = this.userRepository.create({
+      ...CreateUserDto,
+      image_url: file_path,
+      first_name: formattedFirstName,
+      last_name: formattedLastName,
+      email: email.toLowerCase(),
+      phone_number: fullPhoneNumber,
+      password: await this.hashingProvider.hashPassword(password),
+      gender,
+      role: user_role,
+      user_auth: userAuth,
+    });
 
     await this.userAuthRepository.save(userAuth);
     await this.userRepository.save(user);
