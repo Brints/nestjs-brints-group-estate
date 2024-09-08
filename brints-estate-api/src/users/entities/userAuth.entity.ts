@@ -1,7 +1,6 @@
 import { AbstractBaseEntity } from 'src/base.entity';
 import { VerificationStatus } from 'src/enums/roles.model';
-import { Column, Entity, OneToOne } from 'typeorm';
-import { User } from './user.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'user_auth' })
 export class UserAuth extends AbstractBaseEntity {
@@ -35,7 +34,4 @@ export class UserAuth extends AbstractBaseEntity {
     default: VerificationStatus.PENDING,
   })
   status: VerificationStatus;
-
-  @OneToOne(() => User, (user) => user.user_auth)
-  user: User;
 }
