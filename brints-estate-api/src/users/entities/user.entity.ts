@@ -48,7 +48,7 @@ export class User extends AbstractBaseEntity {
   @Exclude()
   google_id?: string;
 
-  @OneToOne(() => UserAuth, (userAuth) => userAuth, {
+  @OneToOne(() => UserAuth, {
     onDelete: 'CASCADE',
   })
   @JoinColumn()

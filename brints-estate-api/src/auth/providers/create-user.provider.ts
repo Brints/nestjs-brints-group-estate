@@ -159,8 +159,9 @@ export class CreateUserProvider {
       password: await this.hashingProvider.hashPassword(password),
       gender,
       role: user_role,
-      user_auth: userAuth,
     });
+
+    user.user_auth = userAuth;
 
     await this.userAuthRepository.save(userAuth);
     await this.userRepository.save(user);

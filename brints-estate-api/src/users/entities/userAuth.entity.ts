@@ -7,23 +7,37 @@ export class UserAuth extends AbstractBaseEntity {
   @Column({ type: 'boolean', default: false })
   isEmailVerified: boolean;
 
-  @Column({ type: 'numeric' })
-  otp: number;
+  @Column({ type: 'numeric', nullable: true })
+  otp: number | null;
 
-  @Column()
-  otpExpiresIn: Date;
+  @Column({
+    type: 'enum',
+    enum: VerificationStatus,
+    default: VerificationStatus.PENDING,
+  })
+  otp_status: VerificationStatus | null;
 
-  @Column({ type: 'varchar', length: 255 })
-  emailVerificationToken: string;
+  @Column({
+    type: 'enum',
+    enum: VerificationStatus,
+    default: VerificationStatus.PENDING,
+  })
+  email_status: VerificationStatus | null;
 
-  @Column()
-  emailVerificationTokenExpiresIn: Date;
+  @Column({ type: 'timestamptz', nullable: true })
+  otpExpiresIn: Date | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  passwordResetToken?: string;
+  emailVerificationToken: string | null;
 
-  @Column({ nullable: true })
-  passwordResetTokenExpiresIn?: Date;
+  @Column({ type: 'timestamptz', nullable: true })
+  emailVerificationTokenExpiresIn: Date | null;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  passwordResetToken?: string | null;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  passwordResetTokenExpiresIn?: Date | null;
 
   @Column({ type: 'boolean', default: false })
   isPhoneNumberVerified: boolean;
