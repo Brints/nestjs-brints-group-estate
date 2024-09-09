@@ -8,6 +8,7 @@ import {
   UseFilters,
   Post,
   Body,
+  HttpCode,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
@@ -47,8 +48,8 @@ export class UsersController {
 
   @Get('verify-email')
   @Auth(AuthType.None)
-  @UseFilters(HttpExceptionFilter)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseFilters(HttpExceptionFilter)
   async verifyUserEmail(@Query() verifyEmailDto: VerifyEmailDto) {
     const payload = await this.usersService.verifyUserEmail(verifyEmailDto);
 
@@ -61,8 +62,9 @@ export class UsersController {
 
   @Post('verify-phone')
   @Auth(AuthType.None)
-  @UseFilters(HttpExceptionFilter)
+  @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseFilters(HttpExceptionFilter)
   async verifyUserPhone(@Body() verifyPhoneNumberDto: VerifyPhoneNumberDto) {
     const payload =
       await this.usersService.verifyPhoneNumber(verifyPhoneNumberDto);

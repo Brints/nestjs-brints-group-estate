@@ -8,13 +8,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZjI2N2IxM
 
 GET http://localhost:3001/api/users/verify-email
 ?email=aniebietafia@gmail.com
-&email_verification_token=3ff5560e246e5bcc4336965c580b45ec1ed771ad4e395ca5abd825f99e0493a347dcd4acd7efc661
+&email_verification_token=f0371a2c6e188a0b6fcfe070f545b1befc93302fd1cfab0bed9954bef21a0cb81de2a3b0456a87c6
 
 
 POST http://localhost:3001/api/users/verify-phone
 Content-Type: application/json
 
 {
-    "otp": 631386,
-    "phone_number": "+23480278724166"
+    "otp": "461829",
+    "phone_number": "+2348042745647"
 }

@@ -1,16 +1,44 @@
 POST http://localhost:3001/api/auth/register
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
 
-{
-    "first_name": "Samantha",
-    "last_name": "Peters",
-    "email": "samantha-peters@gmail.com",
-    "password": "Test1234$",
-    "confirm_password": "Test1234$",
-    "phone_number": "08042745647",
-    "gender": "female",
-    "country_code": "+234"
-}
+--WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="unnamed.jpg"
+Content-Type: image/jpg
+
+< ./unnamed.jpg
+--WebKitFormBoundary
+Content-Disposition: form-data; name="first_name"
+
+aniebiet
+--WebKitFormBoundary
+Content-Disposition: form-data; name="last_name"
+
+afia
+--WebKitFormBoundary
+Content-Disposition: form-data; name="email"
+
+aniebietafia@gmail.com
+--WebKitFormBoundary
+Content-Disposition: form-data; name="password"
+
+Test1234$
+--WebKitFormBoundary
+Content-Disposition: form-data; name="confirm_password"
+
+Test1234$
+--WebKitFormBoundary
+Content-Disposition: form-data; name="phone_number"
+
+08042745647
+--WebKitFormBoundary
+Content-Disposition: form-data; name="gender"
+
+male
+--WebKitFormBoundary
+Content-Disposition: form-data; name="country_code"
+
++234
+--WebKitFormBoundary--
 
 POST http://localhost:3001/api/auth/login
 Content-Type: application/json

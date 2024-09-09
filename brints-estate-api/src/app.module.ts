@@ -12,6 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 import { UploadsModule } from './uploads/uploads.module';
+import { AppConfigService } from './config/config.service';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { UploadsModule } from './uploads/uploads.module';
       useClass: DataResponseInterceptor,
     },
     AccessTokenGuard,
+    AppConfigService,
   ],
 })
 export class AppModule {}
