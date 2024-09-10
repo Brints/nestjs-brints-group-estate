@@ -2,7 +2,6 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -14,8 +13,8 @@ export class CreateUserAuthDto {
   isEmailVerified: boolean;
 
   @IsNotEmpty()
-  @IsNumber()
-  otp: number;
+  @IsString()
+  otp: string;
 
   @IsDate()
   otpExpiresIn: Date;

@@ -25,12 +25,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseInterceptors(FileInterceptor('file'))
-  @ApiHeaders([
-    { name: 'Content-Type', description: 'multipart/form-data' },
-    { name: 'Authorization', description: 'Bearer Token' },
-  ])
+  @ApiHeaders([{ name: 'Content-Type', description: 'multipart/form-data' }])
   @ApiOperation({
-    summary: 'Upload a new image to the server',
+    summary: 'Registers a new user',
   })
   @Post('register')
   @Auth(AuthType.None)
@@ -53,6 +50,9 @@ export class AuthController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Logs in a registered user and generates an access token',
+  })
   @Post('login')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
@@ -65,6 +65,9 @@ export class AuthController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Generates new access token and refresh token',
+  })
   @Post('refresh-tokens')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)

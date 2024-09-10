@@ -1,22 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
-import { User } from '../entities/user.entity';
-import { Repository } from 'typeorm';
+// import { InjectRepository } from '@nestjs/typeorm';
+// import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
+// import { User } from '../entities/user.entity';
+// import { Repository } from 'typeorm';
 import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from '../dto/verify-phone-number.dto';
 import { VerifyEmailProvider } from './verify-email.provider';
 import { VerifyPhoneNumberProvider } from './verify-phone-number.provider';
+import { GenerateNewOTPDto } from '../dto/generate-new-otp.dto';
+import { ResendOtpProvider } from './resend-otp.provider';
+import { GenerateNewEmailVerificationProvider } from './generate-new-email-verification.provider';
+import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    // @InjectRepository(User)
+    // private readonly userRepository: Repository<User>,
 
     private readonly verifyEmailProvider: VerifyEmailProvider,
 
     private readonly verifyPhoneNumberProvider: VerifyPhoneNumberProvider,
+
+    private readonly resendOtpProvider: ResendOtpProvider,
+
+    private readonly generateNewEmailVerificationProvider: GenerateNewEmailVerificationProvider,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
@@ -29,12 +37,24 @@ export class UsersService {
     );
   }
 
-  public async getAllUsers(user: IActiveUser) {
-    return user;
+  public async resendOTP(generateNewOTPDto: GenerateNewOTPDto) {
+    return this.resendOtpProvider.resendOTP(generateNewOTPDto);
   }
 
-  public async getAll() {
-    const users = await this.userRepository.find();
-    return users;
+  public async newEmailVerificationToken(
+    generateNewEmailTokenDto: GenerateNewEmailTokenDto,
+  ) {
+    return this.generateNewEmailVerificationProvider.newEmailVerificationToken(
+      generateNewEmailTokenDto,
+    );
   }
+
+  // public async getAllUsers(user: IActiveUser) {
+  //   return user;
+  // }
+
+  // public async getAll() {
+  //   const users = await this.userRepository.find();
+  //   return users;
+  // }
 }

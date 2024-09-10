@@ -35,7 +35,6 @@ export class RefreshTokensProvider {
     );
 
     const user = await this.userRepository.findOneBy({ id: sub });
-    // const user = await this.userRepository.findOne(sub);
 
     if (!user) {
       throw new CustomException(HttpStatus.NOT_FOUND, 'User not found');

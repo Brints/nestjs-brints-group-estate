@@ -131,7 +131,6 @@ export class CreateUserProvider {
     const emailVerificationToken = verificationToken;
     const emailVerificationTokenExpiresIn = verificationTokenExpiry;
 
-    const otp = parseInt(newOtp);
     const otpExpiresIn = otpExpiry;
 
     const isEmailVerified = false;
@@ -142,7 +141,7 @@ export class CreateUserProvider {
       ...createUserAuthDto,
       emailVerificationToken,
       emailVerificationTokenExpiresIn,
-      otp,
+      otp: newOtp,
       otpExpiresIn,
       isEmailVerified,
       isPhoneNumberVerified,

@@ -65,7 +65,7 @@ export class VerifyEmailProvider {
     userAuth.isEmailVerified = true;
     userAuth.emailVerificationToken = null;
     userAuth.emailVerificationTokenExpiresIn = null;
-    userAuth.email_status = null;
+    userAuth.email_status = VerificationStatus.VERIFIED;
 
     if (userAuth.isEmailVerified && userAuth.isPhoneNumberVerified)
       userAuth.status = VerificationStatus.VERIFIED;
