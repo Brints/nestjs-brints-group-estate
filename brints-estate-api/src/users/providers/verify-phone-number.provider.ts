@@ -62,7 +62,7 @@ export class VerifyPhoneNumberProvider {
     userAuth.isPhoneNumberVerified = true;
     userAuth.otp = null;
     userAuth.otpExpiresIn = null;
-    userAuth.otp_status = null;
+    userAuth.otp_status = VerificationStatus.VERIFIED;
 
     if (userAuth.isEmailVerified && userAuth.isPhoneNumberVerified)
       userAuth.status = VerificationStatus.VERIFIED;
