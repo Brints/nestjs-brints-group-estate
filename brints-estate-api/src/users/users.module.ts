@@ -11,6 +11,7 @@ import { GenerateNewEmailVerificationProvider } from './providers/generate-new-e
 import { VerifyEmailProvider } from './providers/verify-email.provider';
 import { VerifyPhoneNumberProvider } from './providers/verify-phone-number.provider';
 import { ResendOtpProvider } from './providers/resend-otp.provider';
+import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 
 @Module({
   controllers: [UsersController],
@@ -20,6 +21,7 @@ import { ResendOtpProvider } from './providers/resend-otp.provider';
     VerifyEmailProvider,
     VerifyPhoneNumberProvider,
     ResendOtpProvider,
+    GenerateTokenHelper,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),
