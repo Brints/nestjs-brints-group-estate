@@ -24,7 +24,9 @@ export class RefreshTokensProvider {
     private readonly generateTokensProvider: GenerateTokensProvider,
   ) {}
 
-  public async refreshTokens(refreshTokenDto: RefreshTokenDto) {
+  public async refreshTokens(
+    refreshTokenDto: RefreshTokenDto,
+  ): Promise<{ refresh_token: string }> {
     const { sub } = await this.jwtService.verifyAsync<Pick<IActiveUser, 'sub'>>(
       refreshTokenDto.refresh_token,
       {

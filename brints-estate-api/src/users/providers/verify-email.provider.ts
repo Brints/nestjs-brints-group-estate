@@ -17,7 +17,7 @@ export class VerifyEmailProvider {
     private readonly userAuthRepository: Repository<UserAuth>,
   ) {}
 
-  public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
+  public async verifyUserEmail(verifyEmailDto: VerifyEmailDto): Promise<void> {
     const user = await this.userRepository.findOne({
       where: { email: verifyEmailDto.email },
       relations: { user_auth: true },

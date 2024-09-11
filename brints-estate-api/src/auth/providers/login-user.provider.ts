@@ -7,6 +7,7 @@ import { HashingProvider } from './hashing.provider';
 import { LoginUserDto } from '../dto/login.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { GenerateTokensProvider } from './generate-tokens.provider';
+import { AccountStatus } from 'src/enums/roles.model';
 
 @Injectable()
 export class LoginUserProvider {
@@ -31,7 +32,7 @@ export class LoginUserProvider {
       throw new CustomException(HttpStatus.NOT_FOUND, 'User not found');
     }
 
-    const passwordMatch = await this.hashingProvider.comparePassword(
+    const passwordMatch: boolean = await this.hashingProvider.comparePassword(
       loginUserDto.password,
       user.password,
     );
@@ -48,6 +49,20 @@ export class LoginUserProvider {
         HttpStatus.BAD_REQUEST,
         'User account not verified',
       );
+    }
+
+    if (
+      user.account_status === AccountStatus.BLOCKED ||
+      user.account_status === AccountStatus.SUSPENDED
+    )
+      throw new CustomException(
+        HttpStatus.FORBIDDEN,
+        'Your account has been blocked. Contact admin.',
+      );
+
+    if (user.account_status !== AccountStatus.ACTIVE) {
+      user.account_status = AccountStatus.ACTIVE;
+      await this.userRepository.save(user);
     }
 
     return await this.generateTokensProvider.generateTokens(user);
