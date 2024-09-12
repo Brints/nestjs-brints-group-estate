@@ -43,7 +43,7 @@ export class ResendOtpProvider {
     const otpExpiry = new Date();
     otpExpiry.setMinutes(otpExpiry.getMinutes() + 20);
 
-    userAuth.otp = otp;
+    userAuth.otp = Number(otp);
     userAuth.otpExpiresIn = otpExpiry;
     userAuth.otp_status = VerificationStatus.PENDING;
     await this.userAuthRepository.save(userAuth);
