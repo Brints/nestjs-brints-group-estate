@@ -2,12 +2,13 @@ import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { HashingProvider } from './hashing.provider';
 import { LoginUserDto } from '../dto/login.dto';
-import { CustomException } from 'src/exceptions/custom.exception';
+import { CustomException } from '../../exceptions/custom.exception';
 import { GenerateTokensProvider } from './generate-tokens.provider';
-import { AccountStatus } from 'src/enums/roles.model';
+import { AccountStatus } from '../../enums/roles.model';
+import { LoginAttemptsProvider } from '../../login-attempts/providers/login-attempts.provider';
 
 @Injectable()
 export class LoginUserProvider {
@@ -19,6 +20,8 @@ export class LoginUserProvider {
     private readonly hashingProvider: HashingProvider,
 
     private readonly generateTokensProvider: GenerateTokensProvider,
+
+    private readonly loginAttemptsProvider: LoginAttemptsProvider,
   ) {}
 
   public async loginUser(
@@ -26,10 +29,27 @@ export class LoginUserProvider {
   ): Promise<{ access_token: string }> {
     const user = await this.userRepository.findOne({
       where: { email: loginUserDto.email },
+      relations: { login_attempts: true },
     });
 
     if (!user) {
       throw new CustomException(HttpStatus.NOT_FOUND, 'User not found');
+    }
+
+    if (
+      user.login_attempts.isBlocked &&
+      user.login_attempts.blockedUntil &&
+      user.login_attempts.blockedUntil > new Date()
+    ) {
+      await this.loginAttemptsProvider.resetLoginAttempts(user);
+    }
+
+    if (
+      user.login_attempts.isBlocked &&
+      user.login_attempts.blockedUntil &&
+      user.login_attempts.blockedUntil > new Date()
+    ) {
+      await this.loginAttemptsProvider.attemptedLoginWhileBlocked(user);
     }
 
     const passwordMatch: boolean = await this.hashingProvider.comparePassword(
@@ -38,16 +58,13 @@ export class LoginUserProvider {
     );
 
     if (!passwordMatch) {
-      throw new CustomException(
-        HttpStatus.BAD_REQUEST,
-        'Invalid login credentials',
-      );
+      await this.loginAttemptsProvider.blockUser(user);
     }
 
     if (!user.isVerified) {
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
-        'User account not verified',
+        'User account not yet verified',
       );
     }
 
@@ -57,13 +74,17 @@ export class LoginUserProvider {
     )
       throw new CustomException(
         HttpStatus.FORBIDDEN,
-        'Your account has been blocked. Contact admin.',
+        'Your account has been blocked or suspended. Contact admin.',
       );
 
     if (user.account_status !== AccountStatus.ACTIVE) {
       user.account_status = AccountStatus.ACTIVE;
       await this.userRepository.save(user);
     }
+
+    user.last_login = new Date();
+
+    await this.loginAttemptsProvider.resetLoginAttemptData(user);
 
     return await this.generateTokensProvider.generateTokens(user);
   }
