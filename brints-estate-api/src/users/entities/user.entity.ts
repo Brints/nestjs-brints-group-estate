@@ -3,6 +3,7 @@ import { AccountStatus, UserGender, UserRole } from 'src/enums/roles.model';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserAuth } from './userAuth.entity';
 import { Exclude } from 'class-transformer';
+import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
 
 @Entity({ name: 'users' })
 export class User extends AbstractBaseEntity {
@@ -31,6 +32,9 @@ export class User extends AbstractBaseEntity {
   @Column({ type: 'boolean', default: false })
   isVerified: boolean;
 
+  @Column({ type: 'timestamptz', nullable: true })
+  last_login: Date | null;
+
   @Column({ type: 'varchar', length: 10, default: AccountStatus.INACTIVE })
   account_status: string;
 
@@ -47,6 +51,13 @@ export class User extends AbstractBaseEntity {
   @Column({ type: 'varchar', nullable: true })
   @Exclude()
   google_id?: string;
+
+  @OneToOne(() => LoginAttempts, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  @Exclude()
+  login_attempts: LoginAttempts;
 
   @OneToOne(() => UserAuth, {
     onDelete: 'CASCADE',
