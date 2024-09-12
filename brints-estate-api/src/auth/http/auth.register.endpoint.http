@@ -9,15 +9,15 @@ Content-Type: image/jpg
 --WebKitFormBoundary
 Content-Disposition: form-data; name="first_name"
 
-aniebiet
+sarah
 --WebKitFormBoundary
 Content-Disposition: form-data; name="last_name"
 
-afia
+michael
 --WebKitFormBoundary
 Content-Disposition: form-data; name="email"
 
-aniebietafia@gmail.com
+sarah.michael@gmail.com
 --WebKitFormBoundary
 Content-Disposition: form-data; name="password"
 
@@ -29,7 +29,7 @@ Test1234$
 --WebKitFormBoundary
 Content-Disposition: form-data; name="phone_number"
 
-08042745647
+08027872415
 --WebKitFormBoundary
 Content-Disposition: form-data; name="gender"
 
@@ -37,5 +37,5 @@ male
 --WebKitFormBoundary
 Content-Disposition: form-data; name="country_code"
 
-+234
+234
 --WebKitFormBoundary--

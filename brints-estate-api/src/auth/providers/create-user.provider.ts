@@ -66,13 +66,6 @@ export class CreateUserProvider {
       );
     }
 
-    if (!country_code.startsWith('+')) {
-      throw new CustomException(
-        HttpStatus.BAD_REQUEST,
-        'Country code must start with a + followed by a number',
-      );
-    }
-
     const fullPhoneNumber = this.userHelper.formatPhoneNumber(
       country_code,
       phone_number,
@@ -102,7 +95,7 @@ export class CreateUserProvider {
     if (userExists) {
       throw new CustomException(
         HttpStatus.CONFLICT,
-        'User Exists already. Please login',
+        'Email already registered. Please login',
       );
     }
 

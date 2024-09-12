@@ -7,32 +7,35 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UploadedFile,
+  UseFilters,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiHeaders, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './providers/auth.service';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateUserAuthDto } from '../users/dto/create-userauth.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
+import { CreateLoginAttemptDto } from '../login-attempts/dto/create-login-attempt.dto';
+import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
 
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseInterceptors(FileInterceptor('file'))
   @ApiHeaders([{ name: 'Content-Type', description: 'multipart/form-data' }])
   @ApiOperation({
     summary: 'Registers a new user',
   })
   @Post('register')
   @Auth(AuthType.None)
+  @UseInterceptors(FileInterceptor('file'))
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseFilters(HttpExceptionFilter)
   async registerUser(
     @Body()
     createUserDto: CreateUserDto,
@@ -59,6 +62,7 @@ export class AuthController {
   @Post('login')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
+  @UseFilters(HttpExceptionFilter)
   async loginUser(@Body() loginUserDto: LoginUserDto) {
     const user = await this.authService.loginUser(loginUserDto);
     return {
@@ -74,6 +78,7 @@ export class AuthController {
   @Post('refresh-tokens')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
+  @UseFilters(HttpExceptionFilter)
   async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
     const tokens = await this.authService.refreshTokens(refreshTokenDto);
     return {
