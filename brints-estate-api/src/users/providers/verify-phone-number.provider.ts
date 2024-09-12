@@ -42,7 +42,7 @@ export class VerifyPhoneNumberProvider {
         'You are verified already',
       );
 
-    if (user.user_auth.otp !== userAuth.otp)
+    if (user.user_auth.otp !== Number(verifyPhoneNumberDto.otp))
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
         'Invalid OTP. Try again.',

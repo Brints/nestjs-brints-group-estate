@@ -7,8 +7,8 @@ export class UserAuth extends AbstractBaseEntity {
   @Column({ type: 'boolean', default: false })
   isEmailVerified: boolean;
 
-  @Column({ type: 'varchar', nullable: true })
-  otp: string | null;
+  @Column({ type: 'int', nullable: true })
+  otp: number | null;
 
   @Column({
     type: 'enum',

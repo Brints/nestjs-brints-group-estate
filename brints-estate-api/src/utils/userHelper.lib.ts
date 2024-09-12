@@ -13,6 +13,12 @@ export class UserHelper {
     if (phoneNumber.startsWith('0')) {
       phoneNumber = phoneNumber.slice(1);
     }
-    return `${countryCode}${phoneNumber}`;
+    return `+${countryCode}${phoneNumber}`;
   }
+
+  // public verifyPhoneNumber(country_code: string, phone_number: string): string {
+  //   if (phone_number.startsWith('0')) {
+  //     phone_number = phone_number.slice(1);
+  //   }
+  // }
 }

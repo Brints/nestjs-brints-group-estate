@@ -147,7 +147,7 @@ export class CreateUserProvider {
       ...createUserAuthDto,
       emailVerificationToken,
       emailVerificationTokenExpiresIn,
-      otp: newOtp,
+      otp: Number(newOtp),
       otpExpiresIn,
       isEmailVerified,
       isPhoneNumberVerified,
