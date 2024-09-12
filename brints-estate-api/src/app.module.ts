@@ -13,6 +13,7 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 import { UploadsModule } from './uploads/uploads.module';
 import { AppConfigService } from './config/config.service';
+import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { AppConfigService } from './config/config.service';
     AuthModule,
     UsersModule,
     UploadsModule,
+    LoginAttemptsModule,
   ],
   providers: [
     {
