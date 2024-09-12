@@ -13,6 +13,8 @@ import { UserRole, VerificationStatus } from 'src/enums/roles.model';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
 import { AppConfigService } from 'src/config/config.service';
+import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
+import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
 
 @Injectable()
 export class CreateUserProvider {
@@ -22,6 +24,9 @@ export class CreateUserProvider {
 
     @InjectRepository(UserAuth)
     private readonly userAuthRepository: Repository<UserAuth>,
+
+    @InjectRepository(LoginAttempts)
+    private readonly loginAttemptsRepository: Repository<LoginAttempts>,
 
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
@@ -40,6 +45,7 @@ export class CreateUserProvider {
   public async createUser(
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
+    loginAttemptsDto: CreateLoginAttemptDto,
     file: Express.Multer.File,
   ): Promise<User> {
     const {
@@ -148,6 +154,8 @@ export class CreateUserProvider {
       status,
     });
 
+    const loginAttempts = this.loginAttemptsRepository.create(loginAttemptsDto);
+
     const user = this.userRepository.create({
       ...CreateUserDto,
       image_url: file_path,
@@ -161,8 +169,10 @@ export class CreateUserProvider {
     });
 
     user.user_auth = userAuth;
+    user.login_attempts = loginAttempts;
 
     await this.userAuthRepository.save(userAuth);
+    await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
 
     return user;

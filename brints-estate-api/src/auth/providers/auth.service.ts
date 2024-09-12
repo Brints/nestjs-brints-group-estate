@@ -7,6 +7,7 @@ import { LoginUserDto } from '../dto/login.dto';
 import { LoginUserProvider } from './login-user.provider';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { RefreshTokensProvider } from './refresh-tokens.provider';
+import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,11 +20,13 @@ export class AuthService {
   public async createUser(
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
+    createLoginAttemptDto: CreateLoginAttemptDto,
     file: Express.Multer.File,
   ) {
     return this.createUserProvider.createUser(
       createUserDto,
       createUserAuthDto,
+      createLoginAttemptDto,
       file,
     );
   }

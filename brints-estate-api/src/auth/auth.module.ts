@@ -4,7 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './providers/auth.service';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
+import { LoginAttemptsModule } from '../login-attempts/login-attempts.module';
 import { HashingProvider } from './providers/hashing.provider';
 import { BcryptProvider } from './providers/bcrypt.provider';
 import { CreateUserProvider } from './providers/create-user.provider';
@@ -14,8 +15,9 @@ import { LoginUserProvider } from './providers/login-user.provider';
 import { GenerateTokensProvider } from './providers/generate-tokens.provider';
 import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import jwtConfig from './config/jwt.config';
-import { AppConfigService } from 'src/config/config.service';
-import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
+import { AppConfigService } from '../config/config.service';
+import { UploadToAwsProvider } from '../uploads/providers/upload-to-aws.provider';
+import { LoginAttemptsProvider } from '../login-attempts/providers/login-attempts.provider';
 
 @Module({
   controllers: [AuthController],
@@ -34,9 +36,11 @@ import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provide
     RefreshTokensProvider,
     AppConfigService,
     UploadToAwsProvider,
+    LoginAttemptsProvider,
   ],
   imports: [
     forwardRef(() => UsersModule),
+    forwardRef(() => LoginAttemptsModule),
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
   ],

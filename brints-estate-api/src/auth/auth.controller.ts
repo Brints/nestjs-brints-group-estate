@@ -18,6 +18,7 @@ import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -36,11 +37,13 @@ export class AuthController {
     @Body()
     createUserDto: CreateUserDto,
     createUserAuthDto: CreateUserAuthDto,
+    createLoginAttemptDto: CreateLoginAttemptDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
     const payload = await this.authService.createUser(
       createUserDto,
       createUserAuthDto,
+      createLoginAttemptDto,
       file,
     );
     return {
