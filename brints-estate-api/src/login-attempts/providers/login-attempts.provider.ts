@@ -87,7 +87,7 @@ export class LoginAttemptsProvider {
           : `Invalid login credentials. You have ${remaining_attempts} attempts left.`;
 
       const blockedUntil = loginAttempts.blockedUntil;
-      let daysRemaining;
+      let daysRemaining: number = 0;
       if (blockedUntil) {
         const current_date = new Date();
         const timeDiff = blockedUntil.getTime() - current_date.getTime();
