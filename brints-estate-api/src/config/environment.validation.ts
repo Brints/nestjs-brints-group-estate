@@ -22,4 +22,9 @@ export const environmentValidationSchema = Joi.object({
   AWS_ACCESS_KEY_ID: Joi.string().required(),
   AWS_SECRET_ACCESS_KEY: Joi.string().required(),
   AWS_CLOUDFRONT_URL: Joi.string().required(),
+  MAILGUN_HOSTNAME: Joi.string().required(),
+  MAILGUN_PORT: Joi.number().port().default(587),
+  MAILGUN_USERNAME: Joi.string().required(),
+  MAILGUN_DOMAIN: Joi.string().required(),
+  MAILGUN_API_KEY: Joi.string().required(),
 });

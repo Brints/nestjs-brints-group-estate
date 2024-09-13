@@ -7,6 +7,7 @@ import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { VerificationStatus } from 'src/enums/roles.model';
+import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class GenerateNewEmailVerificationProvider {
@@ -18,6 +19,8 @@ export class GenerateNewEmailVerificationProvider {
     private readonly userAuthRepository: Repository<UserAuth>,
 
     private readonly generateTokenHelper: GenerateTokenHelper,
+
+    private readonly mailgunService: MailgunService,
   ) {}
 
   public async newEmailVerificationToken(
@@ -62,5 +65,8 @@ export class GenerateNewEmailVerificationProvider {
     userAuth.emailVerificationTokenExpiresIn = verificationTokenExpiry;
     userAuth.email_status = VerificationStatus.PENDING;
     await this.userAuthRepository.save(userAuth);
+    await this.userAuthRepository.save(user);
+
+    await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
   }
 }

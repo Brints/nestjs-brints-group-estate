@@ -12,8 +12,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 import { UploadsModule } from './uploads/uploads.module';
-import { AppConfigService } from './config/config.service';
 import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
+import { MailgunServiceModule } from './services/email-service/mailgun-service/mailgun-service.module';
+import { SmsServiceModule } from './services/sms-service/sms-service.module';
+import { AwsServiceModule } from './services/email-service/aws-service/aws-service.module';
 
 @Module({
   imports: [
@@ -45,6 +47,9 @@ import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
     UsersModule,
     UploadsModule,
     LoginAttemptsModule,
+    MailgunServiceModule,
+    SmsServiceModule,
+    AwsServiceModule,
   ],
   providers: [
     {
@@ -56,7 +61,6 @@ import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
       useClass: DataResponseInterceptor,
     },
     AccessTokenGuard,
-    AppConfigService,
   ],
 })
 export class AppModule {}

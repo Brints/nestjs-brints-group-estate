@@ -3,6 +3,13 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "./services/email-service/mailgun-service/templates",
+        "outDir": "dist/",
+        "watchAssets": true
+      }
+    ]
   }
 }
