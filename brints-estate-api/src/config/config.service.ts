@@ -43,6 +43,24 @@ export class AppConfigService {
           'AWS_CLOUDFRONT_URL',
         ) as string,
       },
+      mailgun: {
+        mailgun_hostname: this.configService.get<string>(
+          'MAILGUN_HOSTNAME',
+        ) as string,
+        mailgun_port: this.configService.get<number>('MAILGUN_PORT') as number,
+        mailgun_username: this.configService.get<string>(
+          'MAILGUN_USERNAME',
+        ) as string,
+        mailgun_domain: this.configService.get<string>(
+          'MAILGUN_DOMAIN',
+        ) as string,
+        mailgun_api_key: this.configService.get<string>(
+          'MAILGUN_API_KEY',
+        ) as string,
+        mailgun_password: this.configService.get<string>(
+          'MAILGUN_PASSWORD',
+        ) as string,
+      },
     };
   }
 }
