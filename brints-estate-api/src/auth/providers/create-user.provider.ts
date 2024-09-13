@@ -15,6 +15,7 @@ import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provide
 import { AppConfigService } from 'src/config/config.service';
 import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
 import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
+// import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class CreateUserProvider {
@@ -40,6 +41,8 @@ export class CreateUserProvider {
     private readonly uploadToAwsProvider: UploadToAwsProvider,
 
     private readonly appConfigService: AppConfigService,
+
+    // private readonly mailgunService: MailgunService,
   ) {}
 
   public async createUser(
@@ -167,6 +170,8 @@ export class CreateUserProvider {
     await this.userAuthRepository.save(userAuth);
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
+
+    // await this.mailgunService.sendWelcomeEmail(user);
 
     return user;
   }
