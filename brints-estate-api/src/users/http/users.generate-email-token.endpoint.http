@@ -2,5 +2,5 @@ POST http://localhost:3001/api/users/resend-token
 Content-Type: application/json
 
 {
-    "email": "aniebietafia@gmail.com"
+    "email": "aniebietafia87@gmail.com"
 }
