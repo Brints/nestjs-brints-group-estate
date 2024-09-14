@@ -10,7 +10,14 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiHeaders, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiHeaders,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { AuthService } from './providers/auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
@@ -21,6 +28,7 @@ import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CreateLoginAttemptDto } from '../login-attempts/dto/create-login-attempt.dto';
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
+import { User } from 'src/users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -30,6 +38,19 @@ export class AuthController {
   @ApiHeaders([{ name: 'Content-Type', description: 'multipart/form-data' }])
   @ApiOperation({
     summary: 'Registers a new user',
+  })
+  @ApiCreatedResponse({
+    description: 'User registration successful',
+    status: HttpStatus.CREATED,
+    type: User,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request',
+    status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
   })
   @Post('register')
   @Auth(AuthType.None)
