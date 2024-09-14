@@ -14,7 +14,12 @@ import {
 import { UserGender } from 'src/enums/roles.model';
 
 export class CreateUserDto {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'First name of the user',
+    example: 'John',
+    type: String,
+    required: true,
+  })
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
