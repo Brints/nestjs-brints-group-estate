@@ -1,8 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -29,6 +32,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
   @MaxLength(255)
+  @Transform(({ value }) => value.toLowerCase())
   email: string;
 
   @ApiProperty()
@@ -66,5 +70,24 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsEnum(UserGender)
+  @Transform(({ value }) => value.toLowerCase())
   gender: UserGender;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true')
+  terms_and_conditions: boolean;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true')
+  privacy_policy: boolean;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true')
+  marketing: boolean;
 }
