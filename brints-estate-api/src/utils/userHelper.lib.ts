@@ -1,3 +1,7 @@
+import { HttpStatus } from '@nestjs/common';
+import { UserGender } from 'src/enums/roles.model';
+import { CustomException } from 'src/exceptions/custom.exception';
+
 export class UserHelper {
   constructor() {}
 
@@ -16,9 +20,24 @@ export class UserHelper {
     return `+${countryCode}${phoneNumber}`;
   }
 
-  // public verifyPhoneNumber(country_code: string, phone_number: string): string {
-  //   if (phone_number.startsWith('0')) {
-  //     phone_number = phone_number.slice(1);
-  //   }
-  // }
+  public comparePasswords(password: string, confirm_password: string) {
+    if (password !== confirm_password) {
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        'Passwords do not match. Try again.',
+      );
+    }
+  }
+
+  public convertGenderToLowerCase(gender: string) {
+    const tranformed_gender = gender.toLowerCase();
+    if (
+      tranformed_gender !== UserGender.FEMALE &&
+      tranformed_gender !== UserGender.MALE
+    )
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        `${tranformed_gender} is not a valid gender`,
+      );
+  }
 }
