@@ -38,4 +38,16 @@ male
 Content-Disposition: form-data; name="country_code"
 
 234
+--WebKitFormBoundary
+Content-Disposition: form-data; name="privacy_policy"
+
+false
+--WebKitFormBoundary
+Content-Disposition: form-data; name="terms_and_conditions"
+
+false
+--WebKitFormBoundary
+Content-Disposition: form-data; name="marketing"
+
+false
 --WebKitFormBoundary--
