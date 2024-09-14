@@ -15,7 +15,6 @@ import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provide
 import { AppConfigService } from 'src/config/config.service';
 import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
 import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
-// import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class CreateUserProvider {
@@ -41,8 +40,6 @@ export class CreateUserProvider {
     private readonly uploadToAwsProvider: UploadToAwsProvider,
 
     private readonly appConfigService: AppConfigService,
-
-    // private readonly mailgunService: MailgunService,
   ) {}
 
   public async createUser(
@@ -60,26 +57,31 @@ export class CreateUserProvider {
       phone_number,
       gender,
       country_code,
+      privacy_policy,
+      terms_and_conditions,
+      marketing,
     } = createUserDto;
 
-    if (gender.toLowerCase() !== 'female' && gender.toLowerCase() !== 'male') {
+    if (terms_and_conditions !== true)
       throw new CustomException(
-        HttpStatus.BAD_REQUEST,
-        `${gender} is not a valid gender`,
+        HttpStatus.FORBIDDEN,
+        'Accept Terms and Conditions before you proceed.',
       );
-    }
+
+    if (privacy_policy !== true)
+      throw new CustomException(
+        HttpStatus.FORBIDDEN,
+        'Accept Privacy before you proceed.',
+      );
+
+    this.userHelper.convertGenderToLowerCase(gender);
 
     const fullPhoneNumber = this.userHelper.formatPhoneNumber(
       country_code,
       phone_number,
     );
 
-    if (password !== confirm_password) {
-      throw new CustomException(
-        HttpStatus.BAD_REQUEST,
-        'Passwords do not match. Please try again',
-      );
-    }
+    this.userHelper.comparePasswords(password, confirm_password);
 
     if (password === email) {
       throw new CustomException(
@@ -98,7 +100,7 @@ export class CreateUserProvider {
     if (userExists) {
       throw new CustomException(
         HttpStatus.CONFLICT,
-        'Email already registered. Please login',
+        'User already registered. Please login',
       );
     }
 
@@ -162,6 +164,9 @@ export class CreateUserProvider {
       password: await this.hashingProvider.hashPassword(password),
       gender,
       role: user_role,
+      privacy_policy,
+      terms_and_conditions,
+      marketing,
     });
 
     user.user_auth = userAuth;
@@ -170,8 +175,6 @@ export class CreateUserProvider {
     await this.userAuthRepository.save(userAuth);
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
-
-    // await this.mailgunService.sendWelcomeEmail(user);
 
     return user;
   }
