@@ -52,6 +52,15 @@ export class User extends AbstractBaseEntity {
   @Exclude()
   google_id?: string;
 
+  @Column({ type: 'boolean', default: false })
+  terms_and_conditions: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  privacy_policy: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  marketing?: boolean;
+
   @OneToOne(() => LoginAttempts, {
     onDelete: 'CASCADE',
   })
