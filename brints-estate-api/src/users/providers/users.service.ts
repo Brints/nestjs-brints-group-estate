@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
-// import { User } from '../entities/user.entity';
-// import { Repository } from 'typeorm';
+
 import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from '../dto/verify-phone-number.dto';
 import { VerifyEmailProvider } from './verify-email.provider';
@@ -15,9 +12,6 @@ import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';
 @Injectable()
 export class UsersService {
   constructor(
-    // @InjectRepository(User)
-    // private readonly userRepository: Repository<User>,
-
     private readonly verifyEmailProvider: VerifyEmailProvider,
 
     private readonly verifyPhoneNumberProvider: VerifyPhoneNumberProvider,
@@ -48,13 +42,4 @@ export class UsersService {
       generateNewEmailTokenDto,
     );
   }
-
-  // public async getAllUsers(user: IActiveUser) {
-  //   return user;
-  // }
-
-  // public async getAll() {
-  //   const users = await this.userRepository.find();
-  //   return users;
-  // }
 }
