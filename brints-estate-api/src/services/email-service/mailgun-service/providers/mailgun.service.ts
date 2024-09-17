@@ -44,4 +44,24 @@ export class MailgunService {
       },
     });
   }
+
+  public async sendOTP(user: User, userAuth: UserAuth): Promise<void> {
+    if (!user)
+      throw new CustomException(HttpStatus.NOT_FOUND, 'User not found.');
+
+    if (!userAuth)
+      throw new CustomException(HttpStatus.NOT_FOUND, 'User Auth not found.');
+
+    await this.mailerService.sendMail({
+      to: user.email, // change this to phone number after setting up aws ses
+      from: `Brints Group <no-reply@brintsgroup.live>`,
+      subject: 'OTP',
+      template: './otp',
+      context: {
+        fullname: `${user.first_name} ${user.last_name}`,
+        otp: `${userAuth.otp}`,
+        otp_expiry: `${userAuth.otpExpiresIn}`,
+      },
+    });
+  }
 }
