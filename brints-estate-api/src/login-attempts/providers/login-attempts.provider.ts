@@ -39,15 +39,15 @@ export class LoginAttemptsProvider {
         'Login attempts does not exist.',
       );
 
-    if (user.login_attempts.isBlocked && user.login_attempts.blockedUntil) {
-      const current_date = new Date();
-      if (current_date > user.login_attempts.blockedUntil) {
-        loginAttempts.isBlocked = false;
-        loginAttempts.blockedUntil = null;
-        await this.loginAttemptsRepository.save(loginAttempts);
-        await this.userRepository.save(user);
-      }
-    }
+    // if (user.login_attempts.isBlocked && user.login_attempts.blockedUntil) {
+    //   const current_date = new Date();
+    //   if (current_date > user.login_attempts.blockedUntil) {
+    loginAttempts.isBlocked = false;
+    loginAttempts.blockedUntil = null;
+    await this.loginAttemptsRepository.save(loginAttempts);
+    await this.userRepository.save(user);
+    //   }
+    // }
   }
 
   public async blockUser(user: User): Promise<void> {
@@ -78,29 +78,32 @@ export class LoginAttemptsProvider {
         );
         await this.loginAttemptsRepository.save(loginAttempts);
       }
-
-      const attempts = loginAttempts.login_attempts;
-      const remaining_attempts = MAX_LOGIN_ATTEMPTS - attempts;
-      const attempts_message =
-        remaining_attempts === 1
-          ? `Invalid login credentials. You have ${remaining_attempts} attempt left.`
-          : `Invalid login credentials. You have ${remaining_attempts} attempts left.`;
-
-      const blockedUntil = loginAttempts.blockedUntil;
-      let daysRemaining: number = 0;
-      if (blockedUntil) {
-        const current_date = new Date();
-        const timeDiff = blockedUntil.getTime() - current_date.getTime();
-        daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      }
-
-      const blocked_message =
-        attempts >= MAX_LOGIN_ATTEMPTS
-          ? `Your account has been blocked. Try again in ${daysRemaining}`
-          : attempts_message;
-
-      throw new CustomException(HttpStatus.BAD_REQUEST, blocked_message);
     }
+
+    const attempts = loginAttempts.login_attempts;
+    const remaining_attempts = MAX_LOGIN_ATTEMPTS - attempts;
+    const attempts_message =
+      remaining_attempts === 1
+        ? `Invalid login credentials. You have ${remaining_attempts} attempt left.`
+        : `Invalid login credentials. You have ${remaining_attempts} attempts left.`;
+
+    const blockedUntil = loginAttempts.blockedUntil;
+    let daysRemaining: number = 0;
+    if (blockedUntil) {
+      const current_date = new Date();
+      const timeDiff = blockedUntil.getTime() - current_date.getTime();
+      daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    }
+
+    const daysRemainingMessage =
+      daysRemaining > 1
+        ? `Your account has been blocked. Try again in ${daysRemaining} days`
+        : `Your account has been blocked. Try again in ${daysRemaining} day`;
+
+    const blocked_message =
+      attempts >= MAX_LOGIN_ATTEMPTS ? daysRemainingMessage : attempts_message;
+
+    throw new CustomException(HttpStatus.BAD_REQUEST, blocked_message);
   }
 
   public async attemptedLoginWhileBlocked(user: User): Promise<void> {
