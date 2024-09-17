@@ -6,6 +6,7 @@ import { UserAuth } from '../entities/userAuth.entity';
 import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { VerificationStatus } from 'src/enums/roles.model';
+import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class VerifyEmailProvider {
@@ -15,6 +16,8 @@ export class VerifyEmailProvider {
 
     @InjectRepository(UserAuth)
     private readonly userAuthRepository: Repository<UserAuth>,
+
+    private readonly mailgunService: MailgunService,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto): Promise<void> {
@@ -78,5 +81,8 @@ export class VerifyEmailProvider {
     await this.userRepository.save(user);
 
     // TODO: Send success email
+    if (user.isVerified) {
+      await this.mailgunService.sendWelcomeEmail(user);
+    }
   }
 }

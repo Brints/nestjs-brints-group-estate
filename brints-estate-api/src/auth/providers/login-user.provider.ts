@@ -36,6 +36,15 @@ export class LoginUserProvider {
       throw new CustomException(HttpStatus.NOT_FOUND, 'User not found');
     }
 
+    const passwordMatch: boolean = await this.hashingProvider.comparePassword(
+      loginUserDto.password,
+      user.password,
+    );
+
+    if (!passwordMatch) {
+      await this.loginAttemptsProvider.blockUser(user);
+    }
+
     if (
       user.login_attempts.isBlocked &&
       user.login_attempts.blockedUntil &&
@@ -50,15 +59,6 @@ export class LoginUserProvider {
       user.login_attempts.blockedUntil > new Date()
     ) {
       await this.loginAttemptsProvider.attemptedLoginWhileBlocked(user);
-    }
-
-    const passwordMatch: boolean = await this.hashingProvider.comparePassword(
-      loginUserDto.password,
-      user.password,
-    );
-
-    if (!passwordMatch) {
-      await this.loginAttemptsProvider.blockUser(user);
     }
 
     if (!user.isVerified) {

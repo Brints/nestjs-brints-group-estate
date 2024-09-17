@@ -3,10 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
-import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
+import { GenerateTokenHelper } from '../../utils/generate-token.lib';
 import { GenerateNewOTPDto } from '../dto/generate-new-otp.dto';
-import { CustomException } from 'src/exceptions/custom.exception';
-import { VerificationStatus } from 'src/enums/roles.model';
+import { CustomException } from '../../exceptions/custom.exception';
+import { VerificationStatus } from '../../enums/roles.model';
+import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class ResendOtpProvider {
@@ -18,6 +19,8 @@ export class ResendOtpProvider {
     private readonly userAuthRepository: Repository<UserAuth>,
 
     private readonly generateTokenHelper: GenerateTokenHelper,
+
+    private readonly mailgunService: MailgunService,
   ) {}
 
   public async resendOTP(generateNewOTPDto: GenerateNewOTPDto): Promise<void> {
@@ -47,5 +50,8 @@ export class ResendOtpProvider {
     userAuth.otpExpiresIn = otpExpiry;
     userAuth.otp_status = VerificationStatus.PENDING;
     await this.userAuthRepository.save(userAuth);
+    await this.userRepository.save(user);
+
+    await this.mailgunService.sendOTP(user, userAuth);
   }
 }
