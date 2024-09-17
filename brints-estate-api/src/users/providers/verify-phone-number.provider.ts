@@ -36,6 +36,12 @@ export class VerifyPhoneNumberProvider {
     if (!userAuth)
       throw new CustomException(HttpStatus.BAD_REQUEST, 'Item does not exist.');
 
+    if (user.phone_number !== verifyPhoneNumberDto.phone_number)
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        'Incorrect phone number.',
+      );
+
     if (user.isVerified && user.user_auth.isPhoneNumberVerified)
       throw new CustomException(
         HttpStatus.FORBIDDEN,
