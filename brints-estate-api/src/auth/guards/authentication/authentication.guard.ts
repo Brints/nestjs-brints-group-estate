@@ -39,7 +39,10 @@ export class AuthenticationGuard implements CanActivate {
       .map((authType) => this.authTypeGuardMap[authType])
       .flat();
 
-    const error = new CustomException(HttpStatus.UNAUTHORIZED, 'Unauthorized');
+    const error = new CustomException(
+      HttpStatus.UNAUTHORIZED,
+      'Unauthorized. please login',
+    );
 
     for (const instance of guards) {
       const canActivate = await Promise.resolve(
