@@ -82,14 +82,15 @@ export class AuthController {
   })
   @Post('login')
   @Auth(AuthType.None)
+  @UseInterceptors(ClassSerializerInterceptor)
   @HttpCode(HttpStatus.OK)
   @UseFilters(HttpExceptionFilter)
   async loginUser(@Body() loginUserDto: LoginUserDto) {
-    const user = await this.authService.loginUser(loginUserDto);
+    const payload = await this.authService.loginUser(loginUserDto);
     return {
       message: 'Login successful',
       status_code: HttpStatus.OK,
-      data: user,
+      payload,
     };
   }
 
@@ -101,11 +102,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseFilters(HttpExceptionFilter)
   async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
-    const tokens = await this.authService.refreshTokens(refreshTokenDto);
+    const payload = await this.authService.refreshTokens(refreshTokenDto);
     return {
       message: 'Token refresh successful',
       status_code: HttpStatus.OK,
-      data: tokens,
+      payload,
     };
   }
 }

@@ -38,7 +38,6 @@ import { AwsServiceModule } from './services/email-service/aws-service/aws-servi
         autoLoadEntities: process.env.NODE_ENV === 'development',
         synchronize: process.env.NODE_ENV === 'development',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        // entities: [User, UserAuth],
       }),
     }),
     ConfigModule.forFeature(jwtConfig),

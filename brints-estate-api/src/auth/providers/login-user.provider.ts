@@ -24,9 +24,7 @@ export class LoginUserProvider {
     private readonly loginAttemptsProvider: LoginAttemptsProvider,
   ) {}
 
-  public async loginUser(
-    loginUserDto: LoginUserDto,
-  ): Promise<{ access_token: string }> {
+  public async loginUser(loginUserDto: LoginUserDto) {
     const user = await this.userRepository.findOne({
       where: { email: loginUserDto.email },
       relations: { login_attempts: true },
@@ -86,6 +84,9 @@ export class LoginUserProvider {
 
     await this.loginAttemptsProvider.resetLoginAttemptData(user);
 
-    return await this.generateTokensProvider.generateTokens(user);
+    // return await this.generateTokensProvider.generateTokens(user);
+    const tokens = await this.generateTokensProvider.generateTokens(user);
+
+    return { user, tokens };
   }
 }
