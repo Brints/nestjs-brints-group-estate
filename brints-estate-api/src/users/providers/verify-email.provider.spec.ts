@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { VerifyEmailProvider } from './verify-email.provider';
+import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { DataSource, ObjectLiteral, Repository } from 'typeorm';
+
 import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { VerifyEmailProvider } from './verify-email.provider';
 import { UserAuth } from '../entities/userAuth.entity';
 import { CustomException } from 'src/exceptions/custom.exception';
 
@@ -22,7 +23,6 @@ describe('VerifyEmailProvider', () => {
   let provider: VerifyEmailProvider;
   let userRepository: MockRepository<User>;
   let userAuthRepository: MockRepository<UserAuth>;
-  // let mailgunService: MailgunService;
 
   const mockUser = {
     id: '98e749e6-b05f-45e9-9dd7-9142356b9a23',
@@ -78,11 +78,6 @@ describe('VerifyEmailProvider', () => {
     otp: '123456',
   };
 
-  // const verifyEmailDto = {
-  //   email: 'john-doe@test.com',
-  //   email_verification_token: 'valid-token',
-  // };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -107,7 +102,6 @@ describe('VerifyEmailProvider', () => {
     userAuthRepository = module.get<MockRepository<UserAuth>>(
       getRepositoryToken(UserAuth),
     );
-    // mailgunService = module.get<MailgunService>(MailgunService);
   });
 
   afterEach(() => {
@@ -204,71 +198,6 @@ describe('VerifyEmailProvider', () => {
           }),
         ).rejects.toThrow(CustomException);
       });
-
-      // it('should send welcome email if the user status is verified', async () => {
-      //   userRepository.findOne?.mockResolvedValue({
-      //     ...mockUser, // Use the existing mockUser
-      //     is_verified: true, // The user is verified in this scenario
-      //     user_auth: {
-      //       ...mockUserAuth,
-      //       isEmailVerified: true, // Email is verified
-      //       isPhoneNumberVerified: true, // Assume phone number is verified too
-      //     },
-      //   });
-
-      //   // Mock the userAuth repository to return the mock userAuth data
-      //   userAuthRepository.findOne?.mockResolvedValue({
-      //     ...mockUserAuth,
-      //     isEmailVerified: true,
-      //     isPhoneNumberVerified: true,
-      //     status: 'verified', // Status is verified
-      //   });
-
-      //   // Call the provider's method to verify email
-      //   await provider.verifyUserEmail(verifyEmailDto);
-
-      //   // Expect the sendWelcomeEmail method to be called once the user is verified
-      //   expect(mailgunService.sendWelcomeEmail).toHaveBeenCalledTimes(1);
-
-      //   // Expect the userAuthRepository.save method to be called with the following arguments
-      //   expect(userAuthRepository.save).toHaveBeenCalledWith({
-      //     ...mockUserAuth,
-      //     isEmailVerified: true,
-      //     email_status: 'verified',
-      //     status: 'verified',
-      //   });
-      // });
-
-      // it('should check if email and phone number is verified and set status to verified', async () => {
-      //   userRepository.findOne?.mockResolvedValue({
-      //     ...mockUser,
-      //     isVerified: false,
-      //     user_auth: { id: mockUserAuth.id },
-      //   });
-
-      //   userAuthRepository.findOne?.mockResolvedValue({
-      //     ...mockUserAuth,
-      //     isEmailVerified: false,
-      //     isPhoneNumberVerified: false,
-      //     emailVerificationToken: 'valid-token',
-      //     emailVerificationTokenExpiresIn: new Date(Date.now() + 10000),
-      //     email_status: 'pending',
-      //   });
-
-      //   await provider.verifyUserEmail(verifyEmailDto);
-
-      //   expect(userAuthRepository.save).toHaveBeenCalledWith({
-      //     ...mockUserAuth,
-      //     isEmailVerified: true,
-      //     email_status: 'verified',
-      //     status: 'verified',
-      //   });
-
-      //   expect(userRepository.save).toHaveBeenCalledWith({
-      //     ...mockUser,
-      //     isVerified: true,
-      //   });
-      // });
     });
   });
 });

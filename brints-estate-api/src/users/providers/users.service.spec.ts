@@ -5,6 +5,7 @@ import { VerifyPhoneNumberProvider } from './verify-phone-number.provider';
 import { ResendOtpProvider } from './resend-otp.provider';
 import { GenerateNewEmailVerificationProvider } from './generate-new-email-verification.provider';
 import { VerifyEmailDto } from '../dto/verify-email.dto';
+import { GetUserProfileProvider } from './get-user-profile.provider';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -22,6 +23,7 @@ describe('UsersService', () => {
         { provide: VerifyPhoneNumberProvider, useValue: {} },
         { provide: ResendOtpProvider, useValue: {} },
         { provide: GenerateNewEmailVerificationProvider, useValue: {} },
+        { provide: GetUserProfileProvider, useValue: {} },
       ],
     }).compile();
 
