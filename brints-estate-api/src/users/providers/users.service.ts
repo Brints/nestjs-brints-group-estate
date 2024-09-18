@@ -8,6 +8,8 @@ import { GenerateNewOTPDto } from '../dto/generate-new-otp.dto';
 import { ResendOtpProvider } from './resend-otp.provider';
 import { GenerateNewEmailVerificationProvider } from './generate-new-email-verification.provider';
 import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';
+import { GetUserProfileProvider } from './get-user-profile.provider';
+import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +21,8 @@ export class UsersService {
     private readonly resendOtpProvider: ResendOtpProvider,
 
     private readonly generateNewEmailVerificationProvider: GenerateNewEmailVerificationProvider,
+
+    private readonly getUserProfileProvider: GetUserProfileProvider,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
@@ -41,5 +45,9 @@ export class UsersService {
     return this.generateNewEmailVerificationProvider.newEmailVerificationToken(
       generateNewEmailTokenDto,
     );
+  }
+
+  public async getUserProfile(activeUser: IActiveUser, userId: string) {
+    return this.getUserProfileProvider.getUserProfile(activeUser, userId);
   }
 }
