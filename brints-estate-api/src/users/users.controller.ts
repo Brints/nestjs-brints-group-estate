@@ -28,26 +28,6 @@ import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('/:id')
-  @Auth(AuthType.Bearer)
-  @UseInterceptors(ClassSerializerInterceptor)
-  @UseFilters(HttpExceptionFilter)
-  async getUser(
-    @Param('id') userId: string,
-    @ActiveUser() loggedInUser: IActiveUser,
-  ) {
-    const payload = await this.usersService.getUserProfile(
-      loggedInUser,
-      userId,
-    );
-
-    return {
-      message: 'Profile fetched successfully',
-      status_code: HttpStatus.OK,
-      payload,
-    };
-  }
-
   @Get('verify-email')
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
@@ -105,6 +85,26 @@ export class UsersController {
 
     return {
       message: 'New Email verification token sent to your email address.',
+      status_code: HttpStatus.OK,
+      payload,
+    };
+  }
+
+  @Get('/:id')
+  @Auth(AuthType.Bearer)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseFilters(HttpExceptionFilter)
+  async getUser(
+    @Param('id') userId: string,
+    @ActiveUser() loggedInUser: IActiveUser,
+  ) {
+    const payload = await this.usersService.getUserProfile(
+      loggedInUser,
+      userId,
+    );
+
+    return {
+      message: 'Profile fetched successfully',
       status_code: HttpStatus.OK,
       payload,
     };
