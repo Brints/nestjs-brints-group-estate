@@ -3,9 +3,10 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from '../entities/user.entity';
-import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
+// import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { UserRole } from 'src/enums/roles.model';
+import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
 
 @Injectable()
 export class GetUserProfileProvider {
@@ -15,17 +16,20 @@ export class GetUserProfileProvider {
   ) {}
 
   public async getUserProfile(
-    activeUser: IActiveUser,
+    loggedInUser: IActiveUser,
     userId: string,
   ): Promise<User> {
     const user = await this.userRespository.findOne({
-      where: { id: activeUser.sub },
+      where: { id: userId },
     });
 
     if (!user)
       throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist');
 
-    if (userId !== user.id && user.role !== UserRole.SUPER_ADMIN)
+    if (
+      loggedInUser.role !== UserRole.SUPER_ADMIN &&
+      userId !== loggedInUser.sub
+    )
       throw new CustomException(
         HttpStatus.FORBIDDEN,
         "You're not authorized to view this profile.",
