@@ -13,8 +13,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
-import { ActiveUser } from '../auth/decorators/active-user.decorator';
-import { IActiveUser } from '../auth/interfaces/active-user.interface';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from './dto/verify-phone-number.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
@@ -22,6 +20,8 @@ import { AuthType } from 'src/auth/enum/auth-type.enum';
 import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter';
 import { GenerateNewOTPDto } from './dto/generate-new-otp.dto';
 import { GenerateNewEmailTokenDto } from './dto/new-email-token.dto';
+import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
+import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
 
 @Controller('users')
 @ApiTags('Users')
@@ -32,8 +32,14 @@ export class UsersController {
   @Auth(AuthType.Bearer)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
-  async getUser(@Param('id') userId: string, @ActiveUser() user: IActiveUser) {
-    const payload = await this.usersService.getUserProfile(user, userId);
+  async getUser(
+    @Param('id') userId: string,
+    @ActiveUser() loggedInUser: IActiveUser,
+  ) {
+    const payload = await this.usersService.getUserProfile(
+      loggedInUser,
+      userId,
+    );
 
     return {
       message: 'Profile fetched successfully',
