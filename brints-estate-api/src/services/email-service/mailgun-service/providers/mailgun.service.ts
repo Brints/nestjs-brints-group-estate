@@ -47,10 +47,13 @@ export class MailgunService {
 
   public async sendOTP(user: User, userAuth: UserAuth): Promise<void> {
     if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User not found.');
+      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
 
     if (!userAuth)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User Auth not found.');
+      throw new CustomException(
+        HttpStatus.NOT_FOUND,
+        'User Auth does not exist.',
+      );
 
     await this.mailerService.sendMail({
       to: user.email, // change this to phone number after setting up aws ses
@@ -61,6 +64,32 @@ export class MailgunService {
         fullname: `${user.first_name} ${user.last_name}`,
         otp: `${userAuth.otp}`,
         otp_expiry: `${userAuth.otpExpiresIn}`,
+      },
+    });
+  }
+
+  public async sendPasswordResetToken(
+    user: User,
+    userAuth: UserAuth,
+  ): Promise<void> {
+    if (!user)
+      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
+
+    if (!userAuth)
+      throw new CustomException(
+        HttpStatus.NOT_FOUND,
+        'User Auth does not exist.',
+      );
+
+    await this.mailerService.sendMail({
+      to: user.email, // change this to phone number after setting up aws ses
+      from: `Brints Group <no-reply@brintsgroup.live>`,
+      subject: 'Reset Password',
+      template: './reset-password',
+      context: {
+        fullname: `${user.first_name} ${user.last_name}`,
+        reset_password_link: `http://localhost:3001/api/users/reset-password/${user.email}/${userAuth.passwordResetToken}`,
+        expiry: `${userAuth.passwordResetTokenExpiresIn}`,
       },
     });
   }
