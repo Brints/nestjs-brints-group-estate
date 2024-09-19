@@ -39,15 +39,10 @@ export class LoginAttemptsProvider {
         'Login attempts does not exist.',
       );
 
-    // if (user.login_attempts.isBlocked && user.login_attempts.blockedUntil) {
-    //   const current_date = new Date();
-    //   if (current_date > user.login_attempts.blockedUntil) {
     loginAttempts.isBlocked = false;
     loginAttempts.blockedUntil = null;
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
-    //   }
-    // }
   }
 
   public async blockUser(user: User): Promise<void> {
