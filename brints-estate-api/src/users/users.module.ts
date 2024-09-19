@@ -13,6 +13,7 @@ import { VerifyPhoneNumberProvider } from './providers/verify-phone-number.provi
 import { ResendOtpProvider } from './providers/resend-otp.provider';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { GetUserProfileProvider } from './providers/get-user-profile.provider';
+import { ForgotPasswordProvider } from './providers/forgot-password.provider';
 
 @Module({
   controllers: [UsersController],
@@ -24,6 +25,7 @@ import { GetUserProfileProvider } from './providers/get-user-profile.provider';
     ResendOtpProvider,
     GenerateTokenHelper,
     GetUserProfileProvider,
+    ForgotPasswordProvider,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),

@@ -47,7 +47,7 @@ export class UsersService {
     );
   }
 
-  public async getUserProfile(activeUser: IActiveUser, userId: string) {
-    return this.getUserProfileProvider.getUserProfile(activeUser, userId);
+  public async getUserProfile(loggedInUser: IActiveUser, userId: string) {
+    return this.getUserProfileProvider.getUserProfile(loggedInUser, userId);
   }
 }
