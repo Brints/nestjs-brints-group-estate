@@ -22,6 +22,7 @@ import { GenerateNewOTPDto } from './dto/generate-new-otp.dto';
 import { GenerateNewEmailTokenDto } from './dto/new-email-token.dto';
 import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('users')
 @ApiTags('Users')
@@ -92,6 +93,7 @@ export class UsersController {
 
   @Get('/:id')
   @Auth(AuthType.Bearer)
+  @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
   async getUser(
@@ -105,6 +107,27 @@ export class UsersController {
 
     return {
       message: 'Profile fetched successfully',
+      status_code: HttpStatus.OK,
+      payload,
+    };
+  }
+
+  @Post('/reset-password/:email/:token')
+  @Auth(AuthType.None)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseFilters(HttpExceptionFilter)
+  async resetPassword(
+    @Param() params: string[],
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ) {
+    console.log(params);
+    const payload = await this.usersService.resetPassword(
+      params,
+      resetPasswordDto,
+    );
+
+    return {
+      message: 'Password Reset Successful',
       status_code: HttpStatus.OK,
       payload,
     };

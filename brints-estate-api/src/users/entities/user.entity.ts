@@ -5,7 +5,7 @@ import { UserAuth } from './userAuth.entity';
 import { Exclude } from 'class-transformer';
 import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'user' })
 export class User extends AbstractBaseEntity {
   @Column({ type: 'varchar', nullable: true })
   image_url?: string;

@@ -82,7 +82,7 @@ export class MailgunService {
       );
 
     await this.mailerService.sendMail({
-      to: user.email, // change this to phone number after setting up aws ses
+      to: user.email,
       from: `Brints Group <no-reply@brintsgroup.live>`,
       subject: 'Reset Password',
       template: './reset-password',
