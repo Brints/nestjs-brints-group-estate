@@ -1,5 +1,5 @@
 import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from 'src/users/entities/user.entity';
@@ -15,6 +15,7 @@ import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provide
 import { AppConfigService } from 'src/config/config.service';
 import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
 import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
+import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class CreateUserProvider {
@@ -40,6 +41,10 @@ export class CreateUserProvider {
     private readonly uploadToAwsProvider: UploadToAwsProvider,
 
     private readonly appConfigService: AppConfigService,
+
+    private readonly dataSource: DataSource,
+
+    private readonly mailgunService: MailgunService,
   ) {}
 
   public async createUser(
@@ -48,54 +53,46 @@ export class CreateUserProvider {
     loginAttemptsDto: CreateLoginAttemptDto,
     file: Express.Multer.File,
   ): Promise<User> {
-    const {
-      first_name,
-      last_name,
-      email,
-      password,
-      confirm_password,
-      phone_number,
-      gender,
-      country_code,
-      privacy_policy,
-      terms_and_conditions,
-      marketing,
-    } = createUserDto;
-
-    if (terms_and_conditions !== true)
+    if (createUserDto.terms_and_conditions !== true)
       throw new CustomException(
         HttpStatus.FORBIDDEN,
         'Accept Terms and Conditions before you proceed.',
       );
 
-    if (privacy_policy !== true)
+    if (createUserDto.privacy_policy !== true)
       throw new CustomException(
         HttpStatus.FORBIDDEN,
         'Accept Privacy before you proceed.',
       );
 
-    this.userHelper.convertGenderToLowerCase(gender);
+    this.userHelper.convertGenderToLowerCase(createUserDto.gender);
 
     const fullPhoneNumber = this.userHelper.formatPhoneNumber(
-      country_code,
-      phone_number,
+      createUserDto.country_code,
+      createUserDto.phone_number,
     );
 
-    this.userHelper.comparePasswords(password, confirm_password);
+    this.userHelper.comparePasswords(
+      createUserDto.password,
+      createUserDto.confirm_password,
+    );
 
-    if (password === email) {
+    if (createUserDto.password === createUserDto.email) {
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
         'Password cannot be the same as email',
       );
     }
 
-    const formattedFirstName =
-      this.userHelper.capitalizeFirstLetter(first_name);
-    const formattedLastName = this.userHelper.capitalizeFirstLetter(last_name);
+    const formattedFirstName = this.userHelper.capitalizeFirstLetter(
+      createUserDto.first_name,
+    );
+    const formattedLastName = this.userHelper.capitalizeFirstLetter(
+      createUserDto.last_name,
+    );
 
     const userExists = await this.userRepository.findOne({
-      where: { email: email.toLowerCase() },
+      where: { email: createUserDto.email.toLowerCase() },
     });
     if (userExists) {
       throw new CustomException(
@@ -114,8 +111,14 @@ export class CreateUserProvider {
       );
     }
 
-    const users = await this.userRepository.find();
-    const user_role = users.length === 0 ? UserRole.SUPER_ADMIN : UserRole.USER;
+    let user_role;
+    await this.dataSource.transaction(async (manager) => {
+      const superAdmin = await manager.findOne(User, {
+        where: { role: UserRole.SUPER_ADMIN },
+      });
+
+      user_role = superAdmin ? UserRole.USER : UserRole.SUPER_ADMIN;
+    });
 
     let file_path;
     if (file) {
@@ -159,14 +162,14 @@ export class CreateUserProvider {
       image_url: file_path,
       first_name: formattedFirstName,
       last_name: formattedLastName,
-      email: email.toLowerCase(),
+      email: createUserDto.email.toLowerCase(),
       phone_number: fullPhoneNumber,
-      password: await this.hashingProvider.hashPassword(password),
-      gender,
+      password: await this.hashingProvider.hashPassword(createUserDto.password),
+      gender: createUserDto.gender,
       role: user_role,
-      privacy_policy,
-      terms_and_conditions,
-      marketing,
+      privacy_policy: createUserDto.privacy_policy,
+      terms_and_conditions: createUserDto.terms_and_conditions,
+      marketing: createUserDto.marketing,
     });
 
     user.user_auth = userAuth;
@@ -175,6 +178,9 @@ export class CreateUserProvider {
     await this.userAuthRepository.save(userAuth);
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
+
+    await this.mailgunService.sendOTP(user, userAuth);
+    await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
 
     return user;
   }
