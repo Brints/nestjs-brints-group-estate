@@ -17,6 +17,7 @@ import { ForgotPasswordProvider } from './providers/forgot-password.provider';
 import { ResetPasswordProvider } from './providers/reset-password.provider';
 import { HashingProvider } from '../auth/providers/hashing.provider';
 import { BcryptProvider } from '../auth/providers/bcrypt.provider';
+import { ChangePasswordProvider } from './providers/change-password.provider';
 
 @Module({
   controllers: [UsersController],
@@ -34,6 +35,7 @@ import { BcryptProvider } from '../auth/providers/bcrypt.provider';
       provide: HashingProvider,
       useClass: BcryptProvider,
     },
+    ChangePasswordProvider,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),
