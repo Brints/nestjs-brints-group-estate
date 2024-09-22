@@ -1,11 +1,12 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { VerifyPhoneNumberDto } from '../dto/verify-phone-number.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+
+import { VerifyPhoneNumberDto } from '../dto/verify-phone-number.dto';
+import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
-import { CustomException } from 'src/exceptions/custom.exception';
-import { VerificationStatus } from 'src/enums/roles.model';
+import { CustomException } from '../../exceptions/custom.exception';
+import { VerificationStatus } from '../../enums/status.enum';
 
 @Injectable()
 export class VerifyPhoneNumberProvider {
