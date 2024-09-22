@@ -1,12 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { User } from '../entities/user.entity';
-// import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
-import { CustomException } from 'src/exceptions/custom.exception';
-import { UserRole } from 'src/enums/roles.model';
-import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
+import { CustomException } from '../../exceptions/custom.exception';
+import { UserRole } from '../../enums/user-role.enum';
+import { IActiveUser } from '../../auth/interfaces/active-user.interface';
 
 @Injectable()
 export class GetUserProfileProvider {
