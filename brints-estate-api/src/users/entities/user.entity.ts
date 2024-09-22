@@ -1,9 +1,12 @@
-import { AbstractBaseEntity } from 'src/base.entity';
-import { AccountStatus, UserGender, UserRole } from 'src/enums/roles.model';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { UserAuth } from './userAuth.entity';
 import { Exclude } from 'class-transformer';
-import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
+
+import { AbstractBaseEntity } from '../../base.entity';
+import { AccountStatus } from '../../enums/account-status.enum';
+import { UserGender } from '../../enums/gender.enum';
+import { UserRole } from '../../enums/user-role.enum';
+import { UserAuth } from './userAuth.entity';
+import { LoginAttempts } from '../../login-attempts/entities/login-attempt.entity';
 
 @Entity({ name: 'user' })
 export class User extends AbstractBaseEntity {

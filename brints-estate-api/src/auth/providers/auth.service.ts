@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
+import { CreateUserAuthDto } from '../../users/dto/create-userauth.dto';
 import { CreateUserProvider } from './create-user.provider';
 import { LoginUserDto } from '../dto/login.dto';
 import { LoginUserProvider } from './login-user.provider';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { RefreshTokensProvider } from './refresh-tokens.provider';
-import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
+import { CreateLoginAttemptDto } from '../../login-attempts/dto/create-login-attempt.dto';
 
 @Injectable()
 export class AuthService {

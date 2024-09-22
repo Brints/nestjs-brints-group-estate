@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { VerificationStatus } from 'src/enums/roles.model';
+import { VerificationStatus } from '../../enums/status.enum';
 
 export class CreateUserAuthDto {
   @IsNotEmpty()

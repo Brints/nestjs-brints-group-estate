@@ -1,6 +1,7 @@
-import { AbstractBaseEntity } from 'src/base.entity';
-import { VerificationStatus } from 'src/enums/roles.model';
 import { Column, Entity } from 'typeorm';
+
+import { AbstractBaseEntity } from '../../base.entity';
+import { VerificationStatus } from '../../enums/status.enum';
 
 @Entity({ name: 'user_auth' })
 export class UserAuth extends AbstractBaseEntity {

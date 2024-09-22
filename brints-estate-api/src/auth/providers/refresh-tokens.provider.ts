@@ -1,13 +1,14 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
+
 import jwtConfig from '../config/jwt.config';
-import { Repository } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { User } from '../../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GenerateTokensProvider } from './generate-tokens.provider';
-import { CustomException } from 'src/exceptions/custom.exception';
+import { CustomException } from '../../exceptions/custom.exception';
 import { IActiveUser } from '../interfaces/active-user.interface';
 
 @Injectable()

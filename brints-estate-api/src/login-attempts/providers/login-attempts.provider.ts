@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { LoginAttempts } from '../entities/login-attempt.entity';
 import { CustomException } from '../../exceptions/custom.exception';
 
@@ -17,18 +17,12 @@ export class LoginAttemptsProvider {
   ) {}
 
   private async isUserBlocked(user: User): Promise<boolean> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
-
     if (user.login_attempts.isBlocked) return true;
 
     return false;
   }
 
   public async resetLoginAttempts(user: User): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
-
     const loginAttempts = await this.loginAttemptsRepository.findOne({
       where: { id: user.login_attempts.id },
     });
@@ -46,9 +40,6 @@ export class LoginAttemptsProvider {
   }
 
   public async blockUser(user: User): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
-
     const loginAttempts = await this.loginAttemptsRepository.findOne({
       where: { id: user.login_attempts.id },
     });
@@ -62,18 +53,8 @@ export class LoginAttemptsProvider {
     const MAX_LOGIN_ATTEMPTS = 5;
     const BLOCK_DURATION = 4 * 24 * 60 * 60 * 1000; // 4 days
 
-    if (!loginAttempts.isBlocked) {
-      loginAttempts.login_attempts = Number(loginAttempts.login_attempts) + 1;
-      await this.loginAttemptsRepository.save(loginAttempts);
-
-      if (loginAttempts.login_attempts >= MAX_LOGIN_ATTEMPTS) {
-        loginAttempts.isBlocked = true;
-        loginAttempts.blockedUntil = new Date(
-          new Date().getTime() + BLOCK_DURATION,
-        );
-        await this.loginAttemptsRepository.save(loginAttempts);
-      }
-    }
+    loginAttempts.login_attempts = Number(loginAttempts.login_attempts) + 1;
+    await this.loginAttemptsRepository.save(loginAttempts);
 
     const attempts = loginAttempts.login_attempts;
     const remaining_attempts = MAX_LOGIN_ATTEMPTS - attempts;
@@ -81,6 +62,14 @@ export class LoginAttemptsProvider {
       remaining_attempts === 1
         ? `Invalid login credentials. You have ${remaining_attempts} attempt left.`
         : `Invalid login credentials. You have ${remaining_attempts} attempts left.`;
+
+    if (loginAttempts.login_attempts === MAX_LOGIN_ATTEMPTS) {
+      loginAttempts.isBlocked = true;
+      loginAttempts.blockedUntil = new Date(
+        new Date().getTime() + BLOCK_DURATION,
+      );
+      await this.loginAttemptsRepository.save(loginAttempts);
+    }
 
     const blockedUntil = loginAttempts.blockedUntil;
     let daysRemaining: number = 0;
@@ -102,9 +91,6 @@ export class LoginAttemptsProvider {
   }
 
   public async attemptedLoginWhileBlocked(user: User): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
-
     const isBlocked = await this.isUserBlocked(user);
 
     if (isBlocked) {
@@ -129,9 +115,6 @@ export class LoginAttemptsProvider {
   }
 
   public async resetLoginAttemptData(user: User): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User not found.');
-
     const loginAttempts = await this.loginAttemptsRepository.findOne({
       where: { id: user.login_attempts.id },
     });

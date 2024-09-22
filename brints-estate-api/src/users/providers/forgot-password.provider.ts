@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from '../entities/user.entity';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 import { UserAuth } from '../entities/userAuth.entity';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { CustomException } from '../../exceptions/custom.exception';
-import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
+import { GenerateTokenHelper } from '../../utils/generate-token.lib';
 
 @Injectable()
 export class ForgotPasswordProvider {

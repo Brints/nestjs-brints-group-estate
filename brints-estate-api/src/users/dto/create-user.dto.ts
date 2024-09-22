@@ -11,7 +11,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { UserGender } from 'src/enums/roles.model';
+import { UserGender } from '../../enums/gender.enum';
 
 export class CreateUserDto {
   @ApiProperty({

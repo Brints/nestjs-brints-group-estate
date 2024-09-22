@@ -1,12 +1,13 @@
 import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
 import { HashingProvider } from '../../auth/providers/hashing.provider';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { CustomException } from '../../exceptions/custom.exception';
-import { AccountStatus } from '../../enums/roles.model';
+import { AccountStatus } from '../../enums/account-status.enum';
 
 @Injectable()
 export class ResetPasswordProvider {
