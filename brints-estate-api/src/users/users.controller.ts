@@ -15,16 +15,16 @@ import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from './dto/verify-phone-number.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { AuthType } from 'src/auth/enum/auth-type.enum';
-import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { AuthType } from '../auth/enum/auth-type.enum';
+import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
 import { GenerateNewOTPDto } from './dto/generate-new-otp.dto';
 import { GenerateNewEmailTokenDto } from './dto/new-email-token.dto';
-import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
-import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
+import { ActiveUser } from '../auth/decorators/active-user.decorator';
+import { IActiveUser } from '../auth/interfaces/active-user.interface';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 
-@Controller('users')
+@Controller('user')
 @ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
