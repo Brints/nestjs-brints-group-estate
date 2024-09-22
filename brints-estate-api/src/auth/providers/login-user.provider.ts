@@ -7,7 +7,7 @@ import { HashingProvider } from './hashing.provider';
 import { LoginUserDto } from '../dto/login.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { GenerateTokensProvider } from './generate-tokens.provider';
-import { AccountStatus } from '../../enums/roles.model';
+import { AccountStatus } from '../../enums/account-status.enum';
 import { LoginAttemptsProvider } from '../../login-attempts/providers/login-attempts.provider';
 
 @Injectable()
