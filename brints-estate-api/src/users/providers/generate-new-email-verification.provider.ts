@@ -1,13 +1,14 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+
+import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
-import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
+import { GenerateTokenHelper } from '../../utils/generate-token.lib';
 import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';
-import { CustomException } from 'src/exceptions/custom.exception';
-import { VerificationStatus } from 'src/enums/roles.model';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { CustomException } from '../../exceptions/custom.exception';
+import { VerificationStatus } from '../../enums/status.enum';
+import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class GenerateNewEmailVerificationProvider {
