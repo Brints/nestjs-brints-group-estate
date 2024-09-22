@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
-import { UserGender } from 'src/enums/user.enum';
-import { CustomException } from 'src/exceptions/custom.exception';
+
+import { UserGender } from '../enums/gender.enum';
+import { CustomException } from '../exceptions/custom.exception';
 
 export class UserHelper {
   constructor() {}
