@@ -1,12 +1,13 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
 import { VerifyEmailDto } from '../dto/verify-email.dto';
-import { CustomException } from 'src/exceptions/custom.exception';
-import { VerificationStatus } from 'src/enums/roles.model';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { CustomException } from '../../exceptions/custom.exception';
+import { VerificationStatus } from '../../enums/status.enum';
+import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class VerifyEmailProvider {
