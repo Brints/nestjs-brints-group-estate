@@ -28,7 +28,7 @@ import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CreateLoginAttemptDto } from '../login-attempts/dto/create-login-attempt.dto';
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('Authentication')
