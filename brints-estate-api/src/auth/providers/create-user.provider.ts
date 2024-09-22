@@ -2,20 +2,21 @@ import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { User } from 'src/users/entities/user.entity';
-import { UserAuth } from 'src/users/entities/userAuth.entity';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { CreateUserAuthDto } from 'src/users/dto/create-userauth.dto';
-import { CustomException } from 'src/exceptions/custom.exception';
-import { UserHelper } from 'src/utils/userHelper.lib';
+import { User } from '../../users/entities/user.entity';
+import { UserAuth } from '../../users/entities/userAuth.entity';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
+import { CreateUserAuthDto } from '../../users/dto/create-userauth.dto';
+import { CustomException } from '../../exceptions/custom.exception';
+import { UserHelper } from '../../utils/userHelper.lib';
 import { HashingProvider } from './hashing.provider';
-import { UserRole, VerificationStatus } from 'src/enums/roles.model';
-import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
-import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
-import { AppConfigService } from 'src/config/config.service';
-import { CreateLoginAttemptDto } from 'src/login-attempts/dto/create-login-attempt.dto';
-import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { UserRole } from '../../enums/user-role.enum';
+import { VerificationStatus } from '../../enums/status.enum';
+import { GenerateTokenHelper } from '../../utils/generate-token.lib';
+import { UploadToAwsProvider } from '../../uploads/providers/upload-to-aws.provider';
+import { AppConfigService } from '../../config/config.service';
+import { CreateLoginAttemptDto } from '../../login-attempts/dto/create-login-attempt.dto';
+import { LoginAttempts } from '../../login-attempts/entities/login-attempt.entity';
+import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class CreateUserProvider {
