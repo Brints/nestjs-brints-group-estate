@@ -1,5 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { HttpStatus, Injectable } from '@nestjs/common';
+
 import { CustomException } from 'src/exceptions/custom.exception';
 import { User } from 'src/users/entities/user.entity';
 import { UserAuth } from 'src/users/entities/userAuth.entity';
