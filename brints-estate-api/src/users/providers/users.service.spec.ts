@@ -8,6 +8,7 @@ import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { GetUserProfileProvider } from './get-user-profile.provider';
 import { ResetPasswordProvider } from './reset-password.provider';
 import { ChangePasswordProvider } from './change-password.provider';
+import { ForgotPasswordProvider } from './forgot-password.provider';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -28,6 +29,7 @@ describe('UsersService', () => {
         { provide: GetUserProfileProvider, useValue: {} },
         { provide: ResetPasswordProvider, useValue: {} },
         { provide: ChangePasswordProvider, useValue: {} },
+        { provide: ForgotPasswordProvider, useValue: {} },
       ],
     }).compile();
 
