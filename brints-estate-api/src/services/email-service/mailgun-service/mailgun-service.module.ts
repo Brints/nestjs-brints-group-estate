@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { MailgunService } from './providers/mailgun.service';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
+import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Global()
 @Module({
@@ -36,7 +37,7 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
       }),
     }),
   ],
-  providers: [MailgunService],
+  providers: [MailgunService, TimeHelper],
   exports: [MailgunService],
 })
 export class MailgunServiceModule {}
