@@ -18,10 +18,15 @@ import { ResetPasswordProvider } from './providers/reset-password.provider';
 import { HashingProvider } from '../auth/providers/hashing.provider';
 import { BcryptProvider } from '../auth/providers/bcrypt.provider';
 import { ChangePasswordProvider } from './providers/change-password.provider';
+import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Module({
   controllers: [UsersController],
   providers: [
+    {
+      provide: HashingProvider,
+      useClass: BcryptProvider,
+    },
     UsersService,
     VerifyEmailProvider,
     VerifyPhoneNumberProvider,
@@ -31,11 +36,8 @@ import { ChangePasswordProvider } from './providers/change-password.provider';
     ForgotPasswordProvider,
     ResetPasswordProvider,
     GenerateNewEmailVerificationProvider,
-    {
-      provide: HashingProvider,
-      useClass: BcryptProvider,
-    },
     ChangePasswordProvider,
+    TimeHelper,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),
