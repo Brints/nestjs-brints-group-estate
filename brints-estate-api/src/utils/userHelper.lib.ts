@@ -21,7 +21,7 @@ export class UserHelper {
     return `+${countryCode}${phoneNumber}`;
   }
 
-  public comparePasswords(password: string, confirm_password: string) {
+  public comparePasswords(password: string, confirm_password: string): void {
     if (password !== confirm_password) {
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
@@ -30,7 +30,7 @@ export class UserHelper {
     }
   }
 
-  public convertGenderToLowerCase(gender: string) {
+  public convertGenderToLowerCase(gender: string): void {
     const tranformed_gender = gender.toLowerCase();
     if (
       tranformed_gender !== UserGender.FEMALE &&

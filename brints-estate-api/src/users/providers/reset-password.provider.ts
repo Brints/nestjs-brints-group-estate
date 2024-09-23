@@ -8,6 +8,8 @@ import { HashingProvider } from '../../auth/providers/hashing.provider';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { AccountStatus } from '../../enums/account-status.enum';
+import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { IResetPassword } from '../interface/reset-password.interface';
 
 @Injectable()
 export class ResetPasswordProvider {
@@ -20,14 +22,16 @@ export class ResetPasswordProvider {
 
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
+
+    private readonly mailgunService: MailgunService,
   ) {}
 
   public async resetPassword(
-    params: string[],
+    params: IResetPassword,
     resetPasswordDto: ResetPasswordDto,
   ): Promise<void> {
     const user = await this.userRepository.findOne({
-      where: { email: params[0] },
+      where: { email: params.email },
       relations: { user_auth: true },
     });
 
@@ -65,7 +69,7 @@ export class ResetPasswordProvider {
         'User Auth does not exist',
       );
 
-    if (userAuth.passwordResetToken !== params[1])
+    if (userAuth.passwordResetToken !== params.token)
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
         'Invalid reset password token.',
@@ -101,5 +105,7 @@ export class ResetPasswordProvider {
 
     await this.userAuthRepository.save(userAuth);
     await this.userRepository.save(user);
+
+    await this.mailgunService.sendResetPasswordConfirmation(user);
   }
 }

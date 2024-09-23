@@ -8,6 +8,7 @@ import { UserAuth } from '../entities/userAuth.entity';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { GenerateTokenHelper } from '../../utils/generate-token.lib';
+import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Injectable()
 export class ForgotPasswordProvider {
@@ -21,6 +22,8 @@ export class ForgotPasswordProvider {
     private readonly mailgunService: MailgunService,
 
     private readonly generateTokenHelper: GenerateTokenHelper,
+
+    private readonly timeHelper: TimeHelper,
   ) {}
 
   public async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
@@ -49,7 +52,7 @@ export class ForgotPasswordProvider {
     )
       throw new CustomException(
         HttpStatus.FORBIDDEN,
-        "You're not yet verified",
+        'Your account is not yet verified',
       );
 
     if (
@@ -58,14 +61,13 @@ export class ForgotPasswordProvider {
     )
       throw new CustomException(
         HttpStatus.FORBIDDEN,
-        'You have an active token',
+        'You have an active token. Try again after',
       );
 
     const resetPaswordToken =
       this.generateTokenHelper.generateVerificationToken();
 
-    const resetPasswordTokenExpiry = new Date();
-    resetPasswordTokenExpiry.setHours(resetPasswordTokenExpiry.getHours(), 1);
+    const resetPasswordTokenExpiry = this.timeHelper.setExpiryDate('hour', 1);
 
     userAuth.passwordResetToken = resetPaswordToken;
     userAuth.passwordResetTokenExpiresIn = resetPasswordTokenExpiry;

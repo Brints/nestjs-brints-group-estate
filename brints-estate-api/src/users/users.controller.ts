@@ -23,6 +23,9 @@ import { GenerateNewEmailTokenDto } from './dto/new-email-token.dto';
 import { ActiveUser } from '../auth/decorators/active-user.decorator';
 import { IActiveUser } from '../auth/interfaces/active-user.interface';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { IResetPassword } from './interface/reset-password.interface';
 
 @Controller('user')
 @ApiTags('Users')
@@ -33,7 +36,7 @@ export class UsersController {
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
-  async verifyUserEmail(@Query() verifyEmailDto: VerifyEmailDto) {
+  public async verifyUserEmail(@Query() verifyEmailDto: VerifyEmailDto) {
     const payload = await this.usersService.verifyUserEmail(verifyEmailDto);
 
     return {
@@ -48,7 +51,9 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
-  async verifyUserPhone(@Body() verifyPhoneNumberDto: VerifyPhoneNumberDto) {
+  public async verifyUserPhone(
+    @Body() verifyPhoneNumberDto: VerifyPhoneNumberDto,
+  ) {
     const payload =
       await this.usersService.verifyPhoneNumber(verifyPhoneNumberDto);
 
@@ -59,11 +64,25 @@ export class UsersController {
     };
   }
 
+  @Post('forgot-password')
+  @Auth(AuthType.None)
+  @HttpCode(HttpStatus.OK)
+  @UseFilters(HttpExceptionFilter)
+  public async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    const payload = await this.usersService.forgotPassword(forgotPasswordDto);
+
+    return {
+      message: 'Password reset link sent to your email address.',
+      status_code: HttpStatus.OK,
+      payload,
+    };
+  }
+
   @Post('resend-otp')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
   @UseFilters(HttpExceptionFilter)
-  async resendOTP(@Body() generateNewOTPDto: GenerateNewOTPDto) {
+  public async resendOTP(@Body() generateNewOTPDto: GenerateNewOTPDto) {
     const payload = await this.usersService.resendOTP(generateNewOTPDto);
 
     return {
@@ -77,7 +96,7 @@ export class UsersController {
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
   @UseFilters(HttpExceptionFilter)
-  async generateNewEmailToken(
+  public async generateNewEmailToken(
     @Body() generateNewEmailTokenDto: GenerateNewEmailTokenDto,
   ) {
     const payload = await this.usersService.newEmailVerificationToken(
@@ -91,12 +110,31 @@ export class UsersController {
     };
   }
 
+  @Post('change-password')
+  @HttpCode(HttpStatus.OK)
+  @UseFilters(HttpExceptionFilter)
+  public async changePassword(
+    @ActiveUser() activeUser: IActiveUser,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    const payload = await this.usersService.changePassword(
+      activeUser,
+      changePasswordDto,
+    );
+
+    return {
+      message: 'Password successfully changed',
+      status_code: HttpStatus.OK,
+      payload,
+    };
+  }
+
   @Get('/:id')
   @Auth(AuthType.Bearer)
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
-  async getUser(
+  public async getUser(
     @Param('id') userId: string,
     @ActiveUser() loggedInUser: IActiveUser,
   ) {
@@ -116,11 +154,10 @@ export class UsersController {
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
-  async resetPassword(
-    @Param() params: string[],
+  public async resetPassword(
+    @Param() params: IResetPassword,
     @Body() resetPasswordDto: ResetPasswordDto,
   ) {
-    console.log(params);
     const payload = await this.usersService.resetPassword(
       params,
       resetPasswordDto,
