@@ -12,6 +12,12 @@ import { GetUserProfileProvider } from './get-user-profile.provider';
 import { IActiveUser } from '../../auth/interfaces/active-user.interface';
 import { ResetPasswordProvider } from './reset-password.provider';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { ChangePasswordProvider } from './change-password.provider';
+import { ChangePasswordDto } from '../dto/change-password.dto';
+import { User } from '../entities/user.entity';
+import { ForgotPasswordProvider } from './forgot-password.provider';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { IResetPassword } from '../interface/reset-password.interface';
 
 @Injectable()
 export class UsersService {
@@ -27,6 +33,10 @@ export class UsersService {
     private readonly getUserProfileProvider: GetUserProfileProvider,
 
     private readonly resetPasswordProvider: ResetPasswordProvider,
+
+    private readonly changePasswordProvider: ChangePasswordProvider,
+
+    private readonly forgotPasswordProvider: ForgotPasswordProvider,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
@@ -51,14 +61,33 @@ export class UsersService {
     );
   }
 
-  public async getUserProfile(loggedInUser: IActiveUser, userId: string) {
+  public async getUserProfile(
+    loggedInUser: IActiveUser,
+    userId: string,
+  ): Promise<User> {
     return this.getUserProfileProvider.getUserProfile(loggedInUser, userId);
   }
 
   public async resetPassword(
-    params: string[],
+    params: IResetPassword,
     resetPasswordDto: ResetPasswordDto,
-  ) {
+  ): Promise<void> {
     return this.resetPasswordProvider.resetPassword(params, resetPasswordDto);
+  }
+
+  public async changePassword(
+    activeUser: IActiveUser,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<void> {
+    return this.changePasswordProvider.changePassword(
+      activeUser,
+      changePasswordDto,
+    );
+  }
+
+  public async forgotPassword(
+    forgotPasswordDto: ForgotPasswordDto,
+  ): Promise<void> {
+    return this.forgotPasswordProvider.forgotPassword(forgotPasswordDto);
   }
 }
