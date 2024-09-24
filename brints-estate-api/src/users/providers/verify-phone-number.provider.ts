@@ -26,8 +26,8 @@ export class VerifyPhoneNumberProvider {
 
     if (!user)
       throw new CustomException(
-        HttpStatus.BAD_REQUEST,
-        'Incorrect phone number.',
+        HttpStatus.NOT_FOUND,
+        'Phone number does not exist.',
       );
 
     const userAuth = await this.userAuthRepository.findOne({
@@ -35,7 +35,10 @@ export class VerifyPhoneNumberProvider {
     });
 
     if (!userAuth)
-      throw new CustomException(HttpStatus.BAD_REQUEST, 'Item does not exist.');
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        'User Auth does not exist.',
+      );
 
     if (user.phone_number !== verifyPhoneNumberDto.phone_number)
       throw new CustomException(
@@ -46,10 +49,10 @@ export class VerifyPhoneNumberProvider {
     if (user.isVerified && user.user_auth.isPhoneNumberVerified)
       throw new CustomException(
         HttpStatus.FORBIDDEN,
-        'You are verified already',
+        'This account is already verified.',
       );
 
-    if (user.user_auth.otp !== Number(verifyPhoneNumberDto.otp))
+    if (userAuth.otp !== Number(verifyPhoneNumberDto.otp))
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
         'Invalid OTP. Try again.',

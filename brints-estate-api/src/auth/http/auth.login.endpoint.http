@@ -2,7 +2,7 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "aniebietafia@gmail.com",
+    "email": "aniebietafia87@gmail.com",
     "password": "Test1234$"
 }
 
@@ -11,6 +11,6 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "aniebietafia87@gmail.com",
+    "email": "afiaaniebiet0@gmail.com",
     "password": "Test1234$"
 }

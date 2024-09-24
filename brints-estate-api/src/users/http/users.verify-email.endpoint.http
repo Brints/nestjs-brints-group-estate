@@ -1,3 +1,3 @@
-GET http://localhost:3001/api/users/verify-email
+GET http://localhost:3001/api/user/verify-email
 ?email=aniebietafia87@gmail.com
-&email_verification_token=1edf03283f53f9ebf6e3a21699bf80da09a32b9823d6ddd39a955318ab21937b13998a25a0d18a19
+&email_verification_token=5be71544929a89555e5e9e3d4520880bd1d4526316690a2387c9f97c0e311097bede9c4de52ccdd1

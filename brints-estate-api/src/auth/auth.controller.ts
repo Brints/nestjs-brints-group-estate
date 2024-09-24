@@ -20,8 +20,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AuthService } from './providers/auth.service';
-import { CreateUserDto } from '../users/dto/create-user.dto';
-import { CreateUserAuthDto } from '../users/dto/create-userauth.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserAuthDto } from './dto/create-userauth.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enum/auth-type.enum';

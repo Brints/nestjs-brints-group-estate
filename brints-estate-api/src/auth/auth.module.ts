@@ -18,6 +18,7 @@ import jwtConfig from './config/jwt.config';
 import { AppConfigService } from '../config/config.service';
 import { UploadToAwsProvider } from '../uploads/providers/upload-to-aws.provider';
 import { LoginAttemptsProvider } from '../login-attempts/providers/login-attempts.provider';
+import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Module({
   controllers: [AuthController],
@@ -37,6 +38,7 @@ import { LoginAttemptsProvider } from '../login-attempts/providers/login-attempt
     AppConfigService,
     UploadToAwsProvider,
     LoginAttemptsProvider,
+    TimeHelper,
   ],
   imports: [
     forwardRef(() => UsersModule),
