@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/users/resend-otp
+POST http://localhost:3001/api/user/resend-otp
 Content-Type: application/json
 
 {
