@@ -81,10 +81,10 @@ export class LoginUserProvider {
     }
 
     user.last_login = new Date();
+    await this.userRepository.save(user);
 
     await this.loginAttemptsProvider.resetLoginAttemptData(user);
 
-    // return await this.generateTokensProvider.generateTokens(user);
     const tokens = await this.generateTokensProvider.generateTokens(user);
 
     return { user, tokens };
