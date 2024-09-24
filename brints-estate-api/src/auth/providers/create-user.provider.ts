@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from '../../users/entities/user.entity';
 import { UserAuth } from '../../users/entities/userAuth.entity';
-import { CreateUserDto } from '../../users/dto/create-user.dto';
-import { CreateUserAuthDto } from '../../users/dto/create-userauth.dto';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserAuthDto } from '../dto/create-userauth.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { UserHelper } from '../../utils/userHelper.lib';
 import { HashingProvider } from './hashing.provider';
@@ -17,6 +17,7 @@ import { AppConfigService } from '../../config/config.service';
 import { CreateLoginAttemptDto } from '../../login-attempts/dto/create-login-attempt.dto';
 import { LoginAttempts } from '../../login-attempts/entities/login-attempt.entity';
 import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
+import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Injectable()
 export class CreateUserProvider {
@@ -46,6 +47,8 @@ export class CreateUserProvider {
     private readonly dataSource: DataSource,
 
     private readonly mailgunService: MailgunService,
+
+    private readonly timeHelper: TimeHelper,
   ) {}
 
   public async createUser(
@@ -129,34 +132,30 @@ export class CreateUserProvider {
 
     const verificationToken =
       this.generateTokenHelper.generateVerificationToken();
-    const verificationTokenExpiry = new Date();
-    verificationTokenExpiry.setHours(verificationTokenExpiry.getHours() + 1);
+    const verificationTokenExpiry = this.timeHelper.setExpiryDate('hours', 3);
 
     const newOtp = this.generateTokenHelper.generateOTP(6);
-    const otpExpiry = new Date();
-    otpExpiry.setMinutes(otpExpiry.getMinutes() + 20);
+    const otpExpiry = this.timeHelper.setExpiryDate('minutes', 20);
 
     const emailVerificationToken = verificationToken;
     const emailVerificationTokenExpiresIn = verificationTokenExpiry;
-
-    const otpExpiresIn = otpExpiry;
-
-    const isEmailVerified = false;
-    const isPhoneNumberVerified = false;
-    const status = VerificationStatus.PENDING;
 
     const userAuth = this.userAuthRepository.create({
       ...createUserAuthDto,
       emailVerificationToken,
       emailVerificationTokenExpiresIn,
       otp: Number(newOtp),
-      otpExpiresIn,
-      isEmailVerified,
-      isPhoneNumberVerified,
-      status,
+      otpExpiresIn: otpExpiry,
+      isEmailVerified: false,
+      isPhoneNumberVerified: false,
+      status: VerificationStatus.PENDING,
     });
 
     const loginAttempts = this.loginAttemptsRepository.create(loginAttemptsDto);
+
+    const hashedPassword = await this.hashingProvider.hashPassword(
+      createUserDto.password,
+    );
 
     const user = this.userRepository.create({
       ...CreateUserDto,
@@ -165,7 +164,7 @@ export class CreateUserProvider {
       last_name: formattedLastName,
       email: createUserDto.email.toLowerCase(),
       phone_number: fullPhoneNumber,
-      password: await this.hashingProvider.hashPassword(createUserDto.password),
+      password: hashedPassword,
       gender: createUserDto.gender,
       role: user_role,
       privacy_policy: createUserDto.privacy_policy,
