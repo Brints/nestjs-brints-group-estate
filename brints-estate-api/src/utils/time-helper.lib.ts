@@ -15,10 +15,10 @@ export class TimeHelper {
     if (!expiryDate) return null;
 
     const currentDate = new Date();
-    const timeLeft = expiryDate.getTime() - currentDate.getTime() + 1000;
-    const hours = Math.floor(timeLeft / 1000 / 60 / 60);
-    const minutes = Math.floor(timeLeft / 1000 / 60) - hours * 60;
-    const seconds = Math.floor(timeLeft / 1000) - minutes * 60;
+    const timeLeft = expiryDate.getTime() - currentDate.getTime();
+    const hours = Math.ceil(timeLeft / 1000 / 60 / 60);
+    const minutes = Math.ceil(timeLeft / 1000 / 60) - hours * 60;
+    const seconds = Math.ceil(timeLeft / 1000) - minutes * 60;
 
     if (hours) return hours === 1 ? `${hours} hour` : `${hours} hours`;
     if (minutes)
