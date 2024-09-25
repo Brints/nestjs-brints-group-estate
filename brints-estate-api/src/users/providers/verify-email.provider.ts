@@ -35,7 +35,10 @@ export class VerifyEmailProvider {
     });
 
     if (!userAuth)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'Item does not exist.');
+      throw new CustomException(
+        HttpStatus.NOT_FOUND,
+        'User Auth does not exist.',
+      );
 
     if (user.isVerified && user.user_auth.isEmailVerified)
       throw new CustomException(
@@ -60,7 +63,7 @@ export class VerifyEmailProvider {
       await this.userAuthRepository.save(userAuth);
     }
 
-    if (userAuth.email_status === 'expired')
+    if (userAuth.email_status === VerificationStatus.EXPIRED)
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
         'Email verification token has expired. Please, generate a new one.',
@@ -71,17 +74,19 @@ export class VerifyEmailProvider {
     userAuth.emailVerificationTokenExpiresIn = null;
     userAuth.email_status = VerificationStatus.VERIFIED;
 
-    if (userAuth.isEmailVerified && userAuth.isPhoneNumberVerified)
-      userAuth.status = VerificationStatus.VERIFIED;
-
     await this.userAuthRepository.save(userAuth);
+
+    if (userAuth.isEmailVerified && userAuth.isPhoneNumberVerified) {
+      userAuth.status = VerificationStatus.VERIFIED;
+      await this.userAuthRepository.save(userAuth);
+    }
 
     user.isVerified =
       userAuth.status === VerificationStatus.VERIFIED ? true : false;
+    // user.isVerified = true;
 
     await this.userRepository.save(user);
 
-    // TODO: Send success email
     if (user.isVerified) {
       await this.mailgunService.sendWelcomeEmail(user);
     }

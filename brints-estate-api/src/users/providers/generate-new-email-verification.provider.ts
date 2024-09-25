@@ -40,7 +40,10 @@ export class GenerateNewEmailVerificationProvider {
     });
 
     if (!userAuth)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'Please, try again');
+      throw new CustomException(
+        HttpStatus.NOT_FOUND,
+        'User Auth does not exist',
+      );
 
     if (user.isVerified || userAuth.isEmailVerified)
       throw new CustomException(
