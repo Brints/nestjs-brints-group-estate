@@ -237,58 +237,5 @@ describe('VerifyEmailProvider', () => {
 
       expect(mailgunService.sendWelcomeEmail).not.toHaveBeenCalled();
     });
-
-    // it('should verify email successfully and send welcome email', async () => {
-    //   const mockUserAuth = {
-    //     id: '54616282-b896-4982-84ce-50b94772a351',
-    //     isEmailVerified: false,
-    //     emailVerificationToken: 'valid-token',
-    //     emailVerificationTokenExpiresIn: new Date(Date.now() + 100000),
-    //   };
-
-    //   const mockUser = {
-    //     isVerified: false,
-    //     user_auth: mockUserAuth,
-    //   };
-
-    //   const mockVerifiedUser = {
-    //     ...mockUser,
-    //     isVerified: true,
-    //     user_auth: {
-    //       id: '54616282-b896-4982-84ce-50b94772a351',
-    //       isEmailVerified: true,
-    //       emailVerificationToken: null,
-    //       emailVerificationTokenExpiresIn: null,
-    //       email_status: VerificationStatus.VERIFIED,
-    //     },
-    //   };
-
-    //   userRepository.findOne?.mockResolvedValue(mockUser);
-    //   userAuthRepository.findOne?.mockResolvedValue(mockUserAuth);
-
-    //   userAuthRepository.save?.mockResolvedValue(mockVerifiedUser.user_auth);
-    //   userRepository.save?.mockResolvedValue(mockVerifiedUser);
-
-    //   await provider.verifyUserEmail(verifyEmailDto);
-
-    //   expect(userAuthRepository.save).toHaveBeenCalledWith(
-    //     expect.objectContaining({
-    //       isEmailVerified: true,
-    //       emailVerificationToken: null,
-    //       emailVerificationTokenExpiresIn: null,
-    //       email_status: VerificationStatus.VERIFIED,
-    //     }),
-    //   );
-
-    //   expect(userRepository.save).toHaveBeenCalledWith(
-    //     expect.objectContaining({
-    //       isVerified: true,
-    //     }),
-    //   );
-
-    //   expect(mailgunService.sendWelcomeEmail).toHaveBeenCalledWith(
-    //     mockVerifiedUser,
-    //   );
-    // });
   });
 });
