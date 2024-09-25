@@ -2,22 +2,22 @@ POST http://localhost:3001/api/auth/register
 Content-Type: multipart/form-data; boundary=WebKitFormBoundary
 
 --WebKitFormBoundary
-Content-Disposition: form-data; name="file"; filename="image02.jpg"
+Content-Disposition: form-data; name="file"; filename="image03.jpg"
 Content-Type: image/jpg
 
-< ./assets/image02.jpg
+< ./assets/image03.jpg
 --WebKitFormBoundary
 Content-Disposition: form-data; name="first_name"
 
-sandra
+michelle
 --WebKitFormBoundary
 Content-Disposition: form-data; name="last_name"
 
-travis
+bloomfield
 --WebKitFormBoundary
 Content-Disposition: form-data; name="email"
 
-afiaaniebiet0@gmail.com
+goldenlee87@gmail.com
 --WebKitFormBoundary
 Content-Disposition: form-data; name="password"
 
@@ -29,7 +29,7 @@ Test1234$
 --WebKitFormBoundary
 Content-Disposition: form-data; name="phone_number"
 
-08027872415
+08098194719
 --WebKitFormBoundary
 Content-Disposition: form-data; name="gender"
 

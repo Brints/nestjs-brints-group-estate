@@ -2,6 +2,6 @@ POST http://localhost:3001/api/user/verify-phone
 Content-Type: application/json
 
 {
-    "otp": "308881",
-    "phone_number": "+2348027872415"
+    "otp": "778969",
+    "phone_number": "+2348098194719"
 }

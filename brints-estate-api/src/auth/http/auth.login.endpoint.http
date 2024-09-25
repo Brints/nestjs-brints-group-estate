@@ -14,3 +14,12 @@ Content-Type: application/json
     "email": "afiaaniebiet0@gmail.com",
     "password": "Test1234$"
 }
+
+
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "goldenlee87@gmail.com",
+    "password": "Test12345$"
+}

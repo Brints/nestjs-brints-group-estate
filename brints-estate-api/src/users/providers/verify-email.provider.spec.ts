@@ -7,6 +7,9 @@ import { MailgunService } from 'src/services/email-service/mailgun-service/provi
 import { VerifyEmailProvider } from './verify-email.provider';
 import { UserAuth } from '../entities/userAuth.entity';
 import { CustomException } from 'src/exceptions/custom.exception';
+import { HttpStatus } from '@nestjs/common';
+import { VerifyEmailDto } from '../dto/verify-email.dto';
+import { VerificationStatus } from 'src/enums/status.enum';
 
 type MockRepository<T extends ObjectLiteral = any> = Partial<
   Record<keyof Repository<T>, jest.Mock>
@@ -23,59 +26,11 @@ describe('VerifyEmailProvider', () => {
   let provider: VerifyEmailProvider;
   let userRepository: MockRepository<User>;
   let userAuthRepository: MockRepository<UserAuth>;
+  let mailgunService: MailgunService;
 
-  const mockUser = {
-    id: '98e749e6-b05f-45e9-9dd7-9142356b9a23',
-    image_url: 'https://test.com',
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'john-doe@test.com',
-    password: 'password',
-    phone_number: '08012345678',
-    is_verified: false,
-    account_status: 'active',
-    role: 'user',
-    isTwoFAEnabled: false,
-    backup_codes: [],
-    google_id: null,
-    last_login: new Date(),
-    terms_accepted: true,
-    privacy_policy_accepted: true,
-    marketing_accepted: true,
-    login_attempts_id: '98e749e6-b05f-45e9-9dd7-9142356b9a23',
-    created_at: new Date(),
-    updated_at: new Date(),
-    user_auth: {
-      id: '54616282-b896-4982-84ce-50b94772a351',
-      isEmailVerified: false,
-      emailVerificationToken: 'valid-token',
-      passwordResetToken: null,
-      isPhoneNumberVerified: false,
-      status: 'pending',
-      otpExpiresIn: new Date().setMinutes(new Date().getMinutes() + 20),
-      emailVerificationTokenExpiresIn: new Date().setHours(
-        new Date().getHours() + 1,
-      ),
-      passwordResetTokenExpiresIn: null,
-      otp_status: 'pending',
-      email_status: 'pending',
-      otp: '123456',
-    },
-  };
-
-  const mockUserAuth = {
-    id: '54616282-b896-4982-84ce-50b94772a351',
-    isEmailVerified: false,
-    emailVerificationToken: 'token',
-    passwordResetToken: null,
-    isPhoneNumberVerified: false,
-    status: 'pending',
-    otpExpiresIn: new Date(),
-    emailVerificationTokenExpiresIn: new Date(),
-    passwordResetTokenExpiresIn: new Date(),
-    otp_status: 'pending',
-    email_status: 'pending',
-    otp: '123456',
+  const verifyEmailDto: VerifyEmailDto = {
+    email: 'test@example.com',
+    email_verification_token: 'valid-token',
   };
 
   beforeEach(async () => {
@@ -102,6 +57,7 @@ describe('VerifyEmailProvider', () => {
     userAuthRepository = module.get<MockRepository<UserAuth>>(
       getRepositoryToken(UserAuth),
     );
+    mailgunService = module.get<MailgunService>(MailgunService);
   });
 
   afterEach(() => {
@@ -113,91 +69,173 @@ describe('VerifyEmailProvider', () => {
   });
 
   describe('verifyUserEmail in VerifyEmailProvider', () => {
-    describe('user does not exist in the database', () => {
-      it('should throw a NotFoundException if user does not exist.', async () => {
-        userRepository.findOne?.mockResolvedValue(undefined);
+    it('should throw a NotFoundException if user does not exist.', async () => {
+      userRepository.findOne?.mockResolvedValue(null);
 
-        await expect(
-          provider.verifyUserEmail({
-            email: 'non-existent-email@test.com',
-            email_verification_token: 'token',
-          }),
-        ).rejects.toThrow(CustomException);
+      await expect(provider.verifyUserEmail(verifyEmailDto)).rejects.toThrow(
+        new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.'),
+      );
+    });
 
-        expect(userRepository.findOne).toHaveBeenCalledWith({
-          where: { email: 'non-existent-email@test.com' },
-          relations: { user_auth: true },
-        });
+    it('should throw a NotFoundException if userAuth does not exist', async () => {
+      const mockUser = {
+        email: 'test@example.com',
+        user_auth: { id: '54616282-b896-4982-84ce-50b94772a351' },
+      };
+      userRepository.findOne?.mockResolvedValue(mockUser);
+      userAuthRepository.findOne?.mockResolvedValue(null);
+
+      await expect(provider.verifyUserEmail(verifyEmailDto)).rejects.toThrow(
+        new CustomException(HttpStatus.NOT_FOUND, 'User Auth does not exist.'),
+      );
+
+      expect(userAuthRepository.findOne).toHaveBeenCalledWith({
+        where: { id: mockUser.user_auth.id },
       });
     });
 
-    describe('user auth does not exist in the database', () => {
-      it('should throw a NotFoundException if userAuth does not exist', async () => {
-        userRepository.findOne?.mockResolvedValue(mockUser);
-        userAuthRepository.findOne?.mockResolvedValue(undefined);
+    it('should throw a BadRequestException if user is already verified', async () => {
+      const mockUser = {
+        email: 'test@example.com',
+        isVerified: true,
+        user_auth: {
+          id: '54616282-b896-4982-84ce-50b94772a351',
+          isEmailVerified: true,
+        },
+      };
+      const mockUserAuth = { isEmailVerified: true };
 
-        await expect(
-          provider.verifyUserEmail({
-            email: mockUser.email,
-            email_verification_token: 'valid-token',
-          }),
-        ).rejects.toThrow(CustomException);
+      userRepository.findOne?.mockResolvedValue(mockUser);
+      userAuthRepository.findOne?.mockResolvedValue(mockUserAuth);
 
-        expect(userAuthRepository.findOne).toHaveBeenCalledWith({
-          where: { id: mockUser.user_auth.id },
-        });
-      });
+      await expect(provider.verifyUserEmail(verifyEmailDto)).rejects.toThrow(
+        new CustomException(
+          HttpStatus.BAD_REQUEST,
+          'User is already verified.',
+        ),
+      );
     });
 
-    describe('user exist in the database', () => {
-      it('should throw a BadRequestException if user is already verified', async () => {
-        userRepository.findOne?.mockResolvedValue({
-          ...mockUser,
+    it('should throw a ForbiddenException if the token is invalid', async () => {
+      const mockUser = {
+        email: 'test@example.com',
+        user_auth: {
+          id: '54616282-b896-4982-84ce-50b94772a351',
+        },
+      };
+      const mockUserAuth = {
+        id: '54616282-b896-4982-84ce-50b94772a351',
+        emailVerificationToken: 'valid-token',
+      };
+
+      userRepository.findOne?.mockResolvedValue(mockUser);
+      userAuthRepository.findOne?.mockResolvedValue(mockUserAuth);
+
+      await expect(
+        provider.verifyUserEmail({
+          email: 'test@example.com',
+          email_verification_token: 'invalid-token',
+        }),
+      ).rejects.toThrow(
+        new CustomException(
+          HttpStatus.FORBIDDEN,
+          'Invalid email verification token',
+        ),
+      );
+    });
+
+    it('should throw a BadRequestException if the verification token is expired', async () => {
+      const mockUser = {
+        email: 'test@example.com',
+        isVerified: false,
+        user_auth: {
+          id: '54616282-b896-4982-84ce-50b94772a351',
+          isEmailVerified: false,
+          emailVerificationToken: 'valid-token',
+          emailVerificationTokenExpiresIn: new Date(Date.now() - 100000),
+          email_status: 'expired',
+        },
+      };
+
+      const mockUserAuth = {
+        id: '54616282-b896-4982-84ce-50b94772a351',
+        isEmailVerified: false,
+        emailVerificationToken: 'valid-token',
+        emailVerificationTokenExpiresIn: new Date(Date.now() - 100000),
+        email_status: 'expired',
+      };
+
+      userRepository.findOne?.mockResolvedValue(mockUser);
+      userAuthRepository.findOne?.mockResolvedValue(mockUserAuth);
+
+      await expect(provider.verifyUserEmail(verifyEmailDto)).rejects.toThrow(
+        new CustomException(
+          HttpStatus.BAD_REQUEST,
+          'Email verification token has expired. Please, generate a new one.',
+        ),
+      );
+    });
+
+    it('should set userAuth.status to VERIFIED if both email and phone number are verified', async () => {
+      const mockUser = {
+        email: 'test@example.com',
+        isVerified: false,
+        user_auth: {
+          id: '54616282-b896-4982-84ce-50b94772a351',
+          isEmailVerified: true,
+          emailVerificationToken: 'valid-token',
+          emailVerificationTokenExpiresIn: new Date(Date.now() + 1000),
+          email_status: VerificationStatus.PENDING,
+          isPhoneNumberVerified: true,
+        },
+      };
+
+      userRepository.findOne?.mockResolvedValue(mockUser);
+      userAuthRepository.findOne?.mockResolvedValue(mockUser.user_auth);
+
+      await provider.verifyUserEmail(verifyEmailDto);
+
+      expect(userAuthRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: VerificationStatus.VERIFIED,
+        }),
+      );
+
+      expect(userRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
           isVerified: true,
-        });
+        }),
+      );
 
-        await expect(
-          provider.verifyUserEmail({
-            email: mockUser.email,
-            email_verification_token: 'valid-token',
-          }),
-        ).rejects.toThrow(CustomException);
-      });
+      expect(mailgunService.sendWelcomeEmail).toHaveBeenCalledWith(mockUser);
     });
 
-    describe('user auth exist in the database', () => {
-      it('should throw a ForbiddenException if the token is invalid', async () => {
-        const invalidTokenUserAuth = {
-          ...mockUserAuth,
-          emailVerificationToken: 'invalid-token',
-        };
+    it('should not set user.isVerified to true when userAuth.status is not VERIFIED', async () => {
+      const mockUser = {
+        email: 'test@example.com',
+        isVerified: false,
+        user_auth: {
+          id: '54616282-b896-4982-84ce-50b94772a351',
+          isEmailVerified: false,
+          emailVerificationToken: 'valid-token',
+          emailVerificationTokenExpiresIn: new Date(Date.now() + 1000),
+          email_status: VerificationStatus.PENDING,
+          status: VerificationStatus.PENDING,
+        },
+      };
 
-        userRepository.findOne?.mockResolvedValue(mockUser);
-        userAuthRepository.findOne?.mockResolvedValue(invalidTokenUserAuth);
+      userRepository.findOne?.mockResolvedValue(mockUser);
+      userAuthRepository.findOne?.mockResolvedValue(mockUser.user_auth);
 
-        await expect(
-          provider.verifyUserEmail({
-            email: mockUser.email,
-            email_verification_token: 'wrong-token',
-          }),
-        ).rejects.toThrow(CustomException);
-      });
+      await provider.verifyUserEmail(verifyEmailDto);
 
-      it('should throw a BadRequestException if the verification token is expired', async () => {
-        const expiredTokenUserAuth = {
-          ...mockUserAuth,
-          emailVerificationTokenExpiresIn: new Date(Date.now() - 10000),
-        };
-        userRepository.findOne?.mockResolvedValue(mockUser);
-        userAuthRepository.findOne?.mockResolvedValue(expiredTokenUserAuth);
+      expect(userRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          isVerified: false,
+        }),
+      );
 
-        await expect(
-          provider.verifyUserEmail({
-            email: mockUser.email,
-            email_verification_token: 'valid-token',
-          }),
-        ).rejects.toThrow(CustomException);
-      });
+      expect(mailgunService.sendWelcomeEmail).not.toHaveBeenCalled();
     });
   });
 });

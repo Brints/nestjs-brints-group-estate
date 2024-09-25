@@ -83,7 +83,6 @@ export class VerifyEmailProvider {
 
     user.isVerified =
       userAuth.status === VerificationStatus.VERIFIED ? true : false;
-    // user.isVerified = true;
 
     await this.userRepository.save(user);
 
