@@ -19,6 +19,8 @@ import { AppConfigService } from '../config/config.service';
 import { UploadToAwsProvider } from '../uploads/providers/upload-to-aws.provider';
 import { LoginAttemptsProvider } from '../login-attempts/providers/login-attempts.provider';
 import { TimeHelper } from 'src/utils/time-helper.lib';
+import { AwsSmsProvider } from 'src/services/sms-service/providers/aws-sms.provider';
+import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
 
 @Module({
   controllers: [AuthController],
@@ -39,6 +41,8 @@ import { TimeHelper } from 'src/utils/time-helper.lib';
     UploadToAwsProvider,
     LoginAttemptsProvider,
     TimeHelper,
+    AwsSmsProvider,
+    AwsSmsService,
   ],
   imports: [
     forwardRef(() => UsersModule),
