@@ -18,6 +18,7 @@ import { CreateLoginAttemptDto } from '../../login-attempts/dto/create-login-att
 import { LoginAttempts } from '../../login-attempts/entities/login-attempt.entity';
 import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 import { TimeHelper } from 'src/utils/time-helper.lib';
+import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
 
 @Injectable()
 export class CreateUserProvider {
@@ -49,6 +50,8 @@ export class CreateUserProvider {
     private readonly mailgunService: MailgunService,
 
     private readonly timeHelper: TimeHelper,
+
+    private readonly awsSmsService: AwsSmsService,
   ) {}
 
   public async createUser(
@@ -179,6 +182,12 @@ export class CreateUserProvider {
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
 
+    await this.awsSmsService.sendOTPSms(
+      user.first_name,
+      user.phone_number,
+      userAuth.otpExpiresIn,
+      userAuth.otp,
+    );
     await this.mailgunService.sendOTP(user, userAuth);
     await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
 
