@@ -1,6 +1,6 @@
 import * as path from 'node:path';
 import { Injectable, RequestTimeoutException } from '@nestjs/common';
-import { S3 } from 'aws-sdk';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { v4 as uuid4 } from 'uuid';
 import { AppConfigService } from 'src/config/config.service';
 
@@ -8,20 +8,27 @@ import { AppConfigService } from 'src/config/config.service';
 export class UploadToAwsProvider {
   constructor(private readonly appConfigService: AppConfigService) {}
 
-  public async fileUpload(file: Express.Multer.File) {
-    const s3 = new S3();
+  public async fileUpload(file: Express.Multer.File): Promise<string> {
+    const s3Client = new S3Client({
+      region: this.appConfigService.getConfig().aws.aws_region,
+      credentials: {
+        accessKeyId: this.appConfigService.getConfig().aws.aws_access_key_id,
+        secretAccessKey:
+          this.appConfigService.getConfig().aws.aws_secret_access_key,
+      },
+    });
 
     try {
-      const uploadResult = await s3
-        .upload({
-          Bucket: this.appConfigService.getConfig().aws.aws_bucket_name,
-          Body: file.buffer,
-          Key: this.generateFileName(file),
-          ContentType: file.mimetype,
-        })
-        .promise();
+      const fileName = this.generateFileName(file);
+      const params = {
+        Bucket: this.appConfigService.getConfig().aws.aws_bucket_name,
+        Body: file.buffer,
+        Key: fileName,
+        ContentType: file.mimetype,
+      };
 
-      return uploadResult.Key;
+      await s3Client.send(new PutObjectCommand(params));
+      return fileName;
     } catch (error) {
       throw new RequestTimeoutException(error);
     }
