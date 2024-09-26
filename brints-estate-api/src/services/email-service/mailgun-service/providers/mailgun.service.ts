@@ -46,7 +46,7 @@ export class MailgunService {
       context: {
         fullname: `${user.first_name} ${user.last_name}`,
         verification_link: `http://localhost:3001/api/user/verify-email?email=${user.email}&email_verification_token=${userAuth.emailVerificationToken}`,
-        token_expiry: `${this.timeHelper.getTimeLeft(userAuth.emailVerificationTokenExpiresIn)}`,
+        token_expiry: `${this.timeHelper.getTimeLeft(userAuth.emailVerificationTokenExpiresIn, 'hours')}`,
       },
     });
   }
@@ -69,7 +69,7 @@ export class MailgunService {
       context: {
         fullname: `${user.first_name} ${user.last_name}`,
         otp: `${userAuth.otp}`,
-        otp_expiry: `${this.timeHelper.getTimeLeft(userAuth.otpExpiresIn)}`,
+        otp_expiry: `${this.timeHelper.getTimeLeft(userAuth.otpExpiresIn, 'minutes')}`,
       },
     });
   }
