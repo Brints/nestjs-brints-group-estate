@@ -61,6 +61,9 @@ export class AppConfigService {
           'MAILGUN_PASSWORD',
         ) as string,
       },
+      ses: {
+        aws_email: this.configService.get<string>('AWS_SENDER_EMAIL') as string,
+      },
     };
   }
 }
