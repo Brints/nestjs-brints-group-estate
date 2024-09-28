@@ -15,7 +15,7 @@ import { UploadsModule } from './uploads/uploads.module';
 import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
 import { MailgunServiceModule } from './services/email-service/mailgun-service/mailgun-service.module';
 import { SmsServiceModule } from './services/sms-service/sms-service.module';
-import { AwsServiceModule } from './services/email-service/aws-service/aws-service.module';
+import { AwsSeSModule } from './services/email-service/aws-service/aws-ses.module';
 
 @Module({
   imports: [
@@ -48,7 +48,7 @@ import { AwsServiceModule } from './services/email-service/aws-service/aws-servi
     LoginAttemptsModule,
     MailgunServiceModule,
     SmsServiceModule,
-    AwsServiceModule,
+    AwsSeSModule,
   ],
   providers: [
     {
