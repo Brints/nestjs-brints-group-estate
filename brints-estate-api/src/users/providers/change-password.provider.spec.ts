@@ -184,7 +184,7 @@ describe('ChangePasswordProvider', () => {
         password: 'hashedNewPassword',
       });
 
-      expect(mailgunService.sendPasswordChangedEmail).toHaveBeenCalledWith({
+      expect(mailgunService.sendPasswordChanged).toHaveBeenCalledWith({
         ...mockUser,
         password: 'hashedNewPassword',
       });
