@@ -19,6 +19,13 @@ import { HashingProvider } from '../auth/providers/hashing.provider';
 import { BcryptProvider } from '../auth/providers/bcrypt.provider';
 import { ChangePasswordProvider } from './providers/change-password.provider';
 import { TimeHelper } from 'src/utils/time-helper.lib';
+import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { SendPasswordResetTokenProvider } from 'src/services/email-service/mailgun-service/providers/send-password-reset-token.provider';
+import { SendPasswordChangedEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-password-changed-email.provider';
+import { SendWelcomeEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-welcome-email.provider';
+import { SendVerificationTokenEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-verification-token-email.provider';
+import { SendOtpProvider } from 'src/services/email-service/mailgun-service/providers/send-otp.provider';
+import { SendResetPasswordConfirmationProvider } from 'src/services/email-service/mailgun-service/providers/send-reset-password-confirmation.provider';
 
 @Module({
   controllers: [UsersController],
@@ -38,6 +45,13 @@ import { TimeHelper } from 'src/utils/time-helper.lib';
     GenerateNewEmailVerificationProvider,
     ChangePasswordProvider,
     TimeHelper,
+    MailgunService,
+    SendPasswordResetTokenProvider,
+    SendPasswordChangedEmailProvider,
+    SendWelcomeEmailProvider,
+    SendVerificationTokenEmailProvider,
+    SendOtpProvider,
+    SendResetPasswordConfirmationProvider,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),
