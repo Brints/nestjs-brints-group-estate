@@ -6,6 +6,12 @@ import { ConfigService } from '@nestjs/config';
 import { MailgunService } from './providers/mailgun.service';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { TimeHelper } from 'src/utils/time-helper.lib';
+import { SendWelcomeEmailProvider } from './providers/send-welcome-email.provider';
+import { SendVerificationTokenEmailProvider } from './providers/send-verification-token-email.provider';
+import { SendOtpProvider } from './providers/send-otp.provider';
+import { SendPasswordResetTokenProvider } from './providers/send-password-reset-token.provider';
+import { SendResetPasswordConfirmationProvider } from './providers/send-reset-password-confirmation.provider';
+import { SendPasswordChangedEmailProvider } from './providers/send-password-changed-email.provider';
 
 @Global()
 @Module({
@@ -37,7 +43,16 @@ import { TimeHelper } from 'src/utils/time-helper.lib';
       }),
     }),
   ],
-  providers: [MailgunService, TimeHelper],
+  providers: [
+    MailgunService,
+    TimeHelper,
+    SendWelcomeEmailProvider,
+    SendVerificationTokenEmailProvider,
+    SendOtpProvider,
+    SendPasswordResetTokenProvider,
+    SendResetPasswordConfirmationProvider,
+    SendPasswordChangedEmailProvider,
+  ],
   exports: [MailgunService],
 })
 export class MailgunServiceModule {}
