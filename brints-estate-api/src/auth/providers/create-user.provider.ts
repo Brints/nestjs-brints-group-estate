@@ -188,8 +188,8 @@ export class CreateUserProvider {
       userAuth.otpExpiresIn,
       userAuth.otp,
     );
-    await this.mailgunService.sendOTP(user, userAuth);
     await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
+    await this.mailgunService.sendOTP(user, userAuth);
 
     return user;
   }
