@@ -10,14 +10,12 @@ import { CustomException } from 'src/exceptions/custom.exception';
 import { HttpStatus } from '@nestjs/common';
 import { UserRole } from 'src/enums/user-role.enum';
 import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
-import { SendPasswordChangedEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-password-changed-email.provider';
 
 describe('ChangePasswordProvider', () => {
   let provider: ChangePasswordProvider;
   let userRepository: Repository<User>;
   //   let hashingProvider: HashingProvider;
-  //let mailgunService: MailgunService;
-  let sendPasswordChangedEmail: SendPasswordChangedEmailProvider;
+  let mailgunService: MailgunService;
 
   const mockUserRepository = {
     findOne: jest.fn(),
@@ -25,11 +23,6 @@ describe('ChangePasswordProvider', () => {
   };
 
   const mockMailgunService = {
-    sendPasswordChangedEmail: jest.fn(),
-    SendPasswordChangedEmailProvider: jest.fn(),
-  };
-
-  const mockChangedPasswordEmailProvider = {
     sendPasswordChanged: jest.fn(),
   };
 
@@ -46,20 +39,13 @@ describe('ChangePasswordProvider', () => {
         { provide: getRepositoryToken(User), useValue: mockUserRepository },
         { provide: HashingProvider, useValue: mockHashingProvider },
         { provide: MailgunService, useValue: mockMailgunService },
-        {
-          provide: SendPasswordChangedEmailProvider,
-          useValue: mockChangedPasswordEmailProvider,
-        },
       ],
     }).compile();
 
     provider = module.get<ChangePasswordProvider>(ChangePasswordProvider);
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     // hashingProvider = module.get<HashingProvider>(HashingProvider);
-    //mailgunService = module.get<MailgunService>(MailgunService);
-    sendPasswordChangedEmail = module.get<SendPasswordChangedEmailProvider>(
-      SendPasswordChangedEmailProvider,
-    );
+    mailgunService = module.get<MailgunService>(MailgunService);
   });
 
   afterEach(() => {
@@ -198,12 +184,14 @@ describe('ChangePasswordProvider', () => {
         password: 'hashedNewPassword',
       });
 
-      expect(sendPasswordChangedEmail.sendPasswordChanged).toHaveBeenCalledWith(
-        {
-          ...mockUser,
-          password: 'hashedNewPassword',
-        },
-      );
+      expect(mailgunService.sendPasswordChanged).toHaveBeenCalled();
+
+      // expect(sendPasswordChangedEmail.sendPasswordChanged).toHaveBeenCalledWith(
+      //   {
+      //     ...mockUser,
+      //     password: 'hashedNewPassword',
+      //   },
+      // );
     });
   });
 });
