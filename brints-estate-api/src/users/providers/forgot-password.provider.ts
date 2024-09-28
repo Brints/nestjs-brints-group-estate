@@ -76,6 +76,6 @@ export class ForgotPasswordProvider {
     await this.userRepository.save(user);
 
     // TODO: send reset password link to email
-    await this.mailgunService.sendPasswordResetToken(user, userAuth);
+    await this.mailgunService.sendPasswordReset(user, userAuth);
   }
 }
