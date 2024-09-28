@@ -14,9 +14,9 @@ export class AwsSesProvider {
     const sesClient = new SESClient({
       region: this.appConfigService.getConfig().aws.aws_region,
       credentials: {
-        accessKeyId: this.appConfigService.getConfig().aws.aws_access_key_id,
+        accessKeyId: this.appConfigService.getConfig().ses.ses_access_key_id,
         secretAccessKey:
-          this.appConfigService.getConfig().aws.aws_secret_access_key,
+          this.appConfigService.getConfig().ses.ses_scret_access_key,
       },
     });
 
@@ -37,7 +37,7 @@ export class AwsSesProvider {
             Data: subject,
           },
         },
-        Source: this.appConfigService.getConfig().ses.aws_email,
+        Source: this.appConfigService.getConfig().ses.ses_email_source,
       };
 
       await sesClient.send(new SendEmailCommand(params));
