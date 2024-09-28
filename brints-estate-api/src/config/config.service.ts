@@ -62,7 +62,24 @@ export class AppConfigService {
         ) as string,
       },
       ses: {
-        aws_email: this.configService.get<string>('AWS_SENDER_EMAIL') as string,
+        ses_email_source: this.configService.get<string>(
+          'AWS_EMAIL_SOURCE',
+        ) as string,
+        ses_access_key_id: this.configService.get<string>(
+          'AWS_SES_ACCESS_KEY_ID',
+        ) as string,
+        ses_password: this.configService.get<string>(
+          'AWS_SES_PASSWORD',
+        ) as string,
+        ses_username: this.configService.get<string>(
+          'AWS_SES_USERNAME',
+        ) as string,
+        ses_iam_user: this.configService.get<string>(
+          'AWS_SES_IAM_USER',
+        ) as string,
+        ses_scret_access_key: this.configService.get<string>(
+          'AWS_SES_SECRET_ACCESS_KEY',
+        ) as string,
       },
     };
   }
