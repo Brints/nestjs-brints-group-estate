@@ -1,126 +1,54 @@
-import { MailerService } from '@nestjs-modules/mailer';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import { CustomException } from 'src/exceptions/custom.exception';
 import { User } from 'src/users/entities/user.entity';
 import { UserAuth } from 'src/users/entities/userAuth.entity';
-import { TimeHelper } from 'src/utils/time-helper.lib';
+import { SendWelcomeEmailProvider } from './send-welcome-email.provider';
+import { SendVerificationTokenEmailProvider } from './send-verification-token-email.provider';
+import { SendOtpProvider } from './send-otp.provider';
+import { SendPasswordResetTokenProvider } from './send-password-reset-token.provider';
+import { SendResetPasswordConfirmationProvider } from './send-reset-password-confirmation.provider';
+import { SendPasswordChangedEmailProvider } from './send-password-changed-email.provider';
 
 @Injectable()
 export class MailgunService {
   constructor(
-    private readonly mailerService: MailerService,
-
-    private readonly timeHelper: TimeHelper,
+    private readonly sendWelcomeEmailProvider: SendWelcomeEmailProvider,
+    private readonly sendVerificationTokenEmailProvider: SendVerificationTokenEmailProvider,
+    private readonly sendOtpProvider: SendOtpProvider,
+    private readonly sendResetPasswordTokenProvider: SendPasswordResetTokenProvider,
+    private readonly sendResetPasswordConfirmationProvider: SendResetPasswordConfirmationProvider,
+    private readonly sendPasswordChangedEmailProvider: SendPasswordChangedEmailProvider,
   ) {}
 
-  public async sendWelcomeEmail(user: User): Promise<void> {
-    await this.mailerService.sendMail({
-      to: user.email,
-      from: 'Onboarding Team <support@@mg.brintsgroup.live>',
-      subject: 'Welcome to Brints Group Estate Service',
-      template: './welcome-email',
-      context: {
-        fullname: `${user.first_name} ${user.last_name}`,
-        email: user.email,
-        login_url: `http://localhost:3001/api/users/login`,
-      },
-    });
+  public async sendWelcomeEmail(user: User) {
+    await this.sendWelcomeEmailProvider.sendWelcomeEmail(user);
   }
 
-  public async sendVerificationTokenEmail(
-    user: User,
-    userAuth: UserAuth,
-  ): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User not found.');
-
-    if (!userAuth)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User Auth not found.');
-
-    await this.mailerService.sendMail({
-      to: user.email,
-      from: `Brints Group <no-reply@brintsgroup.live>`,
-      subject: 'Verify your email address',
-      template: './email-verification-token',
-      context: {
-        fullname: `${user.first_name} ${user.last_name}`,
-        verification_link: `http://localhost:3001/api/user/verify-email?email=${user.email}&email_verification_token=${userAuth.emailVerificationToken}`,
-        token_expiry: `${this.timeHelper.getTimeLeft(userAuth.emailVerificationTokenExpiresIn, 'hours')}`,
-      },
-    });
+  public async sendVerificationTokenEmail(user: User, userAuth: UserAuth) {
+    await this.sendVerificationTokenEmailProvider.sendVerificationTokenEmail(
+      user,
+      userAuth,
+    );
   }
 
-  public async sendOTP(user: User, userAuth: UserAuth): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
-
-    if (!userAuth)
-      throw new CustomException(
-        HttpStatus.NOT_FOUND,
-        'User Auth does not exist.',
-      );
-
-    await this.mailerService.sendMail({
-      to: user.email, // TODO: change this to phone number after setting up aws ses
-      from: `Brints Group <no-reply@brintsgroup.live>`,
-      subject: 'OTP',
-      template: './otp',
-      context: {
-        fullname: `${user.first_name} ${user.last_name}`,
-        otp: `${userAuth.otp}`,
-        otp_expiry: `${this.timeHelper.getTimeLeft(userAuth.otpExpiresIn, 'minutes')}`,
-      },
-    });
+  public async sendOTP(user: User, userAuth: UserAuth) {
+    await this.sendOtpProvider.sendOTP(user, userAuth);
   }
 
-  public async sendPasswordResetToken(
-    user: User,
-    userAuth: UserAuth,
-  ): Promise<void> {
-    if (!user)
-      throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist.');
-
-    if (!userAuth)
-      throw new CustomException(
-        HttpStatus.NOT_FOUND,
-        'User Auth does not exist.',
-      );
-
-    await this.mailerService.sendMail({
-      to: user.email,
-      from: `Brints Group <no-reply@brintsgroup.live>`,
-      subject: 'Reset Password',
-      template: './reset-password',
-      context: {
-        fullname: `${user.first_name} ${user.last_name}`,
-        reset_password_link: `http://localhost:3001/api/users/reset-password/${user.email}/${userAuth.passwordResetToken}`,
-        expiry: `${userAuth.passwordResetTokenExpiresIn}`,
-      },
-    });
+  public async sendPasswordReset(user: User, userAuth: UserAuth) {
+    await this.sendResetPasswordTokenProvider.sendPasswordResetToken(
+      user,
+      userAuth,
+    );
   }
 
-  public async sendResetPasswordConfirmation(user: User): Promise<void> {
-    await this.mailerService.sendMail({
-      to: user.email,
-      from: `Brints Group <no-reply@brintsgroup.live>`,
-      subject: 'Password Reset',
-      template: './password-reset-confirmation',
-      context: {
-        fullname: `${user.first_name} ${user.last_name}`,
-      },
-    });
+  public async sendResetPasswordConfirmation(user: User) {
+    await this.sendResetPasswordConfirmationProvider.sendResetPasswordConfirmation(
+      user,
+    );
   }
 
-  public async sendPasswordChangedEmail(user: User): Promise<void> {
-    await this.mailerService.sendMail({
-      to: user.email,
-      from: `Brints Group <no-reply@brintsgroup.live>`,
-      subject: 'Password Changed',
-      template: './password-changed',
-      context: {
-        fullname: `${user.first_name} ${user.last_name}`,
-      },
-    });
+  public async sendPasswordChanged(user: User) {
+    await this.sendPasswordChangedEmailProvider.sendPasswordChanged(user);
   }
 }

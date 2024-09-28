@@ -21,6 +21,13 @@ import { LoginAttemptsProvider } from '../login-attempts/providers/login-attempt
 import { TimeHelper } from 'src/utils/time-helper.lib';
 import { AwsSmsProvider } from 'src/services/sms-service/providers/aws-sms.provider';
 import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { SendWelcomeEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-welcome-email.provider';
+import { SendVerificationTokenEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-verification-token-email.provider';
+import { SendOtpProvider } from 'src/services/email-service/mailgun-service/providers/send-otp.provider';
+import { SendPasswordResetTokenProvider } from 'src/services/email-service/mailgun-service/providers/send-password-reset-token.provider';
+import { SendResetPasswordConfirmationProvider } from 'src/services/email-service/mailgun-service/providers/send-reset-password-confirmation.provider';
+import { SendPasswordChangedEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-password-changed-email.provider';
 
 @Module({
   controllers: [AuthController],
@@ -43,6 +50,13 @@ import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.servic
     TimeHelper,
     AwsSmsProvider,
     AwsSmsService,
+    MailgunService,
+    SendWelcomeEmailProvider,
+    SendVerificationTokenEmailProvider,
+    SendOtpProvider,
+    SendPasswordResetTokenProvider,
+    SendResetPasswordConfirmationProvider,
+    SendPasswordChangedEmailProvider,
   ],
   imports: [
     forwardRef(() => UsersModule),

@@ -69,6 +69,6 @@ export class ChangePasswordProvider {
     user.password = hashedPassword;
     await this.userRepository.save(user);
 
-    await this.mailgunService.sendPasswordChangedEmail(user);
+    await this.mailgunService.sendPasswordChanged(user);
   }
 }
