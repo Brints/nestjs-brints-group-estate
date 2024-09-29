@@ -22,17 +22,10 @@ export class LoginAttemptsProvider {
     return false;
   }
 
-  public async resetLoginAttempts(user: User): Promise<void> {
-    const loginAttempts = await this.loginAttemptsRepository.findOne({
-      where: { id: user.login_attempts.id },
-    });
-
-    if (!loginAttempts)
-      throw new CustomException(
-        HttpStatus.NOT_FOUND,
-        'Login attempts does not exist.',
-      );
-
+  public async resetLoginAttempts(
+    user: User,
+    loginAttempts: LoginAttempts,
+  ): Promise<void> {
     loginAttempts.isBlocked = false;
     loginAttempts.blockedUntil = null;
     await this.loginAttemptsRepository.save(loginAttempts);
