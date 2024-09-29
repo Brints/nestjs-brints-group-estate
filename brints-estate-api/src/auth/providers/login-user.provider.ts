@@ -9,12 +9,16 @@ import { CustomException } from '../../exceptions/custom.exception';
 import { GenerateTokensProvider } from './generate-tokens.provider';
 import { AccountStatus } from '../../enums/account-status.enum';
 import { LoginAttemptsProvider } from '../../login-attempts/providers/login-attempts.provider';
+import { LoginAttempts } from 'src/login-attempts/entities/login-attempt.entity';
 
 @Injectable()
 export class LoginUserProvider {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(LoginAttempts)
+    private readonly loginAttemptsRepository: Repository<LoginAttempts>,
 
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
@@ -34,20 +38,34 @@ export class LoginUserProvider {
       throw new CustomException(HttpStatus.NOT_FOUND, 'User not found');
     }
 
-    if (
-      user.login_attempts.isBlocked &&
-      user.login_attempts.blockedUntil &&
-      user.login_attempts.blockedUntil < new Date()
-    ) {
-      await this.loginAttemptsProvider.resetLoginAttempts(user);
+    const loginAttempts = await this.loginAttemptsRepository.findOne({
+      where: { id: user.login_attempts.id },
+    });
+
+    if (!loginAttempts) {
+      throw new CustomException(
+        HttpStatus.NOT_FOUND,
+        'Login attempts does not exist.',
+      );
     }
 
     if (
-      user.login_attempts.isBlocked &&
-      user.login_attempts.blockedUntil &&
-      user.login_attempts.blockedUntil < new Date()
+      loginAttempts.isBlocked &&
+      loginAttempts.blockedUntil &&
+      loginAttempts.blockedUntil > new Date()
     ) {
       await this.loginAttemptsProvider.attemptedLoginWhileBlocked(user);
+    }
+
+    if (
+      loginAttempts.isBlocked &&
+      loginAttempts.blockedUntil &&
+      loginAttempts.blockedUntil < new Date()
+    ) {
+      await this.loginAttemptsProvider.resetLoginAttempts(
+        user,
+        user.login_attempts,
+      );
     }
 
     const passwordMatch: boolean = await this.hashingProvider.comparePassword(
