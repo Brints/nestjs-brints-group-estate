@@ -1,73 +1,30 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Technologies Used
+- Node.js - A runtime environment based off of Chrome's V8 Engine for writing Javascript server-side applications. [Nodejs.org](https://nodejs.org/)
+- NestJS - A progressive Node.js framework for building efficient, reliable and scalable server-side applications. [NestJS](https://nestjs.com/)
+- PostgreSQL - An open source object-relational database system that uses and extends the SQL language. [PostgreSQL](https://www.postgresql.org/)
+- TypeORM - An ORM that can run in NodeJS, Browser, Cordova, PhoneGap, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript. [TypeORM](https://typeorm.io/#/)
+- Docker - A set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. [Docker](https://www.docker.com/)
+- AWS S3 - Amazon Simple Storage Service is a service offered by Amazon Web Services that provides object storage through a web service interface. [AWS S3](https://aws.amazon.com/s3/)
+- AWS SNS - Amazon Simple Notification Service is a fully managed messaging service for both application-to-application and application-to-person communication. [AWS SNS](https://aws.amazon.com/sns/)
+- TypeScript - An open-source language which builds on JavaScript, one of the world’s most used tools, by adding static type definitions. [TypeScript](https://www.typescriptlang.org/)
+- Swagger - An open-source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful web services. [Swagger](https://swagger.io/)
+- Jest - A delightful JavaScript Testing Framework with a focus on simplicity. [Jest](https://jestjs.io/)
+- Supertest - A high-level abstraction for testing HTTP, while still allowing you to drop down to the lower-level API provided by superagent. [Supertest](https://www.npmjs.com/package/supertest)
+- Github Actions - A CI/CD tool that helps automate the process of software development. [Github Actions]('https://github.com')
+- Nginx - An open-source web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. [Nginx](https://www.nginx.com/)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Endpoints
+### Admin
+- POST /api/admin/add-admin - Add a new admin
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Auth
+- POST /api/auth/signup - Create a new user
+- POST /api/auth/login - Login a user
 
-## Description
+### User
+- POST /api/users/login - Login a user
+- GET /api/users - Get all users
+- GET /api/users/:id - Get a user by id
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ yarn install
-```
-
-## Running the app
-
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+### Property
+- POST /api/properties - Create a new property
