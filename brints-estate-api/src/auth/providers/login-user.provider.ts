@@ -55,6 +55,7 @@ export class LoginUserProvider {
       loginAttempts.blockedUntil > new Date()
     ) {
       await this.loginAttemptsProvider.attemptedLoginWhileBlocked(user);
+      return;
     }
 
     if (

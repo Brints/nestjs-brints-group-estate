@@ -28,6 +28,7 @@ export class LoginAttemptsProvider {
   ): Promise<void> {
     loginAttempts.isBlocked = false;
     loginAttempts.blockedUntil = null;
+    loginAttempts.login_attempts = 0;
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
   }
@@ -120,5 +121,6 @@ export class LoginAttemptsProvider {
     loginAttempts.isBlocked = false;
 
     await this.loginAttemptsRepository.save(loginAttempts);
+    await this.userRepository.save(user);
   }
 }
