@@ -27,6 +27,8 @@ import { SendVerificationTokenEmailProvider } from 'src/services/email-service/m
 import { SendOtpProvider } from 'src/services/email-service/mailgun-service/providers/send-otp.provider';
 import { SendResetPasswordConfirmationProvider } from 'src/services/email-service/mailgun-service/providers/send-reset-password-confirmation.provider';
 import { UpdateUserProvider } from './providers/update-user.provider';
+import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
+import { AppConfigService } from 'src/config/config.service';
 
 @Module({
   controllers: [UsersController],
@@ -54,6 +56,8 @@ import { UpdateUserProvider } from './providers/update-user.provider';
     SendOtpProvider,
     SendResetPasswordConfirmationProvider,
     UpdateUserProvider,
+    UploadToAwsProvider,
+    AppConfigService,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),
