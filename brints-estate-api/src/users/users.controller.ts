@@ -10,8 +10,9 @@ import {
   Body,
   HttpCode,
   Param,
+  Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from './dto/verify-phone-number.dto';
@@ -26,6 +27,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { IResetPassword } from './interface/reset-password.interface';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 @ApiTags('Users')
@@ -165,6 +167,33 @@ export class UsersController {
 
     return {
       message: 'Password Reset Successful',
+      status_code: HttpStatus.OK,
+      payload,
+    };
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User profile updated successfully',
+  })
+  @Put('update')
+  @Auth(AuthType.Bearer)
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseFilters(HttpExceptionFilter)
+  public async updateUser(
+    @Body() updateUserDto: UpdateUserDto,
+    @ActiveUser() activeUser: IActiveUser,
+    file: Express.Multer.File,
+  ) {
+    const payload = await this.usersService.updateUser(
+      updateUserDto,
+      activeUser,
+      file,
+    );
+
+    return {
+      message: 'Profile updated successfully',
       status_code: HttpStatus.OK,
       payload,
     };

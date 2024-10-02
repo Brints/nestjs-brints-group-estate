@@ -18,6 +18,8 @@ import { User } from '../entities/user.entity';
 import { ForgotPasswordProvider } from './forgot-password.provider';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { IResetPassword } from '../interface/reset-password.interface';
+import { UpdateUserProvider } from './update-user.provider';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,6 +39,8 @@ export class UsersService {
     private readonly changePasswordProvider: ChangePasswordProvider,
 
     private readonly forgotPasswordProvider: ForgotPasswordProvider,
+
+    private readonly updateUserProvider: UpdateUserProvider,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
@@ -89,5 +93,13 @@ export class UsersService {
     forgotPasswordDto: ForgotPasswordDto,
   ): Promise<void> {
     return this.forgotPasswordProvider.forgotPassword(forgotPasswordDto);
+  }
+
+  public async updateUser(
+    updateUserDto: UpdateUserDto,
+    activeUser: IActiveUser,
+    file: Express.Multer.File,
+  ): Promise<User> {
+    return this.updateUserProvider.update(updateUserDto, activeUser, file);
   }
 }
