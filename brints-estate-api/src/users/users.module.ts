@@ -29,6 +29,9 @@ import { SendResetPasswordConfirmationProvider } from 'src/services/email-servic
 import { UpdateUserProvider } from './providers/update-user.provider';
 import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
 import { AppConfigService } from 'src/config/config.service';
+import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { AwsSmsProvider } from 'src/services/sms-service/providers/aws-sms.provider';
+import { UserHelper } from 'src/utils/userHelper.lib';
 
 @Module({
   controllers: [UsersController],
@@ -58,6 +61,9 @@ import { AppConfigService } from 'src/config/config.service';
     UpdateUserProvider,
     UploadToAwsProvider,
     AppConfigService,
+    AwsSmsService,
+    AwsSmsProvider,
+    UserHelper,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),

@@ -6,6 +6,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
 import { IActiveUser } from 'src/auth/interfaces/active-user.interface';
+import { UserHelper } from 'src/utils/userHelper.lib';
 
 @Injectable()
 export class UpdateUserProvider {
@@ -13,7 +14,9 @@ export class UpdateUserProvider {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    private uploadToAwsProvider: UploadToAwsProvider,
+    private readonly uploadToAwsProvider: UploadToAwsProvider,
+
+    private readonly userHelper: UserHelper,
   ) {}
 
   public async update(
@@ -39,7 +42,12 @@ export class UpdateUserProvider {
       await this.userRepository.update(user.id, { image_url: fileUrl });
     }
 
+    let fullPhoneNumber;
     if (updateUserDto.phone_number) {
+      fullPhoneNumber = this.userHelper.formatPhoneNumber(
+        updateUserDto.country_code,
+        updateUserDto.phone_number,
+      );
       const phoneNumberExists = await this.userRepository.findOneBy({
         phone_number: updateUserDto.phone_number,
       });
@@ -52,7 +60,7 @@ export class UpdateUserProvider {
 
     user.first_name = updateUserDto.first_name ?? user.first_name;
     user.last_name = updateUserDto.last_name ?? user.last_name;
-    user.phone_number = updateUserDto.phone_number ?? user.phone_number;
+    user.phone_number = fullPhoneNumber ?? user.phone_number;
     user.gender = updateUserDto.gender ?? user.gender;
     user.marketing = updateUserDto.marketing ?? user.marketing;
 

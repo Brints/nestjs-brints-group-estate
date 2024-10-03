@@ -182,12 +182,7 @@ export class CreateUserProvider {
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
 
-    await this.awsSmsService.sendOTPSms(
-      user.first_name,
-      user.phone_number,
-      userAuth.otpExpiresIn,
-      userAuth.otp,
-    );
+    await this.awsSmsService.sendOTPSms(user, userAuth);
     await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
     await this.mailgunService.sendOTP(user, userAuth);
 
