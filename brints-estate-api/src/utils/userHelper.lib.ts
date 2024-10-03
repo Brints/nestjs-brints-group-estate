@@ -15,8 +15,21 @@ export class UserHelper {
   }
 
   public formatPhoneNumber(countryCode: string, phoneNumber: string): string {
-    if (phoneNumber.startsWith('0')) {
-      phoneNumber = phoneNumber.slice(1);
+    if (isNaN(Number(phoneNumber)))
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        'Phone number must be a number',
+      );
+
+    if (isNaN(Number(countryCode)))
+      throw new CustomException(
+        HttpStatus.BAD_REQUEST,
+        'Country code must be a number',
+      );
+
+    if (!phoneNumber.startsWith('0')) {
+      //phoneNumber = phoneNumber.slice(1);
+      phoneNumber = `${0}${phoneNumber}`;
     }
     return `+${countryCode}${phoneNumber}`;
   }
