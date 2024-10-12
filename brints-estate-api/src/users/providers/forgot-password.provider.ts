@@ -61,7 +61,7 @@ export class ForgotPasswordProvider {
     )
       throw new CustomException(
         HttpStatus.FORBIDDEN,
-        'You have an active token. Try again after',
+        `You have an active token. Try again after ${this.timeHelper.getTimeLeft(userAuth.passwordResetTokenExpiresIn, 'hour')}`,
       );
 
     const resetPaswordToken =

@@ -17,4 +17,10 @@ export class AwsSmsService {
     const message = `Hey ${fullname}. Thank you for signing up on Brints. Kindly use this OTP ${userAuth.otp} to verify your phone number. This OTP expires in ${this.timeHelper.getTimeLeft(userAuth.otpExpiresIn, 'minutes')}.`;
     await this.awsSmsProvider.sendSms(user.phone_number, message);
   }
+
+  public async sendVerificationSuccess(user: User): Promise<void> {
+    const fullname = `${user.first_name} ${user.last_name}`;
+    const message = `Congratulations ${fullname}.\n Your phone number hass been verified successfully. Kindly verify your email to have access to Brints platform. Happy searching.`;
+    await this.awsSmsProvider.sendSms(user.phone_number, message);
+  }
 }

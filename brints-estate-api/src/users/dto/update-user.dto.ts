@@ -18,5 +18,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   })
   @IsOptional()
   @IsString()
-  country_code: string;
+  country_code?: string;
 }

@@ -8,6 +8,7 @@ import { UserAuth } from '../entities/userAuth.entity';
 import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
 import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
 
 @Injectable()
 export class VerifyPhoneNumberProvider {
@@ -19,6 +20,8 @@ export class VerifyPhoneNumberProvider {
     private readonly userAuthRepository: Repository<UserAuth>,
 
     private readonly mailgunService: MailgunService,
+
+    private readonly awsSmsService: AwsSmsService,
   ) {}
 
   public async verifyPhoneNumber(verifyPhoneNumberDto: VerifyPhoneNumberDto) {
@@ -87,7 +90,8 @@ export class VerifyPhoneNumberProvider {
 
     await this.userRepository.save(user);
 
-    // TODO: Send success email
+    await this.awsSmsService.sendVerificationSuccess(user);
+
     if (user.isVerified) {
       await this.mailgunService.sendWelcomeEmail(user);
     }
