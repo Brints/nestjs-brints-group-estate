@@ -1,0 +1,9 @@
+PUT http://localhost:3001/api/user/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Mjk5NjIzYS1lMDAwLTQ2NjAtYWZhZi0xOTkzNDMzZGNlNGMiLCJmaXJzdF9uYW1lIjoiTWljaGFlbCIsImxhc3RfbmFtZSI6IldoeXRlIiwiZW1haWwiOiJhbmllYmlldGFmaWE4N0BnbWFpbC5jb20iLCJwaG9uZV9udW1iZXIiOiIrMjM0ODA2NzU4MTkyNyIsInJvbGUiOiJzdXBlcl9hZG1pbiIsInZlcmlmaWVkIjp0cnVlLCJpYXQiOjE3Mjc5NzE5OTQsImV4cCI6MTcyNzk3NTU5NCwiYXVkIjoibG9jYWxob3N0OjMwMDEiLCJpc3MiOiJsb2NhbGhvc3Q6MzAwMSJ9.E2I-F9rGR-hk-4Frw4t_qXP513CH_LvYQSDG1-77aRY
+
+{
+    "id": "4299623a-e000-4660-afaf-1993433dce4c",
+    "phone_number": "8067581927",
+    "country_code": "234"
+}

@@ -5,19 +5,19 @@ Content-Type: multipart/form-data; boundary=WebKitFormBoundary
 Content-Disposition: form-data; name="file"; filename="image04.jpg"
 Content-Type: image/jpg
 
-< ./assets/image04.jpg
+< ./assets/image01.jpg
 --WebKitFormBoundary
 Content-Disposition: form-data; name="first_name"
 
-barbara
+aniebiet
 --WebKitFormBoundary
 Content-Disposition: form-data; name="last_name"
 
-clayton
+afia
 --WebKitFormBoundary
 Content-Disposition: form-data; name="email"
 
-aniebiet.career.dev@gmail.com
+aniebietafia87@gmail.com
 --WebKitFormBoundary
 Content-Disposition: form-data; name="password"
 
@@ -29,11 +29,11 @@ Test1234$
 --WebKitFormBoundary
 Content-Disposition: form-data; name="phone_number"
 
-08075955288
+08067581927
 --WebKitFormBoundary
 Content-Disposition: form-data; name="gender"
 
-female
+male
 --WebKitFormBoundary
 Content-Disposition: form-data; name="country_code"
 

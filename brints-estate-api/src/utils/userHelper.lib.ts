@@ -14,7 +14,10 @@ export class UserHelper {
     return countryCode.startsWith('+');
   }
 
-  public formatPhoneNumber(countryCode: string, phoneNumber: string): string {
+  public formatPhoneNumber(
+    countryCode: string | undefined,
+    phoneNumber: string,
+  ): string {
     if (isNaN(Number(phoneNumber)))
       throw new CustomException(
         HttpStatus.BAD_REQUEST,

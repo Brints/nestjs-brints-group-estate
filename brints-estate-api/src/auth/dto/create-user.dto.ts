@@ -72,7 +72,12 @@ export class CreateUserDto {
   @MaxLength(50)
   phone_number: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'The gender of the user.',
+    examples: ['female', 'male'],
+    type: String,
+    required: true,
+  })
   @IsNotEmpty()
   @IsEnum(UserGender)
   @Transform(({ value }) => value.toLowerCase())
