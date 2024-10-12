@@ -2,5 +2,5 @@ POST http://localhost:3001/api/user/resend-otp
 Content-Type: application/json
 
 {
-    "email": "aniebietafia87@gmail.com"
+    "email": "aniebiet.career.dev@gmail.com"
 }
