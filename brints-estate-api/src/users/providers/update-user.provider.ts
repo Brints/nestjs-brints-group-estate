@@ -22,7 +22,7 @@ export class UpdateUserProvider {
   public async update(
     updateUserDto: UpdateUserDto,
     activeUser: IActiveUser,
-    file: Express.Multer.File,
+    file: Express.Multer.File | null,
   ): Promise<User> {
     const user = await this.userRepository.findOneBy({ id: updateUserDto.id });
 
@@ -34,13 +34,6 @@ export class UpdateUserProvider {
         HttpStatus.FORBIDDEN,
         'You are not allowed to perform this action',
       );
-
-    if (file) {
-      const fileUrl = await this.uploadToAwsProvider.fileUpload(file);
-      user.image_url = fileUrl;
-      //await this.uploadToAwsProvider.deleteFile(user.image_url);
-      await this.userRepository.update(user.id, { image_url: fileUrl });
-    }
 
     let fullPhoneNumber;
     if (updateUserDto.phone_number) {
@@ -63,6 +56,13 @@ export class UpdateUserProvider {
     user.phone_number = fullPhoneNumber ?? user.phone_number;
     user.gender = updateUserDto.gender ?? user.gender;
     user.marketing = updateUserDto.marketing ?? user.marketing;
+
+    if (file) {
+      const fileUrl = await this.uploadToAwsProvider.fileUpload(file);
+      user.image_url = fileUrl;
+      //await this.uploadToAwsProvider.deleteFile(user.image_url);
+      await this.userRepository.update(user.id, { image_url: fileUrl });
+    }
 
     await this.userRepository.update(user.id, user);
 
