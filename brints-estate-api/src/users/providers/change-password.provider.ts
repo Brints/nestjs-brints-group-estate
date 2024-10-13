@@ -40,7 +40,7 @@ export class ChangePasswordProvider {
 
     const oldPassword = await this.hashingProvider.comparePassword(
       changePasswordDto.old_password,
-      user.password,
+      user.password as string,
     );
     if (!oldPassword)
       throw new CustomException(HttpStatus.FORBIDDEN, 'Incorrect old password');
@@ -53,7 +53,7 @@ export class ChangePasswordProvider {
 
     const isOldPassword = await this.hashingProvider.comparePassword(
       changePasswordDto.new_password,
-      user.password,
+      user.password as string,
     );
 
     if (isOldPassword)

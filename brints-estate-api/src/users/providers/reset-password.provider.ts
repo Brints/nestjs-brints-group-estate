@@ -86,7 +86,7 @@ export class ResetPasswordProvider {
 
     const isOldPassword = await this.hashingProvider.comparePassword(
       resetPasswordDto.new_password,
-      user.password,
+      user.password as string,
     );
 
     if (isOldPassword)
