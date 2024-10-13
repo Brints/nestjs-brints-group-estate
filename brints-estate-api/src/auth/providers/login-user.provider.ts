@@ -71,7 +71,7 @@ export class LoginUserProvider {
 
     const passwordMatch: boolean = await this.hashingProvider.comparePassword(
       loginUserDto.password,
-      user.password,
+      user.password as string,
     );
 
     if (!passwordMatch) {
