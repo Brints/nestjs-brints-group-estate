@@ -21,10 +21,11 @@ export class UpdateUserProvider {
 
   public async update(
     updateUserDto: UpdateUserDto,
+    userId: string,
     activeUser: IActiveUser,
     file: Express.Multer.File | null,
   ): Promise<User> {
-    const user = await this.userRepository.findOneBy({ id: updateUserDto.id });
+    const user = await this.userRepository.findOneBy({ id: userId });
 
     if (!user)
       throw new CustomException(HttpStatus.NOT_FOUND, 'User not found');

@@ -73,6 +73,7 @@ export class CreateUserDto {
   phone_number: string;
 
   @ApiProperty({
+    enum: UserGender,
     description: 'The gender of the user.',
     examples: ['female', 'male'],
     type: String,
