@@ -28,9 +28,11 @@ import { SendOtpProvider } from 'src/services/email-service/mailgun-service/prov
 import { SendPasswordResetTokenProvider } from 'src/services/email-service/mailgun-service/providers/send-password-reset-token.provider';
 import { SendResetPasswordConfirmationProvider } from 'src/services/email-service/mailgun-service/providers/send-reset-password-confirmation.provider';
 import { SendPasswordChangedEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-password-changed-email.provider';
+import { GoogleAuthenticationController } from './socials/google-authentication.controller';
+import { GoogleAuthenticationService } from './socials/providers/google-authentication.service';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleAuthenticationController],
   providers: [
     {
       provide: HashingProvider,
@@ -57,6 +59,7 @@ import { SendPasswordChangedEmailProvider } from 'src/services/email-service/mai
     SendPasswordResetTokenProvider,
     SendResetPasswordConfirmationProvider,
     SendPasswordChangedEmailProvider,
+    GoogleAuthenticationService,
   ],
   imports: [
     forwardRef(() => UsersModule),
