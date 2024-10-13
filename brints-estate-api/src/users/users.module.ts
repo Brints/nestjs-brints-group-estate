@@ -32,6 +32,8 @@ import { AppConfigService } from 'src/config/config.service';
 import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
 import { AwsSmsProvider } from 'src/services/sms-service/providers/aws-sms.provider';
 import { UserHelper } from 'src/utils/userHelper.lib';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 
 @Module({
   controllers: [UsersController],
@@ -64,6 +66,8 @@ import { UserHelper } from 'src/utils/userHelper.lib';
     AwsSmsService,
     AwsSmsProvider,
     UserHelper,
+    FindOneByGoogleIdProvider,
+    CreateGoogleUserProvider,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),

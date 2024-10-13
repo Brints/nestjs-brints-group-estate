@@ -12,7 +12,7 @@ import {
   Param,
   Put,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from './dto/verify-phone-number.dto';
@@ -34,6 +34,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({
+    summary: 'Verifies user email address.',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User email verified successfully',
@@ -192,22 +195,27 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Updates user details.',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User profile updated successfully',
   })
-  @Put('update')
+  @Put('/:userId')
   @Auth(AuthType.Bearer)
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
   public async updateUser(
+    @Param('userId') userId: string,
     @Body() updateUserDto: UpdateUserDto,
     @ActiveUser() activeUser: IActiveUser,
     file: Express.Multer.File,
   ) {
     const payload = await this.usersService.updateUser(
       updateUserDto,
+      userId,
       activeUser,
       file,
     );

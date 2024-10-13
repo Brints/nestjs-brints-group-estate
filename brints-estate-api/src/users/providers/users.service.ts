@@ -20,6 +20,9 @@ import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { IResetPassword } from '../interface/reset-password.interface';
 import { UpdateUserProvider } from './update-user.provider';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { FindOneByGoogleIdProvider } from './find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './create-google-user.provider';
+import { GoogleUser } from '../interface/google-user.interface';
 
 @Injectable()
 export class UsersService {
@@ -41,26 +44,30 @@ export class UsersService {
     private readonly forgotPasswordProvider: ForgotPasswordProvider,
 
     private readonly updateUserProvider: UpdateUserProvider,
+
+    private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
+
+    private readonly createGoogleUserProvider: CreateGoogleUserProvider,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
-    return this.verifyEmailProvider.verifyUserEmail(verifyEmailDto);
+    return await this.verifyEmailProvider.verifyUserEmail(verifyEmailDto);
   }
 
   public async verifyPhoneNumber(verifyPhoneNumberDto: VerifyPhoneNumberDto) {
-    return this.verifyPhoneNumberProvider.verifyPhoneNumber(
+    return await this.verifyPhoneNumberProvider.verifyPhoneNumber(
       verifyPhoneNumberDto,
     );
   }
 
   public async resendOTP(generateNewOTPDto: GenerateNewOTPDto) {
-    return this.resendOtpProvider.resendOTP(generateNewOTPDto);
+    return await this.resendOtpProvider.resendOTP(generateNewOTPDto);
   }
 
   public async newEmailVerificationToken(
     generateNewEmailTokenDto: GenerateNewEmailTokenDto,
   ) {
-    return this.generateNewEmailVerificationProvider.newEmailVerificationToken(
+    return await this.generateNewEmailVerificationProvider.newEmailVerificationToken(
       generateNewEmailTokenDto,
     );
   }
@@ -69,21 +76,27 @@ export class UsersService {
     loggedInUser: IActiveUser,
     userId: string,
   ): Promise<User> {
-    return this.getUserProfileProvider.getUserProfile(loggedInUser, userId);
+    return await this.getUserProfileProvider.getUserProfile(
+      loggedInUser,
+      userId,
+    );
   }
 
   public async resetPassword(
     params: IResetPassword,
     resetPasswordDto: ResetPasswordDto,
   ): Promise<void> {
-    return this.resetPasswordProvider.resetPassword(params, resetPasswordDto);
+    return await this.resetPasswordProvider.resetPassword(
+      params,
+      resetPasswordDto,
+    );
   }
 
   public async changePassword(
     activeUser: IActiveUser,
     changePasswordDto: ChangePasswordDto,
   ): Promise<void> {
-    return this.changePasswordProvider.changePassword(
+    return await this.changePasswordProvider.changePassword(
       activeUser,
       changePasswordDto,
     );
@@ -92,14 +105,28 @@ export class UsersService {
   public async forgotPassword(
     forgotPasswordDto: ForgotPasswordDto,
   ): Promise<void> {
-    return this.forgotPasswordProvider.forgotPassword(forgotPasswordDto);
+    return await this.forgotPasswordProvider.forgotPassword(forgotPasswordDto);
   }
 
   public async updateUser(
     updateUserDto: UpdateUserDto,
+    userId: string,
     activeUser: IActiveUser,
     file: Express.Multer.File,
   ): Promise<User> {
-    return this.updateUserProvider.update(updateUserDto, activeUser, file);
+    return await this.updateUserProvider.update(
+      updateUserDto,
+      userId,
+      activeUser,
+      file,
+    );
+  }
+
+  public async findOneByGoogleId(googleId: string): Promise<User | null> {
+    return await this.findOneByGoogleIdProvider.findOneByGoogleId(googleId);
+  }
+
+  public async createGoogleUser(googleUser: GoogleUser): Promise<User> {
+    return await this.createGoogleUserProvider.createGoogleUser(googleUser);
   }
 }
