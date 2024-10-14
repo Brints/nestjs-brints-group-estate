@@ -14,7 +14,8 @@ export function swaggerInitializer(app: INestApplication<any>) {
       'MIT',
       'https://github.com/Brints/nestjs-brints-group-estate/blob/main/LICENSE',
     )
-    .setVersion('1.0')
+    .setVersion('1.0.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
