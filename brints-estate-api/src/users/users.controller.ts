@@ -12,7 +12,12 @@ import {
   Param,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UsersService } from './providers/users.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from './dto/verify-phone-number.dto';
@@ -135,6 +140,7 @@ export class UsersController {
     };
   }
 
+  @ApiBearerAuth('access-token')
   @Post('change-password')
   @HttpCode(HttpStatus.OK)
   @UseFilters(HttpExceptionFilter)
@@ -154,6 +160,10 @@ export class UsersController {
     };
   }
 
+  @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Get user profile.',
+  })
   @Get('/:id')
   @Auth(AuthType.Bearer)
   @HttpCode(HttpStatus.OK)
@@ -195,6 +205,7 @@ export class UsersController {
     };
   }
 
+  @ApiBearerAuth('access-token')
   @ApiOperation({
     summary: 'Updates user details.',
   })

@@ -15,7 +15,15 @@ export function swaggerInitializer(app: INestApplication<any>) {
       'https://github.com/Brints/nestjs-brints-group-estate/blob/main/LICENSE',
     )
     .setVersion('1.0.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'Enter your JWT token',
+      },
+      'access-token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);

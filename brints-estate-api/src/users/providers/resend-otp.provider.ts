@@ -8,8 +8,8 @@ import { GenerateTokenHelper } from '../../utils/generate-token.lib';
 import { GenerateNewOTPDto } from '../dto/generate-new-otp.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
-import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
 import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Injectable()
 export class ResendOtpProvider {
@@ -22,9 +22,9 @@ export class ResendOtpProvider {
 
     private readonly generateTokenHelper: GenerateTokenHelper,
 
-    private readonly mailgunService: MailgunService,
-
     private readonly awsSmsService: AwsSmsService,
+
+    private readonly timeHelper: TimeHelper,
   ) {}
 
   public async resendOTP(generateNewOTPDto: GenerateNewOTPDto): Promise<void> {
@@ -47,8 +47,7 @@ export class ResendOtpProvider {
       );
 
     const otp = this.generateTokenHelper.generateOTP(6);
-    const otpExpiry = new Date();
-    otpExpiry.setMinutes(otpExpiry.getMinutes() + 20);
+    const otpExpiry = this.timeHelper.setExpiryDate('minutes', 20);
 
     userAuth.otp = Number(otp);
     userAuth.otpExpiresIn = otpExpiry;
@@ -57,6 +56,5 @@ export class ResendOtpProvider {
     await this.userRepository.save(user);
 
     await this.awsSmsService.sendOTPSms(user, userAuth);
-    await this.mailgunService.sendOTP(user, userAuth);
   }
 }

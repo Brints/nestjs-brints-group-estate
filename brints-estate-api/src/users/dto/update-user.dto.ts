@@ -8,6 +8,6 @@ export class UpdateUserDto extends PartialType(
     'country_code',
     'phone_number',
     'gender',
-    'marketing',
+    'marketing_consent',
   ]),
 ) {}

@@ -172,7 +172,7 @@ export class CreateUserProvider {
       role: user_role,
       privacy_policy: createUserDto.privacy_policy,
       terms_and_conditions: createUserDto.terms_and_conditions,
-      marketing: createUserDto.marketing,
+      marketing_consent: createUserDto.marketing_consent,
     });
 
     user.user_auth = userAuth;

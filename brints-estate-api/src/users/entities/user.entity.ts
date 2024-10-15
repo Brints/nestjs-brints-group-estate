@@ -62,7 +62,7 @@ export class User extends AbstractBaseEntity {
   privacy_policy: boolean;
 
   @Column({ type: 'boolean', default: false })
-  marketing?: boolean;
+  marketing_consent?: boolean;
 
   @OneToOne(() => LoginAttempts, {
     onDelete: 'CASCADE',

@@ -21,12 +21,12 @@ async function bootstrap() {
   const port = configService.get('APP_PORT');
   const logger = new Logger();
 
-  // swagger documentation
-  swaggerInitializer(app);
-
   app.enableCors();
 
   app.setGlobalPrefix('api');
+
+  // swagger documentation
+  swaggerInitializer(app);
 
   await app.listen(port);
   logger.log(`Application is running on ${await app.getUrl()}`);
