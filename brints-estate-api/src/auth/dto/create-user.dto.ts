@@ -100,5 +100,5 @@ export class CreateUserDto {
   @IsOptional()
   @IsBoolean()
   @Transform(({ value }) => value === 'true')
-  marketing: boolean;
+  marketing_consent: boolean;
 }
