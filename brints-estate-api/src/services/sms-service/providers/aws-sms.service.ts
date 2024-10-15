@@ -18,6 +18,16 @@ export class AwsSmsService {
     await this.awsSmsProvider.sendSms(user.phone_number, message);
   }
 
+  public async sendPhoneNumberUpdateOTPSms(
+    phoneNumber: string,
+    user: User,
+    userAuth: UserAuth,
+  ): Promise<void> {
+    const fullname = `${user.first_name} ${user.last_name}`;
+    const message = `Hey ${fullname}. You requested to update your phone number on Brints. Kindly use this OTP ${userAuth.otp} to verify your new phone number. This OTP expires in ${this.timeHelper.getTimeLeft(userAuth.otpExpiresIn, 'minutes')}.`;
+    await this.awsSmsProvider.sendSms(phoneNumber, message);
+  }
+
   public async sendVerificationSuccess(user: User): Promise<void> {
     const fullname = `${user.first_name} ${user.last_name}`;
     const message = `Congratulations ${fullname}.\n Your phone number hass been verified successfully. Kindly verify your email to have access to Brints platform. Happy searching.`;
