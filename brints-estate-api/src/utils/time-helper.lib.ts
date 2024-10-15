@@ -1,12 +1,12 @@
 export class TimeHelper {
   constructor() {}
 
-  public setExpiryDate(timeOfDay: string, hours: number): Date {
+  public setExpiryDate(format: string, setTime: number): Date {
     const date = new Date();
-    if (timeOfDay === 'hours' || timeOfDay === 'hour') {
-      date.setHours(date.getHours() + hours);
-    } else if (timeOfDay === 'minutes' || timeOfDay === 'minute') {
-      date.setMinutes(date.getMinutes() + hours);
+    if (format === 'hours' || format === 'hour') {
+      date.setHours(date.getHours() + setTime);
+    } else if (format === 'minutes' || format === 'minute') {
+      date.setMinutes(date.getMinutes() + setTime);
     }
     return date;
   }
