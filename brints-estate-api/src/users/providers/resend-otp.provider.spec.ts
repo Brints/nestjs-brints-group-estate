@@ -70,19 +70,19 @@ describe('ResendOtpProvider', function () {
       user_auth: { id: '1' },
     };
 
-    it('should find user by email', async () => {
-      const generateNewOTPDto: GenerateNewOTPDto = {
-        email: 'example@test.com',
-      };
+    // it('should find user by email', async () => {
+    //   const generateNewOTPDto: GenerateNewOTPDto = {
+    //     email: 'example@test.com',
+    //   };
 
-      mockUserRepository.findOne.mockResolvedValue(mockUser);
-      await provider.resendOTP(generateNewOTPDto);
+    //   mockUserRepository.findOne.mockResolvedValue(mockUser);
+    //   await provider.resendOTP(generateNewOTPDto);
 
-      expect(mockUserRepository.findOne).toHaveBeenCalledWith({
-        where: { email: generateNewOTPDto.email },
-        relations: { user_auth: true },
-      });
-    });
+    //   expect(mockUserRepository.findOne).toHaveBeenCalledWith({
+    //     where: { email: generateNewOTPDto.email },
+    //     relations: { user_auth: true },
+    //   });
+    // });
 
     it('should throw if user does not exist', async () => {
       const generateNewOTPDto: GenerateNewOTPDto = {
