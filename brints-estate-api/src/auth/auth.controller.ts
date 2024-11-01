@@ -12,8 +12,10 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBadRequestResponse,
+  ApiBody,
+  ApiConflictResponse,
+  ApiConsumes,
   ApiCreatedResponse,
-  ApiHeaders,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -28,30 +30,31 @@ import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CreateLoginAttemptDto } from '../login-attempts/dto/create-login-attempt.dto';
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
-import { User } from '../users/entities/user.entity';
+// import { User } from '../users/entities/user.entity';
+import {
+  BadRequestResponse,
+  ConflictResponse,
+  CreatedUserResponse,
+  InternalServerErrorResponse,
+} from './swagger_docs/register-user.doc';
 
 @Controller('auth')
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiHeaders([{ name: 'Content-Type', description: 'multipart/form-data' }])
   @ApiOperation({
     summary: 'Registers a new user',
   })
-  @ApiCreatedResponse({
-    description: 'User registration successful',
-    status: HttpStatus.CREATED,
-    type: User,
+  @ApiConsumes('application/json', 'multipart/form-data')
+  @ApiBody({
+    description: 'User registration',
+    type: CreateUserDto,
   })
-  @ApiBadRequestResponse({
-    description: 'Bad request',
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @ApiCreatedResponse(CreatedUserResponse)
+  @ApiConflictResponse(ConflictResponse)
+  @ApiBadRequestResponse(BadRequestResponse)
+  @ApiResponse(InternalServerErrorResponse)
   @Post('register')
   @Auth(AuthType.None)
   @UseInterceptors(FileInterceptor('file'))
