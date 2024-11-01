@@ -16,9 +16,11 @@ import {
   ApiConflictResponse,
   ApiConsumes,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 import { AuthService } from './providers/auth.service';
@@ -30,13 +32,15 @@ import { AuthType } from './enum/auth-type.enum';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CreateLoginAttemptDto } from '../login-attempts/dto/create-login-attempt.dto';
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
-// import { User } from '../users/entities/user.entity';
+
 import {
   BadRequestResponse,
   ConflictResponse,
   CreatedUserResponse,
+  LoginUserResponse,
+  UnauthorizedResponse,
   InternalServerErrorResponse,
-} from './swagger_docs/register-user.doc';
+} from './swagger_docs/responses.doc';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -83,6 +87,10 @@ export class AuthController {
   @ApiOperation({
     summary: 'Logs in a registered user and generates an access token',
   })
+  @ApiResponse(LoginUserResponse)
+  @ApiUnauthorizedResponse(UnauthorizedResponse)
+  @ApiBadRequestResponse(BadRequestResponse)
+  @ApiInternalServerErrorResponse(InternalServerErrorResponse)
   @Post('login')
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
