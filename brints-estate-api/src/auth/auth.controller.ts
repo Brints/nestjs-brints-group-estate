@@ -36,11 +36,11 @@ import { HttpExceptionFilter } from '../exceptions/http-exception.filter';
 import {
   BadRequestResponse,
   ConflictResponse,
-  CreatedUserResponse,
-  LoginUserResponse,
   UnauthorizedResponse,
   InternalServerErrorResponse,
-} from './swagger_docs/responses.doc';
+} from './swagger_docs/common-responses.doc';
+import { CreatedUserResponse } from './swagger_docs/register-response.doc';
+import { LoggedInUserResponse } from './swagger_docs/login-response.doc';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -87,7 +87,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Logs in a registered user and generates an access token',
   })
-  @ApiResponse(LoginUserResponse)
+  @ApiResponse(LoggedInUserResponse)
   @ApiUnauthorizedResponse(UnauthorizedResponse)
   @ApiBadRequestResponse(BadRequestResponse)
   @ApiInternalServerErrorResponse(InternalServerErrorResponse)

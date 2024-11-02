@@ -17,7 +17,7 @@ afia
 --WebKitFormBoundary
 Content-Disposition: form-data; name="email"
 
-aniebietafia87@gmail.com
+aniebietafia@gmail.com
 --WebKitFormBoundary
 Content-Disposition: form-data; name="password"
 
@@ -29,7 +29,7 @@ Test1234$
 --WebKitFormBoundary
 Content-Disposition: form-data; name="phone_number"
 
-08067581927
+08098194719
 --WebKitFormBoundary
 Content-Disposition: form-data; name="gender"
 
@@ -49,5 +49,23 @@ true
 --WebKitFormBoundary
 Content-Disposition: form-data; name="marketing"
 
-true
+false
 --WebKitFormBoundary--
+
+
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+    "first_name": "david",
+    "last_name": "lacroix",
+    "email": "aniebietafia@gmail.com",
+    "password": "Test1234$",
+    "confirm_password": "Test1234$",
+    "gender": "male",
+    "phone_number": "08098194719",
+    "country_code": "234",
+    "privacy_policy": "true",
+    "terms_and_conditions": "true",
+    "marketing_consent": "false"
+}
