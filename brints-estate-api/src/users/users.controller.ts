@@ -14,6 +14,8 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -34,34 +36,30 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { IResetPassword } from './interface/reset-password.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+import {
+  BadRequestInvalidTokenResponse,
+  ForbiddenTokenExpiredResponse,
+  VerifyEmailResponse,
+} from './swagger_docs/verify-email.doc';
+import {
+  InternalServerErrorResponse,
+  UnauthorizedUserVerifiedResponse,
+} from './swagger_docs/common-reponses.doc';
+import { VerifyPhoneResponse } from './swagger_docs/verify-phone-response.doc';
+
 @Controller('user')
-@ApiTags('Users')
+@ApiTags('User Management')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({
-    summary: 'Verifies user email address.',
+    summary: 'Verify registered user email address.',
   })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'User email verified successfully',
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Invalid token',
-  })
-  @ApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Token expired',
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: 'User already verified',
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error. Please try again later',
-  })
+  @ApiResponse(VerifyEmailResponse)
+  @ApiResponse(BadRequestInvalidTokenResponse)
+  @ApiResponse(ForbiddenTokenExpiredResponse)
+  @ApiResponse(UnauthorizedUserVerifiedResponse)
+  @ApiResponse(InternalServerErrorResponse)
   @Get('verify-email')
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
@@ -76,6 +74,11 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Verify registered user phone number.',
+  })
+  @ApiOkResponse(VerifyPhoneResponse)
+  @ApiInternalServerErrorResponse(InternalServerErrorResponse)
   @Post('verify-phone')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
