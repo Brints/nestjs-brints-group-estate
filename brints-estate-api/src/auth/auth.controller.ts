@@ -61,7 +61,7 @@ export class AuthController {
   @ApiResponse(InternalServerErrorResponse)
   @Post('register')
   @Auth(AuthType.None)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('image_url'))
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
   async registerUser(

@@ -13,8 +13,11 @@ import {
   Put,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiResponse,
@@ -45,7 +48,14 @@ import {
   InternalServerErrorResponse,
   UnauthorizedUserVerifiedResponse,
 } from './swagger_docs/common-reponses.doc';
-import { VerifyPhoneResponse } from './swagger_docs/verify-phone-response.doc';
+import {
+  ForbiddenAccountVerifiedResponse,
+  IncorrectPhoneNumberResponse,
+  InvalidOTPResponse,
+  NotFoundPhoneNumberResponse,
+  OTPExpiredResponse,
+  VerifyPhoneResponse,
+} from './swagger_docs/verify-phone-response.doc';
 
 @Controller('user')
 @ApiTags('User Management')
@@ -78,6 +88,11 @@ export class UsersController {
     summary: 'Verify registered user phone number.',
   })
   @ApiOkResponse(VerifyPhoneResponse)
+  @ApiNotFoundResponse(NotFoundPhoneNumberResponse)
+  @ApiBadRequestResponse(IncorrectPhoneNumberResponse)
+  @ApiForbiddenResponse(ForbiddenAccountVerifiedResponse)
+  @ApiBadRequestResponse(InvalidOTPResponse)
+  @ApiBadRequestResponse(OTPExpiredResponse)
   @ApiInternalServerErrorResponse(InternalServerErrorResponse)
   @Post('verify-phone')
   @Auth(AuthType.None)
