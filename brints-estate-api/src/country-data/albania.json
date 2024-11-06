@@ -1,0 +1,106 @@
+{
+  "code": "AL",
+  "name": "Albania",
+  "capital": "Tirana",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "population": 2886026,
+  "latlng": [41, 20],
+  "area": 28748,
+  "timezones": ["UTC+01:00"],
+  "borders": ["MNE", "GRC", "MKD", "KOS"],
+  "nativeName": "Shqipëria",
+  "officialLanguages": ["Albanian"],
+  "zipcode": "+355",
+  "flag": "🇦🇱",
+  "province": [
+    {
+      "name": "Berat",
+      "code": "BR",
+      "towns": ["Berat", "Kuçovë", "Polican", "Ura Vajgurore"]
+    },
+    {
+      "name": "Dibër",
+      "code": "DI",
+      "towns": ["Bulqizë", "Burrel", "Klos", "Mat", "Peshkopi"]
+    },
+    {
+      "name": "Durrës",
+      "code": "DR",
+      "towns": ["Durrës", "Kavajë", "Shijak"]
+    },
+    {
+      "name": "Elbasan",
+      "code": "EL",
+      "towns": ["Elbasan", "Gramsh", "Librazhd", "Peqin"]
+    },
+    {
+      "name": "Fier",
+      "code": "FR",
+      "towns": ["Fier", "Lushnjë", "Patos", "Roskovec"]
+    },
+    {
+      "name": "Gjirokastër",
+      "code": "GJ",
+      "towns": ["Gjirokastër", "Libohovë", "Memaliaj", "Tepelenë"]
+    },
+    {
+      "name": "Korçë",
+      "code": "KO",
+      "towns": ["Bilisht", "Ersekë", "Korçë", "Pogradec"]
+    },
+    {
+      "name": "Kukës",
+      "code": "KU",
+      "towns": ["Bajram Curri", "Kukës", "Tropojë"]
+    },
+    {
+      "name": "Lezhë",
+      "code": "LE",
+      "towns": ["Kurbin", "Laç", "Lezhë", "Shëngjin"]
+    },
+    {
+      "name": "Shkodër",
+      "code": "SH",
+      "towns": ["Koplik", "Malësi e Madhe", "Pukë", "Shkodër", "Vau i Dejës"]
+    },
+    {
+      "name": "Tiranë",
+      "code": "TR",
+      "towns": [
+        "Baldushk",
+        "Bërxullë",
+        "Dajt",
+        "Farkë",
+        "Kamëz",
+        "Kashar",
+        "Ndroq",
+        "Petrelë",
+        "Prezë",
+        "Shëngjergj",
+        "Vaqarr",
+        "Zall-Bastar",
+        "Zall-Herr"
+      ]
+    },
+    {
+      "name": "Vlorë",
+      "code": "VL",
+      "towns": [
+        "Delvinë",
+        "Finiq",
+        "Himarë",
+        "Konispol",
+        "Përmet",
+        "Sarandë",
+        "Tepelenë",
+        "Vlorë"
+      ]
+    }
+  ],
+  "currency": {
+    "code": "ALL",
+    "name": "Albanian lek",
+    "symbol": "L"
+  }
+}

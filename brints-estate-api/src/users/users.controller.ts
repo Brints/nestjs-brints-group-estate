@@ -13,11 +13,7 @@ import {
   Put,
 } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiForbiddenResponse,
-  ApiInternalServerErrorResponse,
-  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiResponse,
@@ -88,12 +84,12 @@ export class UsersController {
     summary: 'Verify registered user phone number.',
   })
   @ApiOkResponse(VerifyPhoneResponse)
-  @ApiNotFoundResponse(NotFoundPhoneNumberResponse)
-  @ApiBadRequestResponse(IncorrectPhoneNumberResponse)
-  @ApiForbiddenResponse(ForbiddenAccountVerifiedResponse)
-  @ApiBadRequestResponse(InvalidOTPResponse)
-  @ApiBadRequestResponse(OTPExpiredResponse)
-  @ApiInternalServerErrorResponse(InternalServerErrorResponse)
+  @ApiResponse(NotFoundPhoneNumberResponse)
+  @ApiResponse(IncorrectPhoneNumberResponse)
+  @ApiResponse(ForbiddenAccountVerifiedResponse)
+  @ApiResponse(OTPExpiredResponse)
+  @ApiResponse(InvalidOTPResponse)
+  @ApiResponse(InternalServerErrorResponse)
   @Post('verify-phone')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
