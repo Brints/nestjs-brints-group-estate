@@ -1,0 +1,675 @@
+{
+  "code": "AF",
+  "name": "Afghanistan",
+  "capital": "Kabul",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "population": 27657145,
+  "latlng": [33, 65],
+  "area": 652230,
+  "timezones": ["UTC+04:30"],
+  "borders": ["IRN", "PAK", "TKM", "UZB", "TJK", "CHN"],
+  "nativeName": "افغانستان",
+  "officialLanguages": [
+    {
+      "iso639_1": "ps",
+      "iso639_2": "pus",
+      "name": "Pashto",
+      "nativeName": "پښتو"
+    },
+    {
+      "iso639_1": "uz",
+      "iso639_2": "uzb",
+      "name": "Uzbek",
+      "nativeName": "Oʻzbek"
+    },
+    {
+      "iso639_1": "tk",
+      "iso639_2": "tuk",
+      "name": "Turkmen",
+      "nativeName": "Türkmen"
+    }
+  ],
+  "zipcode": "+93",
+  "flag": "🇦🇫",
+  "province": [
+    {
+      "name": "Badakhshan",
+      "code": "BDS",
+      "towns": [
+        "Fayzabad",
+        "Jurm",
+        "Khandud",
+        "Khash",
+        "Kishim",
+        "Shahri Buzurg",
+        "Shekay",
+        "Shighnan",
+        "Tagab",
+        "Tishkan"
+      ]
+    },
+    {
+      "name": "Badghis",
+      "code": "BDG",
+      "towns": [
+        "Bala Murghab",
+        "Ghormach",
+        "Jwand",
+        "Muqur",
+        "Qadis",
+        "Qala i Naw",
+        "Sang Atesh",
+        "Saqadu",
+        "Wuluswali-i-Hindu Kush"
+      ]
+    },
+    {
+      "name": "Baghlan",
+      "code": "BGL",
+      "towns": [
+        "Andarab",
+        "Baghlan",
+        "Dahana i Ghuri",
+        "Dih Salah",
+        "Farang wa Gharu",
+        "Guzargahi Nur",
+        "Khwaja Hijran",
+        "Nahrin",
+        "Puli Khumri"
+      ]
+    },
+    {
+      "name": "Balkh",
+      "code": "BKK",
+      "towns": [
+        "Balkh",
+        "Chahar Bolak",
+        "Chimtal",
+        "Dawlatabad",
+        "Kaldar",
+        "Khanabad",
+        "Kholm",
+        "Marmul",
+        "Sholgara",
+        "Zari"
+      ]
+    },
+    {
+      "name": "Bamyan",
+      "code": "BAM",
+      "towns": ["Bamyan", "Kahmard", "Panjab", "Sayghan", "Shibar"]
+    },
+    {
+      "name": "Daykundi",
+      "code": "DAY",
+      "towns": ["Kijran", "Khadir", "Mirahmad Shah", "Nili", "Sangar"]
+    },
+    {
+      "name": "Farah",
+      "code": "FRA",
+      "towns": [
+        "Anar Dara",
+        "Bakwa",
+        "Farah",
+        "Khaki Safed",
+        "Lash wa Juwayn",
+        "Pur Chaman"
+      ]
+    },
+    {
+      "name": "Faryab",
+      "code": "FYB",
+      "towns": [
+        "Almar",
+        "Andkhoy",
+        "Bilchiragh",
+        "Dawlat Abad",
+        "Gurziwan",
+        "Khwaja Sabz Posh",
+        "Kohistan",
+        "Maymana",
+        "Pashtun Kot",
+        "Qaramqol",
+        "Qaysar"
+      ]
+    },
+    {
+      "name": "Ghazni",
+      "code": "GHA",
+      "towns": [
+        "Ab Band",
+        "Ajristan",
+        "Andar",
+        "Deh Yak",
+        "Gelan",
+        "Ghazni",
+        "Jaghori",
+        "Khogyani",
+        "Muqur",
+        "Nawa",
+        "Qarabagh",
+        "Rashidan",
+        "Waghaz",
+        "Zana Khan"
+      ]
+    },
+    {
+      "name": "Ghor",
+      "code": "GHO",
+      "towns": [
+        "Chaghcharan",
+        "Chahar Sadah",
+        "Dawlat Yar",
+        "Du Layna",
+        "Firuzkoh",
+        "Jawand",
+        "Lal wa Sarjangal",
+        "Pasaband",
+        "Saghar",
+        "Shahrak",
+        "Tulak",
+        "Taywara"
+      ]
+    },
+    {
+      "name": "Helmand",
+      "code": "HEL",
+      "towns": [
+        "Baghran",
+        "Dishu",
+        "Garmsir",
+        "Kajaki",
+        "Khanashin",
+        "Lashkargah",
+        "Musa Qala",
+        "Nad Ali",
+        "Nahr-i-Saraj",
+        "Sangin",
+        "Washir"
+      ]
+    },
+    {
+      "name": "Herat",
+      "code": "HER",
+      "towns": [
+        "Adraskan",
+        "Chishti Sharif",
+        "Farsi",
+        "Ghoryan",
+        "Gulran",
+        "Herat",
+        "Injil",
+        "Karukh",
+        "Kohsan",
+        "Kushki Kuhna",
+        "Obe",
+        "Pashtun Zarghun",
+        "Shindand",
+        "Zinda Jan"
+      ]
+    },
+    {
+      "name": "Jowzjan",
+      "code": "JOW",
+      "towns": [
+        "Aqcha",
+        "Darzab",
+        "Fayzabad",
+        "Khamyab",
+        "Khaniqa",
+        "Khwaja Du Koh",
+        "Mardyan",
+        "Mingajik",
+        "Qarqin",
+        "Shibarghan",
+        "Qush Tepa"
+      ]
+    },
+    {
+      "name": "Kabul",
+      "code": "KAB",
+      "towns": [
+        "Bagrami",
+        "Chahar Asyab",
+        "Dih Sabz",
+        "Guldara",
+        "Kalakan",
+        "Khaki Jabbar",
+        "Mir Bacha Kot",
+        "Mussahi",
+        "Paghman",
+        "Qarabagh",
+        "Shakardara",
+        "Surobi"
+      ]
+    },
+    {
+      "name": "Kandahar",
+      "code": "KAN",
+      "towns": [
+        "Arghandab",
+        "Arghistan",
+        "Daman",
+        "Dand",
+        "Ghorak",
+        "Kandahar",
+        "Khakrez",
+        "Maruf",
+        "Maywand",
+        "Miyanishin",
+        "Nesh",
+        "Panjwai",
+        "Reg",
+        "Shah Wali Kot",
+        "Shorabak",
+        "Spin Boldak",
+        "Takhta Pul",
+        "Zhari"
+      ]
+    },
+    {
+      "name": "Kapisa",
+      "code": "KAP",
+      "towns": [
+        "Alasay",
+        "Hesa Awal Kohistan",
+        "Koh Band",
+        "Mahmud Raqi",
+        "Nijrab",
+        "Tagab"
+      ]
+    },
+    {
+      "name": "Khost",
+      "code": "KHO",
+      "towns": [
+        "Bak",
+        "Gurbuz",
+        "Jaji Maidan",
+        "Khost",
+        "Mando Zayi",
+        "Musakhel",
+        "Nadir Shah Kot",
+        "Qalandar",
+        "Sabari",
+        "Spera",
+        "Tani",
+        "Tirazayi"
+      ]
+    },
+    {
+      "name": "Kunar",
+      "code": "KNR",
+      "towns": [
+        "Asadabad",
+        "Bar Kunar",
+        "Chapa Dara",
+        "Chawkay",
+        "Dangam",
+        "Dara-I-Pech",
+        "Ghazi Abad",
+        "Khas Kunar",
+        "Marawara",
+        "Narang wa Badil",
+        "Nari",
+        "Nurgal",
+        "Shaygal Wa Shiltan",
+        "Sirkanay",
+        "Wata Pur"
+      ]
+    },
+    {
+      "name": "Kunduz",
+      "code": "KDZ",
+      "towns": [
+        "Ali Abad",
+        "Chahar Dara",
+        "Dasht-e Archi",
+        "Imam Sahib",
+        "Khan Abad",
+        "Kunduz",
+        "Qalay-I-Zal",
+        "Rustaq"
+      ]
+    },
+    {
+      "name": "Laghman",
+      "code": "LAG",
+      "towns": [
+        "Alingar",
+        "Alishing",
+        "Badpash",
+        "Dawlat Shah",
+        "Mihtarlam",
+        "Qarghayi"
+      ]
+    },
+    {
+      "name": "Logar",
+      "code": "LOG",
+      "towns": [
+        "Azra",
+        "Baraki Barak",
+        "Charkh",
+        "Kharwar",
+        "Mohammad Agha",
+        "Puli Alam"
+      ]
+    },
+    {
+      "name": "Nangarhar",
+      "code": "NAN",
+      "towns": [
+        "Achin",
+        "Bati Kot",
+        "Behsud",
+        "Chaparhar",
+        "Dara-I-Nur",
+        "Deh Bala",
+        "Dur Baba",
+        "Goshta",
+        "Hisarak",
+        "Jalalabad",
+        "Khogyani",
+        "Kot",
+        "Kuz Kunar",
+        "Lal Pur",
+        "Nazyan",
+        "Pachir Wa Agam",
+        "Rodat",
+        "Sherzad",
+        "Shinwar",
+        "Sorkh Rod",
+        "Surkh Rod"
+      ]
+    },
+    {
+      "name": "Nimroz",
+      "code": "NIM",
+      "towns": ["Chakhansur", "Charburjak", "Kang", "Khash Rod", "Zaranj"]
+    },
+    {
+      "name": "Nuristan",
+      "code": "NUR",
+      "towns": [
+        "Bargi Matal",
+        "Du Ab",
+        "Kamdesh",
+        "Mandol",
+        "Nurgram",
+        "Parun",
+        "Wama",
+        "Waygal"
+      ]
+    },
+    {
+      "name": "Paktia",
+      "code": "PIA",
+      "towns": [
+        "Ahmad Khel",
+        "Dand Aw Patan",
+        "Gardez",
+        "Janikhel",
+        "Lazha Mangal",
+        "Muqur",
+        "Shwak",
+        "Waza Khwa"
+      ]
+    },
+    {
+      "name": "Paktika",
+      "code": "PKA",
+      "towns": [
+        "Barmal",
+        "Gayan",
+        "Gomal",
+        "Janikhel",
+        "Khairkot",
+        "Mata Khan",
+        "Omna",
+        "Sar Hawza",
+        "Sharan",
+        "Terwa",
+        "Urgun",
+        "Waza Khwa",
+        "Yahya Khel",
+        "Zarghun Shahr"
+      ]
+    },
+    {
+      "name": "Panjshir",
+      "code": "PAN",
+      "towns": [
+        "Anaba",
+        "Bazarak",
+        "Darah",
+        "Khenj",
+        "Paryan",
+        "Rokha",
+        "Shotul",
+        "Tagab"
+      ]
+    },
+    {
+      "name": "Parwan",
+      "code": "PAR",
+      "towns": [
+        "Bagram",
+        "Chaharikar",
+        "Ghorband",
+        "Jabal Saraj",
+        "Kohi Safi",
+        "Salang",
+        "Sayed Khel",
+        "Shinwari",
+        "Surkhi Parsa"
+      ]
+    },
+    {
+      "name": "Samangan",
+      "code": "SAM",
+      "towns": [
+        "Aybak",
+        "Dara-I-Soof",
+        "Feroz Nakhchir",
+        "Hazrat Sultan",
+        "Khuram Wa Sarbagh",
+        "Ruyi Du Ab",
+        "Rustaq"
+      ]
+    },
+    {
+      "name": "Sar-e Pol",
+      "code": "SAR",
+      "towns": [
+        "Balkhab",
+        "Gosfandi",
+        "Kohistanat",
+        "Sangcharak",
+        "Sayyad",
+        "Sozma Qala",
+        "Yamgan"
+      ]
+    },
+    {
+      "name": "Takhar",
+      "code": "TAK",
+      "towns": [
+        "Baharak",
+        "Bangi",
+        "Chah Ab",
+        "Chal",
+        "Darqad",
+        "Dashti Qala",
+        "Farkhar",
+        "Hazrati Sultan",
+        "Ishkamish",
+        "Kalafgan",
+        "Khaja Bahauddin",
+        "Khawja Ghar",
+        "Namak Ab",
+        "Rustaq",
+        "Taluqan"
+      ]
+    },
+    {
+      "name": "Urozgan",
+      "code": "URU",
+      "towns": [
+        "Chora",
+        "Deh Rawud",
+        "Gizab",
+        "Khas Uruzgan",
+        "Shahidi Hassas",
+        "Tarin Kot"
+      ]
+    },
+    {
+      "name": "Nuristan",
+      "code": "NUR",
+      "towns": [
+        "Bargi Matal",
+        "Du Ab",
+        "Kamdesh",
+        "Mandol",
+        "Nurgram",
+        "Parun",
+        "Wama",
+        "Waygal"
+      ]
+    },
+    {
+      "name": "Paktia",
+      "code": "PIA",
+      "towns": [
+        "Ahmad Khel",
+        "Dand Aw Patan",
+        "Gardez",
+        "Janikhel",
+        "Lazha Mangal",
+        "Muqur",
+        "Shwak",
+        "Waza Khwa"
+      ]
+    },
+    {
+      "name": "Paktika",
+      "code": "PKA",
+      "towns": [
+        "Barmal",
+        "Gayan",
+        "Gomal",
+        "Janikhel",
+        "Khairkot",
+        "Mata Khan",
+        "Omna",
+        "Sar Hawza",
+        "Sharan",
+        "Terwa",
+        "Urgun",
+        "Waza Khwa",
+        "Yahya Khel",
+        "Zarghun Shahr"
+      ]
+    },
+    {
+      "name": "Panjshir",
+      "code": "PAN",
+      "towns": [
+        "Anaba",
+        "Bazarak",
+        "Darah",
+        "Khenj",
+        "Paryan",
+        "Rokha",
+        "Shotul",
+        "Tagab"
+      ]
+    },
+    {
+      "name": "Parwan",
+      "code": "PAR",
+      "towns": [
+        "Bagram",
+        "Chaharikar",
+        "Ghorband",
+        "Jabal Saraj",
+        "Kohi Safi",
+        "Salang",
+        "Sayed Khel",
+        "Shinwari",
+        "Surkhi Parsa"
+      ]
+    },
+    {
+      "name": "Samangan",
+      "code": "SAM",
+      "towns": [
+        "Aybak",
+        "Dara-I-Soof",
+        "Feroz Nakhchir",
+        "Hazrat Sultan",
+        "Khuram Wa Sarbagh",
+        "Ruyi Du Ab",
+        "Rustaq"
+      ]
+    },
+    {
+      "name": "Sar-e Pol",
+      "code": "SAR",
+      "towns": [
+        "Balkhab",
+        "Gosfandi",
+        "Kohistanat",
+        "Sangcharak",
+        "Sayyad",
+        "Sozma Qala",
+        "Yamgan"
+      ]
+    },
+    {
+      "name": "Takhar",
+      "code": "TAK",
+      "towns": [
+        "Baharak",
+        "Bangi",
+        "Chah Ab",
+        "Chal",
+        "Darqad",
+        "Dashti Qala",
+        "Farkhar",
+        "Hazrati Sultan",
+        "Ishkamish",
+        "Kalafgan",
+        "Khaja Bahauddin",
+        "Khawja Ghar",
+        "Namak Ab",
+        "Rustaq",
+        "Taluqan"
+      ]
+    },
+    {
+      "name": "Urozgan",
+      "code": "URU",
+      "towns": [
+        "Chora",
+        "Deh Rawud",
+        "Gizab",
+        "Khas Uruzgan",
+        "Shahidi Hassas",
+        "Tarin Kot"
+      ]
+    },
+    {
+      "name": "Zabul",
+      "code": "ZAB",
+      "towns": ["Atghar", "Daychopan", "Kakar", "Mizan", "Qalat", "Shah Joy"]
+    }
+  ],
+  "currency": {
+    "code": "AFN",
+    "name": "Afghan Afghani",
+    "symbol": "؋"
+  }
+}
