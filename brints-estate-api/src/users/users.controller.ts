@@ -108,6 +108,9 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Forgot password endpoint.',
+  })
   @Post('forgot-password')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
@@ -122,6 +125,9 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Resend new OTP after expiration.',
+  })
   @Post('resend-otp')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
@@ -136,6 +142,9 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Resend token to email address after expiration.',
+  })
   @Post('resend-token')
   @Auth(AuthType.None)
   @HttpCode(HttpStatus.OK)
@@ -155,6 +164,9 @@ export class UsersController {
   }
 
   @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Change user Password. User must be authenticated.',
+  })
   @Post('change-password')
   @HttpCode(HttpStatus.OK)
   @UseFilters(HttpExceptionFilter)
@@ -176,7 +188,7 @@ export class UsersController {
 
   @ApiBearerAuth('access-token')
   @ApiOperation({
-    summary: 'Get user profile.',
+    summary: 'Get user profile. User must be authenticated',
   })
   @Get('/:id')
   @Auth(AuthType.Bearer)
@@ -199,6 +211,9 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Reset forgotten password.',
+  })
   @Post('/reset-password/:email/:token')
   @Auth(AuthType.None)
   @UseInterceptors(ClassSerializerInterceptor)
@@ -221,7 +236,7 @@ export class UsersController {
 
   @ApiBearerAuth('access-token')
   @ApiOperation({
-    summary: 'Updates user details.',
+    summary: 'Update use details. User must be authenticated.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
