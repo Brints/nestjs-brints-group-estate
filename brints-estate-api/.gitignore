@@ -132,3 +132,6 @@ dist
 
 # documenation
 documentation/
+
+# Configuration for typeorm
+typeorm-cli.config.ts
