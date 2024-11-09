@@ -7,8 +7,8 @@ export function swaggerInitializer(app: INestApplication<any>) {
     .setDescription(
       'The modern day Real Estate API simplifying the way we buy and sell properties',
     )
-    .addServer('http://localhost:3001', 'Development Server')
-    .addServer('https://brints-estate-api.herokuapp.com', 'Production Server')
+    .addServer('https://estate.brintsgroup.live', '(Production Server)')
+    .addServer('http://localhost:3001', '(Development Server)')
     .setTermsOfService('http://localhost:3001/terms')
     .setLicense(
       'MIT',
