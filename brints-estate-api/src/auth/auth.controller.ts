@@ -50,7 +50,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Registers a new user',
   })
-  @ApiConsumes('application/json', 'multipart/form-data')
+  @ApiConsumes('multipart/form-data', 'application/json')
   @ApiBody({
     description: 'User registration',
     type: CreateUserDto,
