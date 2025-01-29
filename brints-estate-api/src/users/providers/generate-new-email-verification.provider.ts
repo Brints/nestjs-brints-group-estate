@@ -8,7 +8,7 @@ import { GenerateTokenHelper } from '../../utils/generate-token.lib';
 import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
-import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from '../../messaging/email/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class GenerateNewEmailVerificationProvider {

@@ -6,7 +6,7 @@ import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { GenerateNewOTPDto } from '../dto/generate-new-otp.dto';
-import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { TimeHelper } from 'src/utils/time-helper.lib';
 import { ResendOtpProvider } from './resend-otp.provider';

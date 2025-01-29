@@ -3,7 +3,7 @@ import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
 import { VerifyEmailProvider } from './verify-email.provider';
 import { UserAuth } from '../entities/userAuth.entity';
 import { CustomException } from 'src/exceptions/custom.exception';

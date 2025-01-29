@@ -8,7 +8,7 @@ import { GenerateTokenHelper } from '../../utils/generate-token.lib';
 import { GenerateNewOTPDto } from '../dto/generate-new-otp.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
-import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
 import { TimeHelper } from 'src/utils/time-helper.lib';
 
 @Injectable()

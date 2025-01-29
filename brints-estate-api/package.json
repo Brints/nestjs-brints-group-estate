@@ -6,8 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "nest build",
-    "postbuild": "mkdir -p dist/src/services/email-service/mailgun-service && cp -R src/services/email-service/mailgun-service/templates dist/src/services/email-service/mailgun-service/",
+    "build": "nest build && cp -R src/messaging/email/mailgun-service/templates dist/src/messaging/email/mailgun-service/templates",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "NODE_ENV=production nest start",
     "start:dev": "NODE_ENV=development nest start --watch",

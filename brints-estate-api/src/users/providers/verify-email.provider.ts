@@ -7,7 +7,7 @@ import { UserAuth } from '../entities/userAuth.entity';
 import { VerifyEmailDto } from '../dto/verify-email.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
-import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from '../../messaging/email/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class VerifyEmailProvider {

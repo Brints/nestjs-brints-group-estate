@@ -11,7 +11,9 @@ import {
   HttpCode,
   Param,
   Put,
+  Delete,
 } from '@nestjs/common';
+
 import {
   ApiBearerAuth,
   ApiOkResponse,
@@ -19,6 +21,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { UsersService } from './providers/users.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { VerifyPhoneNumberDto } from './dto/verify-phone-number.dto';
@@ -190,7 +193,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Get user profile. User must be authenticated',
   })
-  @Get('/:id')
+  @Get('/:userId')
   @Auth(AuthType.Bearer)
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(ClassSerializerInterceptor)
@@ -262,6 +265,31 @@ export class UsersController {
 
     return {
       message: 'Profile updated successfully',
+      status_code: HttpStatus.OK,
+      payload,
+    };
+  }
+
+  @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Delete your profile.',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User profile deleted successfully',
+  })
+  @Delete(':/userId')
+  @Auth(AuthType.Bearer)
+  @HttpCode(HttpStatus.OK)
+  @UseFilters(HttpExceptionFilter)
+  public async deleteUser(
+    @Param('userId') userId: string,
+    @ActiveUser() activeUser: IActiveUser,
+  ) {
+    const payload = await this.usersService.deleteUser(activeUser, userId);
+
+    return {
+      message: 'Profile deleted successfully',
       status_code: HttpStatus.OK,
       payload,
     };

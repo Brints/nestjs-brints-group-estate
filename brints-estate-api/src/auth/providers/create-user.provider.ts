@@ -16,9 +16,9 @@ import { UploadToAwsProvider } from '../../uploads/providers/upload-to-aws.provi
 import { AppConfigService } from '../../config/config.service';
 import { CreateLoginAttemptDto } from '../../login-attempts/dto/create-login-attempt.dto';
 import { LoginAttempts } from '../../login-attempts/entities/login-attempt.entity';
-import { MailgunService } from '../../services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from '../../messaging/email/mailgun-service/providers/mailgun.service';
 import { TimeHelper } from 'src/utils/time-helper.lib';
-import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
 
 @Injectable()
 export class CreateUserProvider {

@@ -7,8 +7,9 @@ import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
 import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
-import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
+import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
+import { UserHelper } from 'src/utils/userHelper.lib';
 
 @Injectable()
 export class VerifyPhoneNumberProvider {
@@ -22,11 +23,18 @@ export class VerifyPhoneNumberProvider {
     private readonly mailgunService: MailgunService,
 
     private readonly awsSmsService: AwsSmsService,
+
+    private readonly userHelper: UserHelper,
   ) {}
 
   public async verifyPhoneNumber(verifyPhoneNumberDto: VerifyPhoneNumberDto) {
+    const extractedPhoneNumber = this.userHelper.formatPhoneNumber(
+      verifyPhoneNumberDto.country_code,
+      verifyPhoneNumberDto.phone_number,
+    );
+
     const user = await this.userRepository.findOne({
-      where: { phone_number: verifyPhoneNumberDto.phone_number },
+      where: { phone_number: extractedPhoneNumber },
       relations: { user_auth: true },
     });
 

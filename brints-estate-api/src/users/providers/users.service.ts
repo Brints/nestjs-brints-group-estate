@@ -23,6 +23,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { FindOneByGoogleIdProvider } from './find-one-by-google-id.provider';
 import { CreateGoogleUserProvider } from './create-google-user.provider';
 import { GoogleUser } from '../interface/google-user.interface';
+import { DeleteUserProfileProvider } from './delete-user-profile.provider';
 
 @Injectable()
 export class UsersService {
@@ -48,6 +49,8 @@ export class UsersService {
     private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
 
     private readonly createGoogleUserProvider: CreateGoogleUserProvider,
+
+    private readonly deleteUserProfileProvider: DeleteUserProfileProvider,
   ) {}
 
   public async verifyUserEmail(verifyEmailDto: VerifyEmailDto) {
@@ -120,6 +123,13 @@ export class UsersService {
       activeUser,
       file,
     );
+  }
+
+  public async deleteUser(
+    activeUser: IActiveUser,
+    userId: string,
+  ): Promise<null> {
+    return await this.deleteUserProfileProvider.deleteUser(activeUser, userId);
   }
 
   public async findOneByGoogleId(googleId: string): Promise<User | null> {

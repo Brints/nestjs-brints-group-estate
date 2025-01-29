@@ -8,7 +8,7 @@ import { HashingProvider } from '../../auth/providers/hashing.provider';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { CustomException } from '../../exceptions/custom.exception';
 import { AccountStatus } from '../../enums/account-status.enum';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
 import { IResetPassword } from '../interface/reset-password.interface';
 
 @Injectable()
