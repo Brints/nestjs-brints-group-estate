@@ -3,7 +3,7 @@ import { DataSource, Repository } from 'typeorm';
 import { GenerateNewEmailVerificationProvider } from './generate-new-email-verification.provider';
 import { User } from '../entities/user.entity';
 import { UserAuth } from '../entities/userAuth.entity';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { GenerateNewEmailTokenDto } from '../dto/new-email-token.dto';

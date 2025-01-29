@@ -9,7 +9,7 @@ import { ChangePasswordDto } from '../dto/change-password.dto';
 import { CustomException } from 'src/exceptions/custom.exception';
 import { HttpStatus } from '@nestjs/common';
 import { UserRole } from 'src/enums/user-role.enum';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
 
 describe('ChangePasswordProvider', () => {
   let provider: ChangePasswordProvider;

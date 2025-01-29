@@ -31,7 +31,6 @@ export class UserHelper {
       );
 
     if (!phoneNumber.startsWith('0')) {
-      //phoneNumber = phoneNumber.slice(1);
       phoneNumber = `${0}${phoneNumber}`;
     }
     return `+${countryCode}${phoneNumber}`;

@@ -12,6 +12,7 @@ import { ForgotPasswordProvider } from './forgot-password.provider';
 import { UpdateUserProvider } from './update-user.provider';
 import { FindOneByGoogleIdProvider } from './find-one-by-google-id.provider';
 import { CreateGoogleUserProvider } from './create-google-user.provider';
+import { DeleteUserProfileProvider } from './delete-user-profile.provider';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -34,6 +35,7 @@ describe('UsersService', () => {
         { provide: ChangePasswordProvider, useValue: {} },
         { provide: ForgotPasswordProvider, useValue: {} },
         { provide: UpdateUserProvider, useValue: {} },
+        { provide: DeleteUserProfileProvider, useValue: {} },
         { provide: FindOneByGoogleIdProvider, useValue: {} },
         { provide: CreateGoogleUserProvider, useValue: {} },
       ],

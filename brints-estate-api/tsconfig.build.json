@@ -4,7 +4,8 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "**/*.ts",
-    "src/services/email-service/mailgun-service/templates/**/*.ejs"
+    "src/messaging/email/mailgun-service/templates/**/*.ejs",
+    "src/messaging/email/aws-service/templates/**/*.ejs"
   ],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

@@ -19,21 +19,22 @@ import { HashingProvider } from '../auth/providers/hashing.provider';
 import { BcryptProvider } from '../auth/providers/bcrypt.provider';
 import { ChangePasswordProvider } from './providers/change-password.provider';
 import { TimeHelper } from 'src/utils/time-helper.lib';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
-import { SendPasswordResetTokenProvider } from 'src/services/email-service/mailgun-service/providers/send-password-reset-token.provider';
-import { SendPasswordChangedEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-password-changed-email.provider';
-import { SendWelcomeEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-welcome-email.provider';
-import { SendVerificationTokenEmailProvider } from 'src/services/email-service/mailgun-service/providers/send-verification-token-email.provider';
-import { SendOtpProvider } from 'src/services/email-service/mailgun-service/providers/send-otp.provider';
-import { SendResetPasswordConfirmationProvider } from 'src/services/email-service/mailgun-service/providers/send-reset-password-confirmation.provider';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
+import { SendPasswordResetTokenProvider } from 'src/messaging/email/mailgun-service/providers/send-password-reset-token.provider';
+import { SendPasswordChangedEmailProvider } from 'src/messaging/email/mailgun-service/providers/send-password-changed-email.provider';
+import { SendWelcomeEmailProvider } from 'src/messaging/email/mailgun-service/providers/send-welcome-email.provider';
+import { SendVerificationTokenEmailProvider } from 'src/messaging/email/mailgun-service/providers/send-verification-token-email.provider';
+import { SendOtpProvider } from 'src/messaging/email/mailgun-service/providers/send-otp.provider';
+import { SendResetPasswordConfirmationProvider } from 'src/messaging/email/mailgun-service/providers/send-reset-password-confirmation.provider';
 import { UpdateUserProvider } from './providers/update-user.provider';
 import { UploadToAwsProvider } from 'src/uploads/providers/upload-to-aws.provider';
 import { AppConfigService } from 'src/config/config.service';
-import { AwsSmsService } from 'src/services/sms-service/providers/aws-sms.service';
-import { AwsSmsProvider } from 'src/services/sms-service/providers/aws-sms.provider';
+import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
+import { AwsSmsProvider } from 'src/messaging/sms/providers/aws-sms.provider';
 import { UserHelper } from 'src/utils/userHelper.lib';
 import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
 import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
+import { DeleteUserProfileProvider } from './providers/delete-user-profile.provider';
 
 @Module({
   controllers: [UsersController],
@@ -68,6 +69,7 @@ import { CreateGoogleUserProvider } from './providers/create-google-user.provide
     UserHelper,
     FindOneByGoogleIdProvider,
     CreateGoogleUserProvider,
+    DeleteUserProfileProvider,
   ],
   imports: [
     TypeOrmModule.forFeature([User, UserAuth]),

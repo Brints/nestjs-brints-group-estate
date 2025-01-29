@@ -13,9 +13,9 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 import { UploadsModule } from './uploads/uploads.module';
 import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
-import { MailgunServiceModule } from './services/email-service/mailgun-service/mailgun-service.module';
-import { SmsServiceModule } from './services/sms-service/sms-service.module';
-import { AwsSeSModule } from './services/email-service/aws-service/aws-ses.module';
+import { MailgunServiceModule } from './messaging/email/mailgun-service/mailgun-service.module';
+import { SmsServiceModule } from './messaging/sms/sms-service.module';
+import { AwsSeSModule } from './messaging/email/aws-service/aws-ses.module';
 
 @Module({
   imports: [

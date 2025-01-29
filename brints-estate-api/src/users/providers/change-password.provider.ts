@@ -7,7 +7,7 @@ import { HashingProvider } from '../../auth/providers/hashing.provider';
 import { ChangePasswordDto } from '../dto/change-password.dto';
 import { IActiveUser } from '../../auth/interfaces/active-user.interface';
 import { CustomException } from '../../exceptions/custom.exception';
-import { MailgunService } from 'src/services/email-service/mailgun-service/providers/mailgun.service';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class ChangePasswordProvider {
