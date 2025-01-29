@@ -13,11 +13,6 @@ import { SendPasswordResetTokenProvider } from './providers/send-password-reset-
 import { SendResetPasswordConfirmationProvider } from './providers/send-reset-password-confirmation.provider';
 import { SendPasswordChangedEmailProvider } from './providers/send-password-changed-email.provider';
 
-// const templateDir =
-//   process.env.NODE_ENV === 'production'
-//     ? join(__dirname, '/../../../messaging/email/mailgun-service/templates')
-//     : join(__dirname, '/messaging/email/mailgun-service/templates');
-
 @Global()
 @Module({
   imports: [
@@ -37,7 +32,7 @@ import { SendPasswordChangedEmailProvider } from './providers/send-password-chan
           from: `Brints Group <no-reply@brintsgroup.live>`,
         },
         template: {
-          dir: join(__dirname, '/messaging/email/mailgun-service/templates'),
+          dir: join(__dirname, 'templates'),
           adapter: new EjsAdapter({
             inlineCssEnabled: true,
           }),
