@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class GenerateNewOTPDto {
   @ApiProperty()
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  country_code: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  phone_number: string;
 }

@@ -10,6 +10,8 @@ import { CustomException } from '../../exceptions/custom.exception';
 import { VerificationStatus } from '../../enums/status.enum';
 import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
 import { TimeHelper } from 'src/utils/time-helper.lib';
+import { UserHelper } from 'src/utils/userHelper.lib';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
 
 @Injectable()
 export class ResendOtpProvider {
@@ -25,11 +27,20 @@ export class ResendOtpProvider {
     private readonly awsSmsService: AwsSmsService,
 
     private readonly timeHelper: TimeHelper,
+
+    private readonly userHelper: UserHelper,
+
+    private readonly mailgunService: MailgunService,
   ) {}
 
   public async resendOTP(generateNewOTPDto: GenerateNewOTPDto): Promise<void> {
+    const extractedPhoneNumber = this.userHelper.formatPhoneNumber(
+      generateNewOTPDto.country_code,
+      generateNewOTPDto.phone_number,
+    );
+
     const user = await this.userRepository.findOne({
-      where: { email: generateNewOTPDto.email },
+      where: { phone_number: extractedPhoneNumber },
       relations: { user_auth: true },
     });
 
@@ -56,5 +67,6 @@ export class ResendOtpProvider {
     await this.userRepository.save(user);
 
     await this.awsSmsService.sendOTPSms(user, userAuth);
+    await this.mailgunService.sendOTP(user, userAuth);
   }
 }
