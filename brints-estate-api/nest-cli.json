@@ -7,11 +7,11 @@
     "assets": [
       {
         "include": "./messaging/email/mailgun-service/templates/**/*.ejs",
-        "outDir": "dist/src/messaging/email/mailgun-service/templates"
+        "outDir": "dist/src"
       },
       {
         "include": "./messaging/email/aws-service/templates/**/*.ejs",
-        "outDir": "dist/src/messaging/email/aws-service/templates"
+        "outDir": "dist/src"
       }
     ],
     "watchAssets": true
