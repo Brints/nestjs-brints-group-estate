@@ -28,8 +28,8 @@ import { SendOtpProvider } from 'src/messaging/email/mailgun-service/providers/s
 import { SendPasswordResetTokenProvider } from 'src/messaging/email/mailgun-service/providers/send-password-reset-token.provider';
 import { SendResetPasswordConfirmationProvider } from 'src/messaging/email/mailgun-service/providers/send-reset-password-confirmation.provider';
 import { SendPasswordChangedEmailProvider } from 'src/messaging/email/mailgun-service/providers/send-password-changed-email.provider';
-import { GoogleAuthenticationController } from './socials/google-authentication.controller';
-import { GoogleAuthenticationService } from './socials/providers/google-authentication.service';
+import { GoogleAuthenticationController } from './social-auth/google-authentication.controller';
+import { GoogleAuthenticationService } from './social-auth/providers/google-authentication.service';
 
 @Module({
   controllers: [AuthController, GoogleAuthenticationController],

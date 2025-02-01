@@ -178,13 +178,13 @@ export class CreateUserProvider {
     user.user_auth = userAuth;
     user.login_attempts = loginAttempts;
 
+    await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
+    await this.awsSmsService.sendOTPSms(user, userAuth);
+    await this.mailgunService.sendOTP(user, userAuth);
+
     await this.userAuthRepository.save(userAuth);
     await this.loginAttemptsRepository.save(loginAttempts);
     await this.userRepository.save(user);
-
-    await this.awsSmsService.sendOTPSms(user, userAuth);
-    await this.mailgunService.sendVerificationTokenEmail(user, userAuth);
-    await this.mailgunService.sendOTP(user, userAuth);
 
     return user;
   }

@@ -6,10 +6,14 @@
     "deleteOutDir": true,
     "assets": [
       {
-        "include": "./services/email-service/mailgun-service/templates",
-        "outDir": "dist/",
-        "watchAssets": true
+        "include": "./messaging/email/mailgun-service/templates/**/*.ejs",
+        "outDir": "dist/src/messaging/email/mailgun-service/templates"
+      },
+      {
+        "include": "./messaging/email/aws-service/templates/**/*.ejs",
+        "outDir": "dist/src/messaging/email/aws-service/templates"
       }
-    ]
+    ],
+    "watchAssets": true
   }
 }
