@@ -54,7 +54,7 @@ export class VerifyPhoneNumberProvider {
         'User Auth does not exist.',
       );
 
-    if (user.phone_number !== verifyPhoneNumberDto.phone_number)
+    if (user.phone_number !== extractedPhoneNumber)
       throw new CustomException(
         HttpStatus.BAD_REQUEST,
         'Incorrect phone number.',
