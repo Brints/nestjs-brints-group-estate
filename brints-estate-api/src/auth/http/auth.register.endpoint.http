@@ -2,7 +2,7 @@ POST http://localhost:3001/api/auth/register
 Content-Type: multipart/form-data; boundary=WebKitFormBoundary
 
 --WebKitFormBoundary
-Content-Disposition: form-data; name="file"; filename="image04.jpg"
+Content-Disposition: form-data; name="file"; filename="image01.jpg"
 Content-Type: image/jpg
 
 < ./assets/image01.jpg
@@ -17,7 +17,7 @@ afia
 --WebKitFormBoundary
 Content-Disposition: form-data; name="email"
 
-aniebietafia@gmail.com
+aniebietafia87@gmail.com
 --WebKitFormBoundary
 Content-Disposition: form-data; name="password"
 
