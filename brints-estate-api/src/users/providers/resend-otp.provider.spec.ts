@@ -10,6 +10,8 @@ import { AwsSmsService } from 'src/messaging/sms/providers/aws-sms.service';
 import { GenerateTokenHelper } from 'src/utils/generate-token.lib';
 import { TimeHelper } from 'src/utils/time-helper.lib';
 import { ResendOtpProvider } from './resend-otp.provider';
+import { MailgunService } from 'src/messaging/email/mailgun-service/providers/mailgun.service';
+import { UserHelper } from 'src/utils/userHelper.lib';
 
 describe('ResendOtpProvider', function () {
   let provider: ResendOtpProvider;
@@ -36,6 +38,14 @@ describe('ResendOtpProvider', function () {
     sendOTPSms: jest.fn(),
   };
 
+  const mockMailgunService = {
+    sendOTP: jest.fn(),
+  };
+
+  const mockUserHelper = {
+    formatPhoneNumber: jest.fn(),
+  };
+
   beforeEach(async function () {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -49,6 +59,8 @@ describe('ResendOtpProvider', function () {
         { provide: GenerateTokenHelper, useValue: mockGenerateTokenHelper },
         { provide: AwsSmsService, useValue: mockAwsSmsService },
         { provide: TimeHelper, useValue: mockTimeHelper },
+        { provide: UserHelper, useValue: mockUserHelper },
+        { provide: MailgunService, useValue: mockMailgunService },
       ],
     }).compile();
 
@@ -70,23 +82,10 @@ describe('ResendOtpProvider', function () {
       user_auth: { id: '1' },
     };
 
-    // it('should find user by email', async () => {
-    //   const generateNewOTPDto: GenerateNewOTPDto = {
-    //     email: 'example@test.com',
-    //   };
-
-    //   mockUserRepository.findOne.mockResolvedValue(mockUser);
-    //   await provider.resendOTP(generateNewOTPDto);
-
-    //   expect(mockUserRepository.findOne).toHaveBeenCalledWith({
-    //     where: { email: generateNewOTPDto.email },
-    //     relations: { user_auth: true },
-    //   });
-    // });
-
     it('should throw if user does not exist', async () => {
       const generateNewOTPDto: GenerateNewOTPDto = {
-        email: 'example@test.com',
+        country_code: '234',
+        phone_number: '08021234567',
       };
 
       mockUserRepository.findOne.mockResolvedValue(null);
@@ -98,7 +97,8 @@ describe('ResendOtpProvider', function () {
 
     it('should throw if user auth does not exist', async () => {
       const generateNewOTPDto: GenerateNewOTPDto = {
-        email: 'example@test.com',
+        country_code: '234',
+        phone_number: '08021234567',
       };
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
@@ -114,7 +114,8 @@ describe('ResendOtpProvider', function () {
 
     it('should generate OTP and set expiry date', async () => {
       const generateNewOTPDto: GenerateNewOTPDto = {
-        email: 'example@test.com',
+        country_code: '234',
+        phone_number: '08021234567',
       };
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
@@ -130,7 +131,8 @@ describe('ResendOtpProvider', function () {
 
     it('should save user auth', async () => {
       const generateNewOTPDto: GenerateNewOTPDto = {
-        email: 'example@test.com',
+        country_code: '234',
+        phone_number: '08021234567',
       };
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
@@ -146,7 +148,8 @@ describe('ResendOtpProvider', function () {
 
     it('should send OTP SMS', async () => {
       const generateNewOTPDto: GenerateNewOTPDto = {
-        email: 'example@test.com',
+        country_code: '234',
+        phone_number: '08021234567',
       };
 
       mockUserRepository.findOne.mockResolvedValue(mockUser);
@@ -157,6 +160,7 @@ describe('ResendOtpProvider', function () {
       await provider.resendOTP(generateNewOTPDto);
 
       expect(mockAwsSmsService.sendOTPSms).toHaveBeenCalled();
+      expect(mockMailgunService.sendOTP).toHaveBeenCalled();
     });
   });
 });
