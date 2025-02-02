@@ -26,8 +26,8 @@ export class GetUserProfileProvider {
       throw new CustomException(HttpStatus.NOT_FOUND, 'User does not exist');
 
     if (
-      loggedInUser.role !== UserRole.SUPER_ADMIN &&
-      userId !== loggedInUser.sub
+      userId !== loggedInUser.sub &&
+      loggedInUser.role !== UserRole.SUPER_ADMIN
     )
       throw new CustomException(
         HttpStatus.FORBIDDEN,
