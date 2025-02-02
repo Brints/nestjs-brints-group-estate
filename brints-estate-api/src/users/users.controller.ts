@@ -199,7 +199,7 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(HttpExceptionFilter)
   public async getUser(
-    @Param('id') userId: string,
+    @Param('userId') userId: string,
     @ActiveUser() loggedInUser: IActiveUser,
   ) {
     const payload = await this.usersService.getUserProfile(
