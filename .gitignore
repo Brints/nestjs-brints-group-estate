@@ -135,3 +135,5 @@ documentation/
 
 # Configuration for typeorm
 typeorm-cli.config.ts
+.vscode
+yarn.lock

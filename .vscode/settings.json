@@ -1,8 +1,0 @@
-{
-  "workbench.iconTheme": "material-icon-theme",
-  "typescript.validate.enable": true,
-  "editor.hover.enabled": true,
-  "editor.codeLens": true,
-  "typescript.suggestionActions.enabled": true,
-  "editor.inlineSuggest.enabled": true
-}
